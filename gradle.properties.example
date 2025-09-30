@@ -1,0 +1,35 @@
+# Gradle Properties Example
+# Copy this file to gradle.properties and fill in your values
+
+# Kotlin configuration
+kotlin.code.style=official
+kotlin.mpp.androidGradlePluginCompatibility.nowarn=true
+
+# Android configuration
+android.useAndroidX=true
+android.enableJetifier=true
+
+# Build optimization
+org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=512m
+org.gradle.parallel=true
+org.gradle.caching=true
+org.gradle.configuration-cache=true
+
+# API Configuration
+COINPAPRIKA_API_KEY=your_api_key_here
+API_BASE_URL=https://api.coinpaprika.com
+
+# Environment Configuration
+BUILD_TYPE=debug
+ENABLE_LOGGING=true
+ENABLE_ANALYTICS=false
+ENABLE_CRASH_REPORTING=false
+
+# Database Configuration
+DATABASE_NAME=portfolio_database
+DATABASE_VERSION=1
+
+# Security
+KEYSTORE_PASSWORD=your_keystore_password
+KEY_ALIAS=your_key_alias
+KEY_PASSWORD=your_key_password
