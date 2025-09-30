@@ -1,9 +1,9 @@
 package org.poc.app.feature.portfolio.domain
 
 import kotlinx.coroutines.flow.Flow
-import org.poc.app.shared.common.domain.DataError
-import org.poc.app.shared.common.domain.EmptyResult
-import org.poc.app.shared.common.domain.Result
+import org.poc.app.shared.business.domain.DataError
+import org.poc.app.shared.business.domain.EmptyResult
+import org.poc.app.shared.business.domain.Result
 
 interface PortfolioRepository {
 

@@ -6,10 +6,10 @@ import org.poc.app.feature.coins.data.dto.CoinDetailsResponseDto
 import org.poc.app.feature.coins.data.dto.CoinPriceHistoryResponseDto
 import org.poc.app.feature.coins.data.dto.CoinsResponseDto
 import org.poc.app.feature.coins.data.remote.api.CoinsRemoteDataSource
-import org.poc.app.shared.common.domain.DataError
-import org.poc.app.shared.common.domain.Result
-import org.poc.app.shared.common.network.safeCall
-import org.poc.app.shared.common.network.NetworkConfig
+import org.poc.app.shared.business.domain.DataError
+import org.poc.app.shared.business.domain.Result
+import org.poc.app.shared.business.network.safeCall
+import org.poc.app.shared.business.network.NetworkConfig
 
 class KtorCoinsRemoteDataSource(
     private val httpClient: HttpClient
