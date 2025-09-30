@@ -1,8 +1,8 @@
 package org.poc.app.feature.coins.domain
 
 import org.poc.app.feature.coins.domain.model.CoinModel
-import org.poc.app.shared.common.domain.DataError
-import org.poc.app.shared.common.domain.Result
+import org.poc.app.shared.business.domain.DataError
+import org.poc.app.shared.business.domain.Result
 
 class GetCoinDetailsUseCase(
     private val repository: CoinsRepository,

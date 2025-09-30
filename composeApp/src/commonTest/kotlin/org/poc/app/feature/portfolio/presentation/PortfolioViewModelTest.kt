@@ -8,9 +8,9 @@ import org.poc.app.feature.portfolio.domain.GetAllPortfolioCoinsUseCase
 import org.poc.app.feature.portfolio.domain.GetTotalBalanceUseCase
 import org.poc.app.feature.portfolio.domain.GetCashBalanceUseCase
 import org.poc.app.feature.portfolio.domain.InitializeBalanceUseCase
-import org.poc.app.shared.common.domain.TestDispatcherProvider
-import org.poc.app.shared.common.domain.DefaultLogger
-import org.poc.app.shared.common.domain.NoOpAnalyticsLogger
+import org.poc.app.shared.business.domain.TestDispatcherProvider
+import org.poc.app.shared.business.domain.DefaultLogger
+import org.poc.app.shared.business.domain.NoOpAnalyticsLogger
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue

@@ -1,14 +1,13 @@
 package org.poc.app.shared.di
 
 import io.ktor.client.HttpClient
-import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
-import org.poc.app.shared.common.domain.AppConfig
-import org.poc.app.shared.common.domain.DefaultAppConfig
-import org.poc.app.shared.common.domain.DefaultDispatcherProvider
-import org.poc.app.shared.common.domain.DispatcherProvider
-import org.poc.app.shared.common.network.HttpClientFactory
-import org.poc.app.shared.common.network.NetworkConfig
+import org.poc.app.shared.business.domain.AppConfig
+import org.poc.app.shared.business.domain.DefaultAppConfig
+import org.poc.app.shared.business.domain.DefaultDispatcherProvider
+import org.poc.app.shared.business.domain.DispatcherProvider
+import org.poc.app.shared.business.network.HttpClientFactory
+import org.poc.app.shared.business.network.NetworkConfig
 
 /**
  * Core infrastructure module

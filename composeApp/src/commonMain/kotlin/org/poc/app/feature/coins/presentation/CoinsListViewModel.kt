@@ -2,15 +2,15 @@ package org.poc.app.feature.coins.presentation
 
 import org.poc.app.feature.coins.domain.GetCoinPriceHistoryUseCase
 import org.poc.app.feature.coins.domain.GetCoinsListUseCase
-import org.poc.app.shared.common.domain.Result
-import org.poc.app.shared.common.domain.DispatcherProvider
-import org.poc.app.shared.common.domain.Logger
-import org.poc.app.shared.common.domain.AnalyticsLogger
-import org.poc.app.shared.common.util.toChartData
-import org.poc.app.shared.common.presentation.mvi.MviViewModel
-import org.poc.app.shared.common.presentation.mvi.UiIntent
-import org.poc.app.shared.common.presentation.mvi.UiSideEffect
-import org.poc.app.shared.common.util.toUiText
+import org.poc.app.shared.business.domain.Result
+import org.poc.app.shared.business.domain.DispatcherProvider
+import org.poc.app.shared.business.domain.Logger
+import org.poc.app.shared.business.domain.AnalyticsLogger
+import org.poc.app.shared.business.util.toChartData
+import org.poc.app.shared.business.presentation.mvi.MviViewModel
+import org.poc.app.shared.business.presentation.mvi.UiIntent
+import org.poc.app.shared.business.presentation.mvi.UiSideEffect
+import org.poc.app.shared.business.util.toUiText
 import org.poc.app.feature.coins.presentation.mapper.CoinsUiMapper.toUiCoinListItem
 import org.jetbrains.compose.resources.StringResource
 import kmp_poc.composeapp.generated.resources.Res

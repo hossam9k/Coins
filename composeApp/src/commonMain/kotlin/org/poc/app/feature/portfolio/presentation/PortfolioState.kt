@@ -1,7 +1,7 @@
 package org.poc.app.feature.portfolio.presentation
 
 import org.jetbrains.compose.resources.StringResource
-import org.poc.app.shared.common.presentation.mvi.UiState
+import org.poc.app.shared.business.presentation.mvi.UiState
 
 data class PortfolioState(
     val portfolioValue: String = "",

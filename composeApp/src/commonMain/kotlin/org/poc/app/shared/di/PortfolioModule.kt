@@ -5,8 +5,8 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import org.poc.app.shared.common.database.portfolio.PortfolioDatabase
-import org.poc.app.shared.common.database.portfolio.getPortfolioDatabase
+import org.poc.app.shared.business.database.portfolio.PortfolioDatabase
+import org.poc.app.shared.business.database.portfolio.getPortfolioDatabase
 import org.poc.app.feature.portfolio.data.PortfolioRepositoryImpl
 import org.poc.app.feature.portfolio.domain.GetAllPortfolioCoinsUseCase
 import org.poc.app.feature.portfolio.domain.GetCashBalanceUseCase

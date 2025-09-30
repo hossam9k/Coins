@@ -2,17 +2,16 @@ package org.poc.app.feature.trade.presentation.sell
 
 import kotlinx.coroutines.flow.first
 import org.poc.app.feature.coins.domain.GetCoinDetailsUseCase
-import org.poc.app.shared.common.domain.PreciseDecimal
-import org.poc.app.shared.common.domain.Result
-import org.poc.app.shared.common.domain.DispatcherProvider
-import org.poc.app.shared.common.domain.Logger
-import org.poc.app.shared.common.domain.AnalyticsLogger
-import org.poc.app.shared.common.presentation.mvi.MviViewModel
-import org.poc.app.shared.common.util.formatFiatPrecise
-import org.poc.app.shared.common.util.toUiText
+import org.poc.app.shared.business.domain.PreciseDecimal
+import org.poc.app.shared.business.domain.Result
+import org.poc.app.shared.business.domain.DispatcherProvider
+import org.poc.app.shared.business.domain.Logger
+import org.poc.app.shared.business.domain.AnalyticsLogger
+import org.poc.app.shared.business.presentation.mvi.MviViewModel
+import org.poc.app.shared.business.util.formatFiatPrecise
+import org.poc.app.shared.business.util.toUiText
 import org.poc.app.feature.portfolio.domain.PortfolioRepository
 import org.poc.app.feature.trade.domain.SellCoinUseCase
-import org.poc.app.feature.trade.presentation.common.UiTradeCoinItem
 import org.poc.app.feature.trade.presentation.mapper.TradeUiMapper.toCoin
 import org.poc.app.feature.trade.presentation.mapper.TradeUiMapper.toUiTradeCoinItem
 

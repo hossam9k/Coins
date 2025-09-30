@@ -2,9 +2,9 @@ package org.poc.app.feature.portfolio.presentation.mapper
 
 import org.poc.app.feature.portfolio.domain.PortfolioCoinModel
 import org.poc.app.feature.portfolio.presentation.UiPortfolioCoinItem
-import org.poc.app.shared.common.util.formatCryptoPrecise
-import org.poc.app.shared.common.util.formatPriceDisplay
-import org.poc.app.shared.common.util.formatChangeDisplay
+import org.poc.app.shared.business.util.formatCryptoPrecise
+import org.poc.app.shared.business.util.formatPriceDisplay
+import org.poc.app.shared.business.util.formatChangeDisplay
 
 /**
  * Portfolio UI Mapper

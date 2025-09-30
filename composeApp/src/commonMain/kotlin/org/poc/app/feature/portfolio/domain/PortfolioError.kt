@@ -1,7 +1,7 @@
 package org.poc.app.feature.portfolio.domain
 
-import org.poc.app.shared.common.domain.DataError
-import org.poc.app.shared.common.domain.Error
+import org.poc.app.shared.business.domain.DataError
+import org.poc.app.shared.business.domain.Error
 
 sealed class PortfolioError : Error {
     object InsufficientFunds : PortfolioError()

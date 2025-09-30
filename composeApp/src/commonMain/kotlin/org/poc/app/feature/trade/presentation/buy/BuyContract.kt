@@ -1,9 +1,8 @@
 package org.poc.app.feature.trade.presentation.buy
 
-import org.jetbrains.compose.resources.StringResource
-import org.poc.app.shared.common.presentation.mvi.CommonUiState
-import org.poc.app.shared.common.presentation.mvi.UiIntent
-import org.poc.app.shared.common.presentation.mvi.UiSideEffect
+import org.poc.app.shared.business.presentation.mvi.CommonUiState
+import org.poc.app.shared.business.presentation.mvi.UiIntent
+import org.poc.app.shared.business.presentation.mvi.UiSideEffect
 import org.poc.app.feature.trade.presentation.common.UiTradeCoinItem
 
 /**

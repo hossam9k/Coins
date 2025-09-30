@@ -1,6 +1,6 @@
 package org.poc.app.feature.portfolio.domain
 
-import org.poc.app.shared.common.domain.PreciseDecimal
+import org.poc.app.shared.business.domain.PreciseDecimal
 
 object PortfolioCalculator {
 

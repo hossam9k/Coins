@@ -1,7 +1,7 @@
 package org.poc.app.feature.portfolio.data.mapper
 
 import org.poc.app.feature.coins.domain.model.Coin
-import org.poc.app.shared.common.domain.PreciseDecimal
+import org.poc.app.shared.business.domain.PreciseDecimal
 import org.poc.app.feature.portfolio.data.local.PortfolioCoinEntity
 import org.poc.app.feature.portfolio.domain.PortfolioCalculator
 import org.poc.app.feature.portfolio.domain.PortfolioCoinModel

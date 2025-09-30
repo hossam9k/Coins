@@ -7,7 +7,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
-import org.poc.app.shared.common.util.formatFiat
+import org.poc.app.shared.business.util.formatFiat
 
 /**
  * Design System Currency Visual Transformation Utility
