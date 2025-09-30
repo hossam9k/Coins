@@ -1,0 +1,31 @@
+# Custom Detekt Rules for POC Design System
+# This configuration helps prevent common theming issues
+
+style:
+  active: true
+  # Custom rule to detect static color usage
+  CustomRuleSet:
+    active: true
+    # Detect usage of deprecated DesignSystem.Colors
+    NoStaticColors:
+      active: true
+      # This will flag usage of DesignSystem.Colors.* in @Composable functions
+      # Developers should use DesignSystem.DynamicColors instead
+
+naming:
+  active: true
+
+complexity:
+  active: true
+
+performance:
+  active: true
+
+potential-bugs:
+  active: true
+
+coroutines:
+  active: true
+
+exceptions:
+  active: true

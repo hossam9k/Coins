@@ -1,0 +1,58 @@
+*.iml
+.kotlin
+.gradle
+**/build/
+xcuserdata
+!src/**/build/
+local.properties
+.idea
+.DS_Store
+captures
+.externalNativeBuild
+.cxx
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+# Environment variables and secrets - SECURITY
+.env
+secrets.properties
+keystore.properties
+**/*.keystore
+**/*.jks
+**/api-keys.properties
+**/google-services.json
+**/GoogleService-Info.plist
+**/*-key.json
+
+# Production build files
+*.apk
+*.aar
+*.app
+*.framework
+*.framework.dSYM.zip
+*.dSYM
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.trace
+*.hprof
+
+# Node modules (if any)
+node_modules/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
