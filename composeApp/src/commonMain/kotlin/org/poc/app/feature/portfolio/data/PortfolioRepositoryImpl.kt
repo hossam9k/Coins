@@ -11,16 +11,16 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import org.poc.app.feature.coins.domain.CoinsRepository
 import org.poc.app.feature.coins.domain.model.CoinModel
-import org.poc.app.shared.business.domain.DataError
-import org.poc.app.shared.business.domain.EmptyResult
+import org.poc.app.core.domain.model.DataError
+import org.poc.app.core.domain.model.EmptyResult
 import org.poc.app.feature.portfolio.data.local.PortfolioDao
 import org.poc.app.feature.portfolio.data.local.UserBalanceDao
 import org.poc.app.feature.portfolio.data.local.UserBalanceEntity
 import org.poc.app.feature.portfolio.domain.PortfolioCalculator
 import org.poc.app.feature.portfolio.domain.PortfolioCoinModel
 import org.poc.app.feature.portfolio.domain.PortfolioRepository
-import org.poc.app.shared.business.domain.Result
-import org.poc.app.shared.business.domain.PreciseDecimal
+import org.poc.app.core.domain.model.Result
+import org.poc.app.core.domain.model.PreciseDecimal
 import org.poc.app.feature.portfolio.data.mapper.PortfolioDataMapper.toPortfolioCoinEntity
 import org.poc.app.feature.portfolio.data.mapper.PortfolioDataMapper.toPortfolioCoinModel
 

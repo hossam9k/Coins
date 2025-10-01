@@ -2,14 +2,14 @@ package org.poc.app.feature.trade.presentation.sell
 
 import kotlinx.coroutines.flow.first
 import org.poc.app.feature.coins.domain.GetCoinDetailsUseCase
-import org.poc.app.shared.business.domain.PreciseDecimal
-import org.poc.app.shared.business.domain.Result
-import org.poc.app.shared.business.domain.DispatcherProvider
-import org.poc.app.shared.business.domain.Logger
-import org.poc.app.shared.business.domain.AnalyticsLogger
-import org.poc.app.shared.business.presentation.mvi.MviViewModel
-import org.poc.app.shared.business.util.formatFiatPrecise
-import org.poc.app.shared.business.util.toUiText
+import org.poc.app.core.domain.model.PreciseDecimal
+import org.poc.app.core.domain.model.Result
+import org.poc.app.core.domain.model.DispatcherProvider
+import org.poc.app.core.domain.model.Logger
+import org.poc.app.core.domain.model.AnalyticsLogger
+import org.poc.app.core.presentation.base.MviViewModel
+import org.poc.app.core.domain.util.formatFiatPrecise
+import org.poc.app.core.domain.util.toUiText
 import org.poc.app.feature.portfolio.domain.PortfolioRepository
 import org.poc.app.feature.trade.domain.SellCoinUseCase
 import org.poc.app.feature.trade.presentation.mapper.TradeUiMapper.toCoin

@@ -2,7 +2,7 @@ package org.poc.app.feature.coins.presentation
 
 import androidx.compose.runtime.Stable
 import org.jetbrains.compose.resources.StringResource
-import org.poc.app.shared.business.presentation.mvi.UiState
+import org.poc.app.core.presentation.base.UiState
 
 @Stable
 data class CoinsState(

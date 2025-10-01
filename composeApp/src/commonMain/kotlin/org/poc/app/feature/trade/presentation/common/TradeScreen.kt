@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,9 +29,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.resources.stringResource
-import org.poc.app.shared.design.DesignSystem
-import org.poc.app.shared.design.components.inputs.CenteredDollarTextField
-import org.poc.app.shared.design.theme.LocalSemanticColors
+import org.poc.app.ui.DesignSystem
+import org.poc.app.ui.components.inputs.CenteredDollarTextField
+import org.poc.app.ui.foundation.colors.DangerRed
+import org.poc.app.ui.foundation.colors.SuccessGreen
 
 @Composable
 fun TradeScreen(
@@ -39,8 +41,6 @@ fun TradeScreen(
     onAmountChange: (String) -> Unit,
     onSubmitClicked: () -> Unit,
 ) {
-    val semanticColors = LocalSemanticColors.current
-
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -129,10 +129,11 @@ fun TradeScreen(
         // Action button
         Button(
             onClick = onSubmitClicked,
+            enabled = !state.isLoading,
             colors = ButtonDefaults.buttonColors(
                 containerColor = when (tradeType) {
-                    TradeType.BUY -> semanticColors.success
-                    TradeType.SELL -> semanticColors.error
+                    TradeType.BUY -> SuccessGreen
+                    TradeType.SELL -> DangerRed
                 }
             ),
             contentPadding = PaddingValues(horizontal = DesignSystem.Spacing.XXLarge),
@@ -150,6 +151,13 @@ fun TradeScreen(
                     TradeType.BUY -> MaterialTheme.colorScheme.onPrimary
                     TradeType.SELL -> MaterialTheme.colorScheme.onError
                 }
+            )
+        }
+
+        // Simple loading overlay - doesn't hide content
+        if (state.isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
             )
         }
     }

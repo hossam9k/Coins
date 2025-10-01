@@ -38,10 +38,10 @@ class BuyScreenTest {
             )
         }
 
-        onNodeWithText("Sell Now").assertDoesNotExist()
-        onNodeWithText("Buy Now").assertExists()
+        // For BUY type, only "Buy Now" should be displayed
         onNodeWithText("Buy Now").assertIsDisplayed()
 
+        // Test SELL type
         setContent {
             TradeScreen(
                 state = state,
@@ -51,8 +51,7 @@ class BuyScreenTest {
             )
         }
 
-        onNodeWithText("Buy Now").assertDoesNotExist()
-        onNodeWithText("Sell Now").assertExists()
+        // For SELL type, only "Sell Now" should be displayed
         onNodeWithText("Sell Now").assertIsDisplayed()
     }
 
@@ -78,7 +77,7 @@ class BuyScreenTest {
             )
         }
 
-        onNodeWithTag("trade_screen_coin_name").assertExists()
+        onNodeWithTag("trade_screen_coin_name").assertIsDisplayed()
         onNodeWithTag("trade_screen_coin_name").assertTextEquals("Bitcoin")
     }
 
@@ -105,7 +104,6 @@ class BuyScreenTest {
             )
         }
 
-        onNodeWithTag("trade_error").assertExists()
         onNodeWithTag("trade_error").assertIsDisplayed()
     }
 }

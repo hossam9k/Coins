@@ -1,8 +1,8 @@
 package org.poc.app.feature.portfolio.domain
 
 import kotlinx.coroutines.flow.Flow
-import org.poc.app.shared.business.domain.DataError
-import org.poc.app.shared.business.domain.Result
+import org.poc.app.core.domain.model.DataError
+import org.poc.app.core.domain.model.Result
 
 /**
  * Use case for getting total portfolio balance

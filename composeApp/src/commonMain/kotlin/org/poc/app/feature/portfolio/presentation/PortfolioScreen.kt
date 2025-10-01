@@ -25,15 +25,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
-import org.poc.app.shared.design.DesignSystem
-import org.poc.app.shared.design.components.lists.HoldingsListItem
-import org.poc.app.shared.design.components.cards.BalanceCard
-import org.poc.app.shared.design.components.cards.BalanceCardData
-import org.poc.app.shared.design.components.cards.BalanceCardStyling
-import org.poc.app.shared.design.components.states.EmptyState
-import org.poc.app.shared.design.components.states.EmptyStateData
-import org.poc.app.shared.design.components.states.EmptyStateStyling
-import org.poc.app.shared.design.theme.LocalSemanticColors
+import org.poc.app.ui.DesignSystem
+import org.poc.app.ui.components.lists.HoldingsListItem
+import org.poc.app.ui.components.cards.BalanceCard
+import org.poc.app.ui.components.cards.BalanceCardData
+import org.poc.app.ui.components.cards.BalanceCardStyling
+import org.poc.app.ui.components.states.EmptyState
+import org.poc.app.ui.components.states.EmptyStateData
+import org.poc.app.ui.components.states.EmptyStateStyling
+import org.poc.app.ui.foundation.colors.SuccessGreen
 import org.jetbrains.compose.resources.stringResource
 import kmp_poc.composeapp.generated.resources.Res
 import kmp_poc.composeapp.generated.resources.*
@@ -75,7 +75,7 @@ fun PortfolioScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             CircularProgressIndicator(
-                color = LocalSemanticColors.current.success,
+                color = SuccessGreen,
                 modifier = Modifier.size(DesignSystem.Sizes.IconLarge)
             )
         }
@@ -117,7 +117,7 @@ fun PortfolioContent(
             styling = BalanceCardStyling(
                 backgroundColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = MaterialTheme.colorScheme.primary,
-                buttonBackgroundColor = LocalSemanticColors.current.success,
+                buttonBackgroundColor = SuccessGreen,
                 buttonContentColor = MaterialTheme.colorScheme.onPrimary
             )
         )
@@ -154,7 +154,7 @@ private fun PortfolioCoinsList(
                 styling = EmptyStateStyling(
                     textColor = MaterialTheme.colorScheme.primary,
                     iconColor = MaterialTheme.colorScheme.primary,
-                    buttonBackgroundColor = LocalSemanticColors.current.success,
+                    buttonBackgroundColor = SuccessGreen,
                     buttonContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )

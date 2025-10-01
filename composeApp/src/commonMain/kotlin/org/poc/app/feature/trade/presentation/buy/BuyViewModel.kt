@@ -2,13 +2,13 @@ package org.poc.app.feature.trade.presentation.buy
 
 import kotlinx.coroutines.flow.first
 import org.poc.app.feature.coins.domain.GetCoinDetailsUseCase
-import org.poc.app.shared.business.domain.PreciseDecimal
-import org.poc.app.shared.business.domain.Result
-import org.poc.app.shared.business.domain.DispatcherProvider
-import org.poc.app.shared.business.domain.Logger
-import org.poc.app.shared.business.domain.AnalyticsLogger
-import org.poc.app.shared.business.presentation.mvi.MviViewModel
-import org.poc.app.shared.business.util.toUiText
+import org.poc.app.core.domain.model.PreciseDecimal
+import org.poc.app.core.domain.model.Result
+import org.poc.app.core.domain.model.DispatcherProvider
+import org.poc.app.core.domain.model.Logger
+import org.poc.app.core.domain.model.AnalyticsLogger
+import org.poc.app.core.presentation.base.MviViewModel
+import org.poc.app.core.domain.util.toUiText
 import org.poc.app.feature.portfolio.domain.PortfolioRepository
 import org.poc.app.feature.trade.domain.BuyCoinUseCase
 import org.poc.app.feature.trade.presentation.mapper.TradeUiMapper.toCoin
@@ -114,11 +114,22 @@ class BuyViewModel(
     }
 
     private suspend fun submitPurchase() {
-        val tradeCoin = currentState.coin ?: return
-        val amount = currentState.amount.toDoubleOrNull() ?: return
+        val tradeCoin = currentState.coin
+        if (tradeCoin == null) {
+            updateState { it.copy(isSubmitting = false) }
+            return
+        }
+
+        val amount = currentState.amount.toDoubleOrNull()
+        if (amount == null) {
+            emitSideEffect(BuySideEffect.ShowError("Please enter a valid number"))
+            updateState { it.copy(isSubmitting = false) }
+            return
+        }
 
         if (amount <= 0) {
             emitSideEffect(BuySideEffect.ShowError("Please enter a valid amount"))
+            updateState { it.copy(isSubmitting = false) }
             return
         }
 

@@ -64,7 +64,7 @@ private fun SellScreenContent(
 ) {
     TradeScreen(
         state = TradeState(
-            isLoading = state.isLoading,
+            isLoading = state.isLoading || state.isSubmitting,
             error = null, // Handle errors via side effects instead
             availableAmount = state.availableAmount,
             amount = state.amount,
