@@ -1,6 +1,7 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -10,6 +11,14 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.room)
     alias(libs.plugins.ksp)
+}
+
+// Load local.properties for secure API key storage
+val localProperties = Properties().apply {
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use { load(it) }
+    }
 }
 
 kotlin {
@@ -112,16 +121,74 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
-
-        // Build configuration fields for secure API key management
-        buildConfigField("String", "COINRANKING_API_KEY", "\"${System.getenv("COINRANKING_API_KEY") ?: "YOUR_API_KEY_HERE"}\"")
-        buildConfigField("String", "BASE_URL", "\"https://api.coinranking.com/v2/\"")
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    // Build variants for different environments
+    flavorDimensions += "environment"
+    productFlavors {
+        create("dev") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+
+            val devApiKey = localProperties.getProperty("DEV_COINCAP_API_KEY")
+                ?: System.getenv("DEV_COINCAP_API_KEY")
+                ?: ""
+            val devApiUrl = localProperties.getProperty("DEV_API_BASE_URL")
+                ?: System.getenv("DEV_API_BASE_URL")
+                ?: "https://api.coincap.io/v2"
+
+            buildConfigField("String", "ENVIRONMENT", "\"development\"")
+            buildConfigField("String", "COINCAP_API_KEY", "\"$devApiKey\"")
+            buildConfigField("String", "API_BASE_URL", "\"$devApiUrl\"")
+            buildConfigField("boolean", "IS_DEBUG", "true")
+            buildConfigField("boolean", "ENABLE_ANALYTICS", "false")
+            buildConfigField("boolean", "ENABLE_CRASH_REPORTING", "false")
+        }
+
+        create("staging") {
+            dimension = "environment"
+            applicationIdSuffix = ".staging"
+            versionNameSuffix = "-staging"
+
+            val stagingApiKey = localProperties.getProperty("STAGING_COINCAP_API_KEY")
+                ?: System.getenv("STAGING_COINCAP_API_KEY")
+                ?: ""
+            val stagingApiUrl = localProperties.getProperty("STAGING_API_BASE_URL")
+                ?: System.getenv("STAGING_API_BASE_URL")
+                ?: "https://api.coincap.io/v2"
+
+            buildConfigField("String", "ENVIRONMENT", "\"staging\"")
+            buildConfigField("String", "COINCAP_API_KEY", "\"$stagingApiKey\"")
+            buildConfigField("String", "API_BASE_URL", "\"$stagingApiUrl\"")
+            buildConfigField("boolean", "IS_DEBUG", "false")
+            buildConfigField("boolean", "ENABLE_ANALYTICS", "true")
+            buildConfigField("boolean", "ENABLE_CRASH_REPORTING", "true")
+        }
+
+        create("prod") {
+            dimension = "environment"
+
+            val prodApiKey = localProperties.getProperty("PROD_COINCAP_API_KEY")
+                ?: System.getenv("PROD_COINCAP_API_KEY")
+                ?: ""
+            val prodApiUrl = localProperties.getProperty("PROD_API_BASE_URL")
+                ?: System.getenv("PROD_API_BASE_URL")
+                ?: "https://api.coincap.io/v2"
+
+            buildConfigField("String", "ENVIRONMENT", "\"production\"")
+            buildConfigField("String", "COINCAP_API_KEY", "\"$prodApiKey\"")
+            buildConfigField("String", "API_BASE_URL", "\"$prodApiUrl\"")
+            buildConfigField("boolean", "IS_DEBUG", "false")
+            buildConfigField("boolean", "ENABLE_ANALYTICS", "true")
+            buildConfigField("boolean", "ENABLE_CRASH_REPORTING", "true")
+        }
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
@@ -156,13 +223,11 @@ dependencies {
 
 // Add task dependencies to ensure proper task ordering
 tasks.withType<com.google.devtools.ksp.gradle.KspAATask>().configureEach {
-    dependsOn(
-        "generateResourceAccessorsForAndroidDebug",
-        "generateResourceAccessorsForAndroidRelease",
-        "generateResourceAccessorsForAndroidMain",
-        "generateActualResourceCollectorsForAndroidMain",
-        "generateComposeResClass",
-        "generateResourceAccessorsForCommonMain",
-        "generateExpectResourceCollectorsForCommonMain"
+    mustRunAfter(
+        tasks.matching { it.name.startsWith("generateResourceAccessorsForAndroid") },
+        tasks.matching { it.name.startsWith("generateActualResourceCollectorsForAndroid") },
+        tasks.matching { it.name == "generateComposeResClass" },
+        tasks.matching { it.name == "generateResourceAccessorsForCommonMain" },
+        tasks.matching { it.name == "generateExpectResourceCollectorsForCommonMain" }
     )
 }

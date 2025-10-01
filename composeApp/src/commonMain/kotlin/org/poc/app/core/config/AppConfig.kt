@@ -5,24 +5,34 @@ package org.poc.app.core.config
  * Easy to change for different environments
  */
 data class AppConfiguration(
-    val appName: String = "POC App",
-    val apiBaseUrl: String = BuildConfig.API_BASE_URL,
-    val apiKey: String = BuildConfig.API_KEY,
-    val isDebugMode: Boolean = BuildConfig.IS_DEBUG,
-    val networkTimeoutMs: Long = 30_000L,
+    val environment: String = BuildConfig.environment,
+    val appName: String = when (BuildConfig.environment) {
+        "development" -> "POC Dev"
+        "staging" -> "POC Staging"
+        "production" -> "POC"
+        else -> "POC App"
+    },
+    val apiBaseUrl: String = BuildConfig.apiBaseUrl,
+    val apiKey: String = BuildConfig.apiKey,
+    val isDebugMode: Boolean = BuildConfig.isDebug,
+    val networkTimeoutMs: Long = if (BuildConfig.environment == "production") 15_000L else 30_000L,
     val cacheExpirationMinutes: Int = 5,
     val maxRetryAttempts: Int = 3,
-    val enableAnalytics: Boolean = !BuildConfig.IS_DEBUG,
-    val enableCrashReporting: Boolean = !BuildConfig.IS_DEBUG
+    val enableAnalytics: Boolean = BuildConfig.enableAnalytics,
+    val enableCrashReporting: Boolean = BuildConfig.enableCrashReporting
 )
 
 /**
- * Build configuration (would be generated in real app)
+ * Build configuration - expect/actual pattern for multiplatform
+ * Actual implementation provided by each platform
  */
-object BuildConfig {
-    const val IS_DEBUG = true
-    const val API_BASE_URL = "https://api.coincap.io/v2"
-    const val API_KEY = "" // Add your API key here
+expect object BuildConfig {
+    val environment: String
+    val isDebug: Boolean
+    val apiBaseUrl: String
+    val apiKey: String
+    val enableAnalytics: Boolean
+    val enableCrashReporting: Boolean
 }
 
 /**
