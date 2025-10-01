@@ -147,7 +147,7 @@ KMP_POC/
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/KMP_POC.git
+git clone https://github.com/hossam9k/KMP_POC.git
 cd KMP_POC
 ```
 
@@ -284,9 +284,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-**Your Name** - [@yourtwitter](https://twitter.com/yourtwitter)
+**Your Name** - [@hossam9k](https://twitter.com/yourtwitter)
 
-Project Link: [https://github.com/yourusername/KMP_POC](https://github.com/yourusername/KMP_POC)
+Project Link: [https://github.com/hossam9k/KMP_POC](https://github.com/yourusername/KMP_POC)
 
 ---
 
