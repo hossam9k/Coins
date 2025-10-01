@@ -16,11 +16,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
-import org.poc.app.shared.design.DesignSystem
-import org.poc.app.shared.design.components.lists.MarketListItem
-import org.poc.app.shared.design.components.dialogs.ChartDialog
-import org.poc.app.shared.design.components.dialogs.ChartDialogState
-import org.poc.app.shared.design.theme.LocalSemanticColors
+import org.poc.app.ui.DesignSystem
+import org.poc.app.ui.components.lists.MarketListItem
+import org.poc.app.ui.components.dialogs.ChartDialog
+import org.poc.app.ui.components.dialogs.ChartDialogState
+import org.poc.app.ui.components.states.LoadingState
+import org.poc.app.ui.components.states.EmptyState
+import org.poc.app.ui.components.states.ErrorState
 import org.jetbrains.compose.resources.stringResource
 import kmp_poc.composeapp.generated.resources.Res
 import kmp_poc.composeapp.generated.resources.*
@@ -36,7 +38,8 @@ fun CoinsListScreen(
         state = state,
         onDismissChart = { coinsListViewModel.handleIntent(CoinsIntent.DismissChart) },
         onCoinLongPressed = { coinId -> coinsListViewModel.handleIntent(CoinsIntent.ShowCoinChart(coinId)) },
-        onCoinClicked = onCoinClicked
+        onCoinClicked = onCoinClicked,
+        onRetry = { coinsListViewModel.handleIntent(CoinsIntent.LoadCoins) }
     )
 }
 
@@ -46,29 +49,50 @@ fun CoinsListContent(
     onDismissChart: () -> Unit,
     onCoinLongPressed: (String) -> Unit,
     onCoinClicked: (String) -> Unit,
+    onRetry: () -> Unit = {},
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        if (state.chartState != null) {
-            ChartDialog(
-                state = ChartDialogState(
-                    sparkLine = state.chartState.sparkLine,
-                    isLoading = state.chartState.isLoading,
-                    title = "Chart for ${state.chartState.coinName}"
-                ),
-                onDismiss = onDismissChart,
-                profitColor = LocalSemanticColors.current.success,
-                lossColor = LocalSemanticColors.current.error
-            )
+        when {
+            state.isLoading -> {
+                LoadingState(message = "Loading coins...")
+            }
+            state.error != null -> {
+                ErrorState(
+                    error = stringResource(state.error),
+                    onRetry = onRetry
+                )
+            }
+            state.coins.isEmpty() -> {
+                EmptyState(
+                    message = "No coins available",
+                    actionLabel = "Refresh",
+                    onAction = onRetry
+                )
+            }
+            else -> {
+                if (state.chartState != null) {
+                    ChartDialog(
+                        state = ChartDialogState(
+                            sparkLine = state.chartState.sparkLine,
+                            isLoading = state.chartState.isLoading,
+                            title = "Chart for ${state.chartState.coinName}"
+                        ),
+                        onDismiss = onDismissChart,
+                        profitColor = MaterialTheme.colorScheme.primary,  // Your brand blue
+                        lossColor = MaterialTheme.colorScheme.error       // Material's red
+                    )
+                }
+                CoinsList(
+                    coins = state.coins,
+                    onCoinLongPressed = onCoinLongPressed,
+                    onCoinClicked = onCoinClicked
+                )
+            }
         }
-        CoinsList(
-            coins = state.coins,
-            onCoinLongPressed = onCoinLongPressed,
-            onCoinClicked = onCoinClicked
-        )
     }
 }
 

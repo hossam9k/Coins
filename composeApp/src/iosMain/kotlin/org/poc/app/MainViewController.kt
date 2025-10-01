@@ -1,7 +1,7 @@
 package org.poc.app
 
 import androidx.compose.ui.window.ComposeUIViewController
-import org.poc.app.shared.di.initKoin
+import org.poc.app.di.initKoin
 
 fun MainViewController() = ComposeUIViewController(
     configure = {

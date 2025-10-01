@@ -1,8 +1,8 @@
 package org.poc.app.feature.trade.presentation.sell
 
-import org.poc.app.shared.business.presentation.mvi.CommonUiState
-import org.poc.app.shared.business.presentation.mvi.UiIntent
-import org.poc.app.shared.business.presentation.mvi.UiSideEffect
+import org.poc.app.core.presentation.base.CommonUiState
+import org.poc.app.core.presentation.base.UiIntent
+import org.poc.app.core.presentation.base.UiSideEffect
 import org.poc.app.feature.trade.presentation.common.UiTradeCoinItem
 
 /**

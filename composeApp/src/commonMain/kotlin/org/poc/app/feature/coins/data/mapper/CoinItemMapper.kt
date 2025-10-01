@@ -5,7 +5,7 @@ import org.poc.app.feature.coins.data.dto.CoinPriceDto
 import org.poc.app.feature.coins.domain.model.CoinModel
 import org.poc.app.feature.coins.domain.model.Coin
 import org.poc.app.feature.coins.domain.model.PriceModel
-import org.poc.app.shared.business.domain.PreciseDecimal
+import org.poc.app.core.domain.model.PreciseDecimal
 
 /**
  * Coins Data Mapper
@@ -22,10 +22,10 @@ object CoinsDataMapper {
             id = uuid,
             name = name,
             symbol = symbol,
-            iconUrl = iconUrl,
+            iconUrl = iconUrl ?: "",
         ),
         price = PreciseDecimal.fromString(price),
-        change = PreciseDecimal.fromString(change),
+        change = PreciseDecimal.fromString(change ?: "0"),
     )
 
     /**

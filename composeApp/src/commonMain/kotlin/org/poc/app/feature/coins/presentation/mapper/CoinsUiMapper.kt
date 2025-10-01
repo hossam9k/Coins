@@ -2,8 +2,8 @@ package org.poc.app.feature.coins.presentation.mapper
 
 import org.poc.app.feature.coins.domain.model.CoinModel
 import org.poc.app.feature.coins.presentation.UiCoinListItem
-import org.poc.app.shared.business.util.formatPriceDisplay
-import org.poc.app.shared.business.util.formatChangeDisplay
+import org.poc.app.core.domain.util.formatPriceDisplay
+import org.poc.app.core.domain.util.formatChangeDisplay
 
 /**
  * Coins UI Mapper

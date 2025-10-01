@@ -1,8 +1,8 @@
 package org.poc.app.feature.coins.domain
 
 import org.poc.app.feature.coins.domain.model.PriceModel
-import org.poc.app.shared.business.domain.DataError
-import org.poc.app.shared.business.domain.Result
+import org.poc.app.core.domain.model.DataError
+import org.poc.app.core.domain.model.Result
 
 class GetCoinPriceHistoryUseCase(
     private val repository: CoinsRepository,

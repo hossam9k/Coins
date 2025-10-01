@@ -7,12 +7,12 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import org.poc.app.feature.coins.domain.model.Coin
-import org.poc.app.shared.business.domain.DataError
-import org.poc.app.shared.business.domain.EmptyResult
-import org.poc.app.shared.business.domain.PreciseDecimal
+import org.poc.app.core.domain.model.DataError
+import org.poc.app.core.domain.model.EmptyResult
+import org.poc.app.core.domain.model.PreciseDecimal
 import org.poc.app.feature.portfolio.domain.PortfolioCoinModel
 import org.poc.app.feature.portfolio.domain.PortfolioRepository
-import org.poc.app.shared.business.domain.Result
+import org.poc.app.core.domain.model.Result
 
 class FakePortfolioRepository : PortfolioRepository {
 
