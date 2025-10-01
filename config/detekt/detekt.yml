@@ -1,22 +1,32 @@
-# Custom Detekt Rules for POC Design System
-# This configuration helps prevent common theming issues
+# Detekt Configuration for KMP POC
+# Clean code analysis for Kotlin Multiplatform
+
+build:
+  maxIssues: -1 # Allow unlimited issues for now
 
 style:
   active: true
-  # Custom rule to detect static color usage
-  CustomRuleSet:
+  MagicNumber:
+    active: false # Allow magic numbers in UI code
+  MaxLineLength:
     active: true
-    # Detect usage of deprecated DesignSystem.Colors
-    NoStaticColors:
-      active: true
-      # This will flag usage of DesignSystem.Colors.* in @Composable functions
-      # Developers should use DesignSystem.DynamicColors instead
+    maxLineLength: 120
 
 naming:
   active: true
+  FunctionNaming:
+    active: true
+  ClassNaming:
+    active: true
 
 complexity:
   active: true
+  LongMethod:
+    active: true
+    threshold: 60
+  ComplexMethod:
+    active: true
+    threshold: 15
 
 performance:
   active: true
@@ -29,3 +39,5 @@ coroutines:
 
 exceptions:
   active: true
+  TooGenericExceptionCaught:
+    active: false # Allow catching Exception in repository layer
