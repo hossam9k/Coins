@@ -24,6 +24,7 @@ turbine = "1.2.1"
 core-ktx = "1.7.0"
 bignum = "0.3.10"
 detekt = "1.23.7"
+ktlint = "12.1.2"
 
 [libraries]
 # Shared Libraries
@@ -87,6 +88,7 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 
 [bundles]
 ktor = [

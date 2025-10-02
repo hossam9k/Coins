@@ -3,9 +3,13 @@ package org.poc.app.ui.foundation.typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import org.jetbrains.compose.resources.Font
 import kmp_poc.composeapp.generated.resources.Res
-import kmp_poc.composeapp.generated.resources.*
+import kmp_poc.composeapp.generated.resources.Ubuntu_Bold
+import kmp_poc.composeapp.generated.resources.Ubuntu_Italic
+import kmp_poc.composeapp.generated.resources.Ubuntu_Light
+import kmp_poc.composeapp.generated.resources.Ubuntu_Medium
+import kmp_poc.composeapp.generated.resources.Ubuntu_Regular
+import org.jetbrains.compose.resources.Font
 
 /**
  * Brand Font System
@@ -29,11 +33,11 @@ internal val MonospaceFontFamily = FontFamily.Monospace
  * Font weight constants for consistent usage
  */
 object PocFontWeights {
-    val Light = FontWeight.Light       // 300
-    val Regular = FontWeight.Normal    // 400
-    val Medium = FontWeight.Medium     // 500
+    val Light = FontWeight.Light // 300
+    val Regular = FontWeight.Normal // 400
+    val Medium = FontWeight.Medium // 500
     val SemiBold = FontWeight.SemiBold // 600
-    val Bold = FontWeight.Bold         // 700
+    val Bold = FontWeight.Bold // 700
 }
 
 /**
@@ -48,10 +52,10 @@ object PocFontFamilies {
     val monospace = MonospaceFontFamily
 
     @Composable
-    fun display() = brandFontFamily()      // For large display text
+    fun display() = brandFontFamily() // For large display text
 
     @Composable
-    fun body() = brandFontFamily()         // For body text
+    fun body() = brandFontFamily() // For body text
 
     val numeric = MonospaceFontFamily // For numbers, prices, amounts, data
 }
@@ -68,10 +72,11 @@ expect fun getPlatformFontFamily(): FontFamily
  * Using the brand's Ubuntu font files
  */
 @Composable
-fun ubuntuFontFamily() = FontFamily(
-    Font(Res.font.Ubuntu_Light, FontWeight.Light),
-    Font(Res.font.Ubuntu_Regular, FontWeight.Normal),
-    Font(Res.font.Ubuntu_Medium, FontWeight.Medium),
-    Font(Res.font.Ubuntu_Bold, FontWeight.Bold),
-    Font(Res.font.Ubuntu_Italic, FontWeight.Normal, androidx.compose.ui.text.font.FontStyle.Italic)
-)
+fun ubuntuFontFamily() =
+    FontFamily(
+        Font(Res.font.Ubuntu_Light, FontWeight.Light),
+        Font(Res.font.Ubuntu_Regular, FontWeight.Normal),
+        Font(Res.font.Ubuntu_Medium, FontWeight.Medium),
+        Font(Res.font.Ubuntu_Bold, FontWeight.Bold),
+        Font(Res.font.Ubuntu_Italic, FontWeight.Normal, androidx.compose.ui.text.font.FontStyle.Italic),
+    )

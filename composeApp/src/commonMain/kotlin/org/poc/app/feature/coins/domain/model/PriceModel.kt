@@ -4,5 +4,5 @@ import org.poc.app.core.domain.model.PreciseDecimal
 
 data class PriceModel(
     val price: PreciseDecimal,
-    val timestamp: Long
+    val timestamp: Long,
 )

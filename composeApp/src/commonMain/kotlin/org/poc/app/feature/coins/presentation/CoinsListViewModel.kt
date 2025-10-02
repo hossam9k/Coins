@@ -1,29 +1,35 @@
 package org.poc.app.feature.coins.presentation
 
-import org.poc.app.feature.coins.domain.GetCoinPriceHistoryUseCase
-import org.poc.app.feature.coins.domain.GetCoinsListUseCase
-import org.poc.app.core.domain.model.Result
+import kmp_poc.composeapp.generated.resources.Res
+import kmp_poc.composeapp.generated.resources.error_unknown
+import org.jetbrains.compose.resources.StringResource
+import org.poc.app.core.domain.model.AnalyticsLogger
 import org.poc.app.core.domain.model.DispatcherProvider
 import org.poc.app.core.domain.model.Logger
-import org.poc.app.core.domain.model.AnalyticsLogger
+import org.poc.app.core.domain.model.Result
 import org.poc.app.core.domain.util.toChartData
+import org.poc.app.core.domain.util.toUiText
 import org.poc.app.core.presentation.base.MviViewModel
 import org.poc.app.core.presentation.base.UiIntent
 import org.poc.app.core.presentation.base.UiSideEffect
-import org.poc.app.core.domain.util.toUiText
+import org.poc.app.feature.coins.domain.GetCoinPriceHistoryUseCase
+import org.poc.app.feature.coins.domain.GetCoinsListUseCase
 import org.poc.app.feature.coins.presentation.mapper.CoinsUiMapper.toUiCoinListItem
-import org.jetbrains.compose.resources.StringResource
-import kmp_poc.composeapp.generated.resources.Res
-import kmp_poc.composeapp.generated.resources.error_unknown
 
 /**
  * MVI Intents for Coins feature
  */
 sealed interface CoinsIntent : UiIntent {
     data object LoadCoins : CoinsIntent
+
     data object RefreshCoins : CoinsIntent
-    data class ShowCoinChart(val coinId: String) : CoinsIntent
+
+    data class ShowCoinChart(
+        val coinId: String,
+    ) : CoinsIntent
+
     data object DismissChart : CoinsIntent
+
     data object RetryOnError : CoinsIntent
 }
 
@@ -31,8 +37,14 @@ sealed interface CoinsIntent : UiIntent {
  * MVI Side Effects for Coins feature
  */
 sealed interface CoinsSideEffect : UiSideEffect {
-    data class ShowError(val message: StringResource) : CoinsSideEffect
-    data class NavigateToCoinDetails(val coinId: String) : CoinsSideEffect
+    data class ShowError(
+        val message: StringResource,
+    ) : CoinsSideEffect
+
+    data class NavigateToCoinDetails(
+        val coinId: String,
+    ) : CoinsSideEffect
+
     data object ShowRefreshSuccess : CoinsSideEffect
 }
 
@@ -41,14 +53,13 @@ class CoinsListViewModel(
     private val getCoinPriceHistoryUseCase: GetCoinPriceHistoryUseCase,
     dispatcherProvider: DispatcherProvider,
     logger: Logger,
-    analytics: AnalyticsLogger
+    analytics: AnalyticsLogger,
 ) : MviViewModel<CoinsState, CoinsIntent, CoinsSideEffect>(
-    initialState = CoinsState(),
-    dispatcherProvider = dispatcherProvider,
-    logger = logger,
-    analytics = analytics
-) {
-
+        initialState = CoinsState(),
+        dispatcherProvider = dispatcherProvider,
+        logger = logger,
+        analytics = analytics,
+    ) {
     companion object {
         private const val TAG = "CoinsListViewModel"
     }
@@ -74,14 +85,15 @@ class CoinsListViewModel(
 
         when (val result = getCoinsListUseCase.execute()) {
             is Result.Success -> {
-                val coins = result.data.map { coinItem ->
-                    coinItem.toUiCoinListItem()
-                }
+                val coins =
+                    result.data.map { coinItem ->
+                        coinItem.toUiCoinListItem()
+                    }
                 updateState {
                     it.copy(
                         coins = coins,
                         isLoading = false,
-                        error = null
+                        error = null,
                     )
                 }
             }
@@ -89,7 +101,7 @@ class CoinsListViewModel(
                 updateState {
                     it.copy(
                         isLoading = false,
-                        error = null // Error details handled via side effects
+                        error = null, // Error details handled via side effects
                     )
                 }
                 emitSideEffect(CoinsSideEffect.ShowError(result.error.toUiText()))
@@ -105,34 +117,45 @@ class CoinsListViewModel(
     private suspend fun showCoinChart(coinId: String) {
         updateState {
             it.copy(
-                chartState = UiChartState(
-                    sparkLine = emptyList(),
-                    isLoading = true,
-                )
+                chartState =
+                    UiChartState(
+                        sparkLine = emptyList(),
+                        isLoading = true,
+                    ),
             )
         }
 
         when (val result = getCoinPriceHistoryUseCase.execute(coinId)) {
             is Result.Success -> {
-                val coinName = currentState.coins.find { it.id == coinId }?.name.orEmpty()
+                val coinName =
+                    currentState.coins
+                        .find { it.id == coinId }
+                        ?.name
+                        .orEmpty()
                 updateState { currentState ->
                     currentState.copy(
-                        chartState = UiChartState(
-                            sparkLine = result.data.sortedBy { it.timestamp }.map { it.price }.toChartData(),
-                            isLoading = false,
-                            coinName = coinName,
-                        )
+                        chartState =
+                            UiChartState(
+                                sparkLine =
+                                    result.data
+                                        .sortedBy { it.timestamp }
+                                        .map { it.price }
+                                        .toChartData(),
+                                isLoading = false,
+                                coinName = coinName,
+                            ),
                     )
                 }
             }
             is Result.Error -> {
                 updateState { currentState ->
                     currentState.copy(
-                        chartState = UiChartState(
-                            sparkLine = emptyList(),
-                            isLoading = false,
-                            coinName = "",
-                        )
+                        chartState =
+                            UiChartState(
+                                sparkLine = emptyList(),
+                                isLoading = false,
+                                coinName = "",
+                            ),
                     )
                 }
                 emitSideEffect(CoinsSideEffect.ShowError(result.error.toUiText()))
@@ -148,12 +171,11 @@ class CoinsListViewModel(
         loadCoins()
     }
 
-
     override suspend fun handleErrorSideEffect(error: Throwable) {
         emitSideEffect(
             CoinsSideEffect.ShowError(
-                message = Res.string.error_unknown
-            )
+                message = Res.string.error_unknown,
+            ),
         )
     }
 
@@ -165,5 +187,4 @@ class CoinsListViewModel(
     fun onDismissChart() {
         handleIntent(CoinsIntent.DismissChart)
     }
-
 }

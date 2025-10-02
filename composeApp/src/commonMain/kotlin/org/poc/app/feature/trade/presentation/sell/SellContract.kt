@@ -14,10 +14,16 @@ import org.poc.app.feature.trade.presentation.common.UiTradeCoinItem
  * User intents for the Sell screen
  */
 sealed interface SellIntent : UiIntent {
-    data class UpdateAmount(val amount: String) : SellIntent
+    data class UpdateAmount(
+        val amount: String,
+    ) : SellIntent
+
     object SubmitSale : SellIntent
+
     object LoadCoinDetails : SellIntent
+
     object ClearError : SellIntent
+
     object RetryLoading : SellIntent
 }
 
@@ -33,7 +39,7 @@ data class SellState(
     val availableAmount: String = "",
     val amount: String = "",
     val coin: UiTradeCoinItem? = null,
-    val isSubmitting: Boolean = false
+    val isSubmitting: Boolean = false,
 ) : CommonUiState
 
 /**
@@ -41,11 +47,13 @@ data class SellState(
  */
 sealed interface SellSideEffect : UiSideEffect {
     object NavigateToPortfolio : SellSideEffect
+
     data class ShowError(
         val message: String,
-        val details: String? = null
+        val details: String? = null,
     ) : SellSideEffect
+
     data class ShowSuccess(
-        val message: String
+        val message: String,
     ) : SellSideEffect
 }

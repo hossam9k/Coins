@@ -100,6 +100,7 @@ A production-ready **Kotlin Multiplatform (KMP)** proof-of-concept demonstrating
 - **Gradle Build Variants** - Dev/Staging/Prod environments
 - **ProGuard/R8** - Code obfuscation & shrinking
 - **Detekt** - Static code analysis
+- **ktlint** - Code style enforcement & formatting
 
 ## 📦 Project Structure
 
@@ -240,19 +241,33 @@ The project supports three environment variants:
 ```bash
 # Run Detekt static analysis
 ./gradlew detekt
+
+# Run ktlint code style check
+./gradlew ktlintCheck
+
+# Auto-format code with ktlint
+./gradlew ktlintFormat
 ```
 
 ## 📱 Screenshots
 
 *Coming soon...*
 
-## 🔐 Security Features
+## 🔐 Security & Code Quality
 
+### Security Features
 - ✅ **No Hardcoded Secrets** - API keys in gitignored `local.properties`
 - ✅ **Build-time Injection** - Keys embedded during compilation
 - ✅ **ProGuard Obfuscation** - Code obfuscation in release builds
 - ✅ **Environment Separation** - Different keys per environment
 - ✅ **CI/CD Ready** - Environment variable support
+
+### Code Quality
+- ✅ **Detekt** - Static code analysis with custom rules
+- ✅ **ktlint** - Automated code formatting & style enforcement
+- ✅ **Compose Function Naming** - Proper @Composable conventions
+- ✅ **Explicit Imports** - No wildcard imports for clarity
+- ✅ **Consistent Naming** - SCREAMING_SNAKE_CASE for constants
 
 ## 📚 Documentation
 

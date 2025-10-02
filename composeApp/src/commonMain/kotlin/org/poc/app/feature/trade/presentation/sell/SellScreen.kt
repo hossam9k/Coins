@@ -19,11 +19,12 @@ fun SellScreen(
     navigateToPortfolio: () -> Unit,
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
-    val viewModel = koinViewModel<SellViewModel>(
-        parameters = {
-            parametersOf(coinId)
-        }
-    )
+    val viewModel =
+        koinViewModel<SellViewModel>(
+            parameters = {
+                parametersOf(coinId)
+            },
+        )
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     // Handle side effects
@@ -51,7 +52,7 @@ fun SellScreen(
         state = state,
         onAmountChange = { amount -> viewModel.handleIntent(SellIntent.UpdateAmount(amount)) },
         onSubmitClicked = { viewModel.handleIntent(SellIntent.SubmitSale) },
-        onRetryClicked = { viewModel.handleIntent(SellIntent.RetryLoading) }
+        onRetryClicked = { viewModel.handleIntent(SellIntent.RetryLoading) },
     )
 }
 
@@ -63,15 +64,16 @@ private fun SellScreenContent(
     onRetryClicked: () -> Unit,
 ) {
     TradeScreen(
-        state = TradeState(
-            isLoading = state.isLoading || state.isSubmitting,
-            error = null, // Handle errors via side effects instead
-            availableAmount = state.availableAmount,
-            amount = state.amount,
-            coin = state.coin
-        ),
+        state =
+            TradeState(
+                isLoading = state.isLoading || state.isSubmitting,
+                error = null, // Handle errors via side effects instead
+                availableAmount = state.availableAmount,
+                amount = state.amount,
+                coin = state.coin,
+            ),
         tradeType = TradeType.SELL,
         onAmountChange = onAmountChange,
-        onSubmitClicked = onSubmitClicked
+        onSubmitClicked = onSubmitClicked,
     )
 }

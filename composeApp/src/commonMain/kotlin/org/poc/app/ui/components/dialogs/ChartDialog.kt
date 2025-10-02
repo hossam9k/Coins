@@ -1,7 +1,6 @@
 package org.poc.app.ui.components.dialogs
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -10,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -51,7 +51,7 @@ fun ChartDialog(
     modifier: Modifier = Modifier,
     profitColor: Color = MaterialTheme.colorScheme.primary,
     lossColor: Color = MaterialTheme.colorScheme.error,
-    dismissButtonText: StringResource? = null
+    dismissButtonText: StringResource? = null,
 ) {
     AlertDialog(
         modifier = modifier.fillMaxWidth(),
@@ -60,7 +60,7 @@ fun ChartDialog(
             Text(
                 text = state.title,
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
             )
         },
         text = {
@@ -71,15 +71,16 @@ fun ChartDialog(
                 ) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(DesignSystem.Sizes.IconLarge),
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary,
                     )
                 }
             } else {
                 PerformanceChart(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .padding(DesignSystem.Spacing.Medium),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .padding(DesignSystem.Spacing.Medium),
                     nodes = state.sparkLine,
                     profitColor = profitColor,
                     lossColor = lossColor,
@@ -89,18 +90,19 @@ fun ChartDialog(
         confirmButton = {},
         dismissButton = {
             Button(
-                onClick = onDismiss
+                onClick = onDismiss,
             ) {
                 Text(
-                    text = if (dismissButtonText != null) {
-                        stringResource(dismissButtonText)
-                    } else {
-                        "Close"
-                    },
+                    text =
+                        if (dismissButtonText != null) {
+                            stringResource(dismissButtonText)
+                        } else {
+                            "Close"
+                        },
                     style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = MaterialTheme.colorScheme.onPrimary,
                 )
             }
-        }
+        },
     )
 }

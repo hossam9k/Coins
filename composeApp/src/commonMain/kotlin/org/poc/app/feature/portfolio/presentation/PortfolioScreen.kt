@@ -24,19 +24,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kmp_poc.composeapp.generated.resources.Res
+import kmp_poc.composeapp.generated.resources.buy_coin_button
+import kmp_poc.composeapp.generated.resources.cash_balance_label
+import kmp_poc.composeapp.generated.resources.discover_coins_button
+import kmp_poc.composeapp.generated.resources.no_coins_message
+import kmp_poc.composeapp.generated.resources.owned_coins_title
+import kmp_poc.composeapp.generated.resources.total_value_label
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.poc.app.ui.DesignSystem
-import org.poc.app.ui.components.lists.HoldingsListItem
 import org.poc.app.ui.components.cards.BalanceCard
 import org.poc.app.ui.components.cards.BalanceCardData
 import org.poc.app.ui.components.cards.BalanceCardStyling
+import org.poc.app.ui.components.lists.HoldingsListItem
 import org.poc.app.ui.components.states.EmptyState
 import org.poc.app.ui.components.states.EmptyStateData
 import org.poc.app.ui.components.states.EmptyStateStyling
 import org.poc.app.ui.foundation.colors.SuccessGreen
-import org.jetbrains.compose.resources.stringResource
-import kmp_poc.composeapp.generated.resources.Res
-import kmp_poc.composeapp.generated.resources.*
 
 @Composable
 fun PortfolioScreen(
@@ -72,11 +77,11 @@ fun PortfolioScreen(
     if (state.isLoading) {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             CircularProgressIndicator(
                 color = SuccessGreen,
-                modifier = Modifier.size(DesignSystem.Sizes.IconLarge)
+                modifier = Modifier.size(DesignSystem.Sizes.IconLarge),
             )
         }
     } else {
@@ -87,7 +92,7 @@ fun PortfolioScreen(
             },
             onDiscoverCoinsClick = {
                 portfolioViewModel.handleIntent(PortfolioIntent.BuyNewCoin)
-            }
+            },
         )
     }
 }
@@ -100,35 +105,37 @@ fun PortfolioContent(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primaryContainer)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.primaryContainer),
     ) {
         BalanceCard(
-            data = BalanceCardData(
-                primaryLabel = Res.string.total_value_label,
-                primaryValue = state.portfolioValue,
-                secondaryLabel = Res.string.cash_balance_label,
-                secondaryValue = state.cashBalance,
-                actionButtonText = Res.string.buy_coin_button,
-                showActionButton = state.showBuyButton
-            ),
+            data =
+                BalanceCardData(
+                    primaryLabel = Res.string.total_value_label,
+                    primaryValue = state.portfolioValue,
+                    secondaryLabel = Res.string.cash_balance_label,
+                    secondaryValue = state.cashBalance,
+                    actionButtonText = Res.string.buy_coin_button,
+                    showActionButton = state.showBuyButton,
+                ),
             onActionButtonClick = onDiscoverCoinsClick,
-            styling = BalanceCardStyling(
-                backgroundColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.primary,
-                buttonBackgroundColor = SuccessGreen,
-                buttonContentColor = MaterialTheme.colorScheme.onPrimary
-            )
+            styling =
+                BalanceCardStyling(
+                    backgroundColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.primary,
+                    buttonBackgroundColor = SuccessGreen,
+                    buttonContentColor = MaterialTheme.colorScheme.onPrimary,
+                ),
         )
         PortfolioCoinsList(
             coins = state.coins,
             onCoinItemClicked = onCoinItemClick,
-            onDiscoverCoinsClicked = onDiscoverCoinsClick
+            onDiscoverCoinsClicked = onDiscoverCoinsClick,
         )
     }
 }
-
 
 @Composable
 private fun PortfolioCoinsList(
@@ -138,42 +145,47 @@ private fun PortfolioCoinsList(
 ) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(topStart = DesignSystem.Spacing.Large, topEnd = DesignSystem.Spacing.Large))
-            .background(MaterialTheme.colorScheme.background)
+        modifier =
+            Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(topStart = DesignSystem.Spacing.Large, topEnd = DesignSystem.Spacing.Large))
+                .background(MaterialTheme.colorScheme.background),
     ) {
         if (coins.isEmpty()) {
             EmptyState(
-                data = EmptyStateData(
-                    message = Res.string.no_coins_message,
-                    actionButtonText = Res.string.discover_coins_button
-                ),
+                data =
+                    EmptyStateData(
+                        message = Res.string.no_coins_message,
+                        actionButtonText = Res.string.discover_coins_button,
+                    ),
                 onActionClick = onDiscoverCoinsClicked,
-                styling = EmptyStateStyling(
-                    textColor = MaterialTheme.colorScheme.primary,
-                    iconColor = MaterialTheme.colorScheme.primary,
-                    buttonBackgroundColor = SuccessGreen,
-                    buttonContentColor = MaterialTheme.colorScheme.onPrimary
-                )
+                styling =
+                    EmptyStateStyling(
+                        textColor = MaterialTheme.colorScheme.primary,
+                        iconColor = MaterialTheme.colorScheme.primary,
+                        buttonBackgroundColor = SuccessGreen,
+                        buttonContentColor = MaterialTheme.colorScheme.onPrimary,
+                    ),
             )
             return@Box
         } else {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier =
+                    Modifier
+                        .fillMaxSize(),
             ) {
                 Text(
                     text = stringResource(Res.string.owned_coins_title),
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier
-                        .padding(DesignSystem.Spacing.Medium)
+                    modifier =
+                        Modifier
+                            .padding(DesignSystem.Spacing.Medium),
                 )
                 Spacer(modifier = Modifier.height(DesignSystem.Spacing.Small))
                 LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(DesignSystem.Spacing.Small)
+                    verticalArrangement = Arrangement.spacedBy(DesignSystem.Spacing.Small),
                 ) {
                     items(coins) { coin ->
                         HoldingsListItem(
@@ -184,7 +196,7 @@ private fun PortfolioCoinsList(
                             performanceText = coin.performancePercentText,
                             iconUrl = coin.iconUrl,
                             isPositive = coin.isPositive,
-                            onItemClicked = onCoinItemClicked
+                            onItemClicked = onCoinItemClicked,
                         )
                     }
                 }
@@ -192,5 +204,3 @@ private fun PortfolioCoinsList(
         }
     }
 }
-
-

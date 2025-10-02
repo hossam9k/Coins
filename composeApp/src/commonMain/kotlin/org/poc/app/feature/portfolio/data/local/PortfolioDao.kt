@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PortfolioDao {
-
     @Upsert
     suspend fun insert(portfolioCoinEntity: PortfolioCoinEntity)
 

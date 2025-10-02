@@ -15,22 +15,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kmp_poc.composeapp.generated.resources.Res
+import kmp_poc.composeapp.generated.resources.top_coins_title
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.poc.app.ui.DesignSystem
-import org.poc.app.ui.components.lists.MarketListItem
 import org.poc.app.ui.components.dialogs.ChartDialog
 import org.poc.app.ui.components.dialogs.ChartDialogState
-import org.poc.app.ui.components.states.LoadingState
+import org.poc.app.ui.components.lists.MarketListItem
 import org.poc.app.ui.components.states.EmptyState
 import org.poc.app.ui.components.states.ErrorState
-import org.jetbrains.compose.resources.stringResource
-import kmp_poc.composeapp.generated.resources.Res
-import kmp_poc.composeapp.generated.resources.*
+import org.poc.app.ui.components.states.LoadingState
 
 @Composable
-fun CoinsListScreen(
-    onCoinClicked: (String) -> Unit,
-) {
+fun CoinsListScreen(onCoinClicked: (String) -> Unit) {
     val coinsListViewModel = koinViewModel<CoinsListViewModel>()
     val state by coinsListViewModel.state.collectAsStateWithLifecycle()
 
@@ -39,7 +37,7 @@ fun CoinsListScreen(
         onDismissChart = { coinsListViewModel.handleIntent(CoinsIntent.DismissChart) },
         onCoinLongPressed = { coinId -> coinsListViewModel.handleIntent(CoinsIntent.ShowCoinChart(coinId)) },
         onCoinClicked = onCoinClicked,
-        onRetry = { coinsListViewModel.handleIntent(CoinsIntent.LoadCoins) }
+        onRetry = { coinsListViewModel.handleIntent(CoinsIntent.LoadCoins) },
     )
 }
 
@@ -52,9 +50,10 @@ fun CoinsListContent(
     onRetry: () -> Unit = {},
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
     ) {
         when {
             state.isLoading -> {
@@ -63,33 +62,34 @@ fun CoinsListContent(
             state.error != null -> {
                 ErrorState(
                     error = stringResource(state.error),
-                    onRetry = onRetry
+                    onRetry = onRetry,
                 )
             }
             state.coins.isEmpty() -> {
                 EmptyState(
                     message = "No coins available",
                     actionLabel = "Refresh",
-                    onAction = onRetry
+                    onAction = onRetry,
                 )
             }
             else -> {
                 if (state.chartState != null) {
                     ChartDialog(
-                        state = ChartDialogState(
-                            sparkLine = state.chartState.sparkLine,
-                            isLoading = state.chartState.isLoading,
-                            title = "Chart for ${state.chartState.coinName}"
-                        ),
+                        state =
+                            ChartDialogState(
+                                sparkLine = state.chartState.sparkLine,
+                                isLoading = state.chartState.isLoading,
+                                title = "Chart for ${state.chartState.coinName}",
+                            ),
                         onDismiss = onDismissChart,
-                        profitColor = MaterialTheme.colorScheme.primary,  // Your brand blue
-                        lossColor = MaterialTheme.colorScheme.error       // Material's red
+                        profitColor = MaterialTheme.colorScheme.primary, // Your brand blue
+                        lossColor = MaterialTheme.colorScheme.error, // Material's red
                     )
                 }
                 CoinsList(
                     coins = state.coins,
                     onCoinLongPressed = onCoinLongPressed,
-                    onCoinClicked = onCoinClicked
+                    onCoinClicked = onCoinClicked,
                 )
             }
         }
@@ -104,8 +104,9 @@ fun CoinsList(
 ) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.background)
+        modifier =
+            Modifier
+                .background(MaterialTheme.colorScheme.background),
     ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(DesignSystem.Spacing.None),
@@ -117,7 +118,7 @@ fun CoinsList(
                     text = stringResource(Res.string.top_coins_title),
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(DesignSystem.Spacing.Medium)
+                    modifier = Modifier.padding(DesignSystem.Spacing.Medium),
                 )
             }
             items(coins) { coin ->
@@ -130,11 +131,9 @@ fun CoinsList(
                     formattedChange = coin.formattedChange,
                     isPositive = coin.isPositive,
                     onItemClicked = onCoinClicked,
-                    onItemLongPressed = onCoinLongPressed
+                    onItemLongPressed = onCoinLongPressed,
                 )
             }
         }
     }
 }
-
-

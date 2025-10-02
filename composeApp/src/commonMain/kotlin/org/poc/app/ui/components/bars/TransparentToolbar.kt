@@ -11,13 +11,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.material3.MaterialTheme
 import org.poc.app.ui.DesignSystem
 
 @Composable
@@ -25,31 +25,32 @@ fun TransparentToolbar(
     title: String,
     showBackButton: Boolean = true,
     onBackPressed: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(DesignSystem.Sizes.AppBarHeight)
-            .padding(horizontal = DesignSystem.Spacing.Medium),
-        contentAlignment = Alignment.Center
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(DesignSystem.Sizes.AppBarHeight)
+                .padding(horizontal = DesignSystem.Spacing.Medium),
+        contentAlignment = Alignment.Center,
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             // Back button or spacer
             if (showBackButton) {
                 IconButton(
                     onClick = onBackPressed,
-                    modifier = Modifier.size(DesignSystem.Spacing.MinTouchTarget)
+                    modifier = Modifier.size(DesignSystem.Spacing.MinTouchTarget),
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Back",
                         tint = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.size(DesignSystem.Sizes.IconMedium)
+                        modifier = Modifier.size(DesignSystem.Sizes.IconMedium),
                     )
                 }
             } else {
@@ -63,7 +64,7 @@ fun TransparentToolbar(
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
 
             // Right side spacer for symmetrical layout

@@ -1,14 +1,14 @@
 package org.poc.app.feature.trade.presentation.buy
 
 import kotlinx.coroutines.flow.first
-import org.poc.app.feature.coins.domain.GetCoinDetailsUseCase
-import org.poc.app.core.domain.model.PreciseDecimal
-import org.poc.app.core.domain.model.Result
+import org.poc.app.core.domain.model.AnalyticsLogger
 import org.poc.app.core.domain.model.DispatcherProvider
 import org.poc.app.core.domain.model.Logger
-import org.poc.app.core.domain.model.AnalyticsLogger
-import org.poc.app.core.presentation.base.MviViewModel
+import org.poc.app.core.domain.model.PreciseDecimal
+import org.poc.app.core.domain.model.Result
 import org.poc.app.core.domain.util.toUiText
+import org.poc.app.core.presentation.base.MviViewModel
+import org.poc.app.feature.coins.domain.GetCoinDetailsUseCase
 import org.poc.app.feature.portfolio.domain.PortfolioRepository
 import org.poc.app.feature.trade.domain.BuyCoinUseCase
 import org.poc.app.feature.trade.presentation.mapper.TradeUiMapper.toCoin
@@ -21,14 +21,13 @@ class BuyViewModel(
     private val coinId: String,
     dispatcherProvider: DispatcherProvider,
     logger: Logger,
-    analytics: AnalyticsLogger
+    analytics: AnalyticsLogger,
 ) : MviViewModel<BuyState, BuyIntent, BuySideEffect>(
-    initialState = BuyState(isLoading = true),
-    dispatcherProvider = dispatcherProvider,
-    logger = logger,
-    analytics = analytics
-) {
-
+        initialState = BuyState(isLoading = true),
+        dispatcherProvider = dispatcherProvider,
+        logger = logger,
+        analytics = analytics,
+    ) {
     companion object {
         private const val TAG = "BuyViewModel"
     }
@@ -60,16 +59,14 @@ class BuyViewModel(
         }
     }
 
-
     override suspend fun handleErrorSideEffect(error: Throwable) {
         emitSideEffect(
             BuySideEffect.ShowError(
                 message = error.message ?: "An unexpected error occurred",
-                details = error.toString()
-            )
+                details = error.toString(),
+            ),
         )
     }
-
 
     private suspend fun updateAmount(amount: String) {
         updateState { it.copy(amount = amount) }
@@ -87,8 +84,8 @@ class BuyViewModel(
                         currentState.copy(
                             isLoading = false,
                             coin = coinResponse.data.toUiTradeCoinItem(),
-                            availableAmount = "Available: $${balance.toString()}",
-                            error = null
+                            availableAmount = "Available: $$balance",
+                            error = null,
                         )
                     }
                 }
@@ -97,7 +94,7 @@ class BuyViewModel(
                         it.copy(
                             isLoading = false,
                             error = coinResponse.error.toUiText().toString(),
-                            errorDetails = "Failed to load coin details"
+                            errorDetails = "Failed to load coin details",
                         )
                     }
                 }
@@ -107,7 +104,7 @@ class BuyViewModel(
                 it.copy(
                     isLoading = false,
                     error = "Failed to load coin details",
-                    errorDetails = e.message
+                    errorDetails = e.message,
                 )
             }
         }
@@ -134,11 +131,12 @@ class BuyViewModel(
         }
 
         try {
-            val buyCoinResponse = buyCoinUseCase.buyCoin(
-                coin = tradeCoin.toCoin(),
-                amountInFiat = PreciseDecimal.fromDouble(amount),
-                price = PreciseDecimal.fromDouble(tradeCoin.price),
-            )
+            val buyCoinResponse =
+                buyCoinUseCase.buyCoin(
+                    coin = tradeCoin.toCoin(),
+                    amountInFiat = PreciseDecimal.fromDouble(amount),
+                    price = PreciseDecimal.fromDouble(tradeCoin.price),
+                )
 
             when (buyCoinResponse) {
                 is Result.Success -> {
@@ -151,7 +149,7 @@ class BuyViewModel(
                         it.copy(
                             isSubmitting = false,
                             error = buyCoinResponse.error.toUiText().toString(),
-                            errorDetails = "Purchase failed"
+                            errorDetails = "Purchase failed",
                         )
                     }
                 }
@@ -161,7 +159,7 @@ class BuyViewModel(
                 it.copy(
                     isSubmitting = false,
                     error = "Purchase failed",
-                    errorDetails = e.message
+                    errorDetails = e.message,
                 )
             }
         }
@@ -175,13 +173,12 @@ class BuyViewModel(
         loadCoinDetails()
     }
 
-    override fun shouldDeduplicateIntent(intent: BuyIntent): Boolean {
-        return when (intent) {
+    override fun shouldDeduplicateIntent(intent: BuyIntent): Boolean =
+        when (intent) {
             is BuyIntent.LoadCoinDetails,
             is BuyIntent.RetryLoading,
-            is BuyIntent.SubmitPurchase -> true
+            is BuyIntent.SubmitPurchase,
+            -> true
             else -> false
         }
-    }
-
 }

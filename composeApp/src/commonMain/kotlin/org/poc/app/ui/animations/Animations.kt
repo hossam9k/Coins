@@ -1,13 +1,13 @@
 package org.poc.app.ui.animations
 
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.EaseInOut
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.AnimationSpec
-import androidx.compose.animation.core.EaseInOut
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseOut
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.unit.Dp
@@ -18,24 +18,23 @@ import androidx.compose.ui.unit.dp
  * Based on Material Design 3 motion principles
  */
 object PocAnimations {
-
     /**
      * Standard durations for different types of animations
      */
     object Durations {
-        const val instant = 0
-        const val fast = 150
-        const val normal = 300
-        const val slow = 500
-        const val slower = 800
-        const val slowest = 1200
+        const val INSTANT = 0
+        const val FAST = 150
+        const val NORMAL = 300
+        const val SLOW = 500
+        const val SLOWER = 800
+        const val SLOWEST = 1200
 
         // Specific use cases
-        const val buttonPress = fast
-        const val menuOpen = normal
-        const val pageTransition = slow
-        const val loading = slower
-        const val splash = slowest
+        const val BUTTON_PRESS = FAST
+        const val MENU_OPEN = NORMAL
+        const val PAGE_TRANSITION = SLOW
+        const val LOADING = SLOWER
+        const val SPLASH = SLOWEST
     }
 
     /**
@@ -48,35 +47,47 @@ object PocAnimations {
         val easeInOut = EaseInOut
 
         // Material Design 3 emphasis easings
-        val standard = androidx.compose.animation.core.CubicBezierEasing(0.2f, 0.0f, 0.0f, 1.0f)
-        val emphasized = androidx.compose.animation.core.CubicBezierEasing(0.05f, 0.7f, 0.1f, 1.0f)
-        val decelerated = androidx.compose.animation.core.CubicBezierEasing(0.0f, 0.0f, 0.2f, 1.0f)
-        val accelerated = androidx.compose.animation.core.CubicBezierEasing(0.3f, 0.0f, 1.0f, 1.0f)
+        val standard =
+            androidx.compose.animation.core
+                .CubicBezierEasing(0.2f, 0.0f, 0.0f, 1.0f)
+        val emphasized =
+            androidx.compose.animation.core
+                .CubicBezierEasing(0.05f, 0.7f, 0.1f, 1.0f)
+        val decelerated =
+            androidx.compose.animation.core
+                .CubicBezierEasing(0.0f, 0.0f, 0.2f, 1.0f)
+        val accelerated =
+            androidx.compose.animation.core
+                .CubicBezierEasing(0.3f, 0.0f, 1.0f, 1.0f)
     }
 
     /**
      * Spring configurations for natural bouncy animations
      */
     object Springs {
-        val default = spring<Float>(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessMedium
-        )
+        val default =
+            spring<Float>(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessMedium,
+            )
 
-        val gentle = spring<Float>(
-            dampingRatio = Spring.DampingRatioLowBouncy,
-            stiffness = Spring.StiffnessLow
-        )
+        val gentle =
+            spring<Float>(
+                dampingRatio = Spring.DampingRatioLowBouncy,
+                stiffness = Spring.StiffnessLow,
+            )
 
-        val bouncy = spring<Float>(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessHigh
-        )
+        val bouncy =
+            spring<Float>(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessHigh,
+            )
 
-        val stiff = spring<Float>(
-            dampingRatio = Spring.DampingRatioNoBouncy,
-            stiffness = Spring.StiffnessHigh
-        )
+        val stiff =
+            spring<Float>(
+                dampingRatio = Spring.DampingRatioNoBouncy,
+                stiffness = Spring.StiffnessHigh,
+            )
     }
 
     /**
@@ -84,44 +95,51 @@ object PocAnimations {
      */
     object Specs {
         // Button interactions
-        val buttonPress = tween<Float>(
-            durationMillis = Durations.buttonPress,
-            easing = Easings.standard
-        )
+        val buttonPress =
+            tween<Float>(
+                durationMillis = Durations.BUTTON_PRESS,
+                easing = Easings.standard,
+            )
 
         // UI state changes
-        val stateChange = tween<Float>(
-            durationMillis = Durations.normal,
-            easing = Easings.emphasized
-        )
+        val stateChange =
+            tween<Float>(
+                durationMillis = Durations.NORMAL,
+                easing = Easings.emphasized,
+            )
 
         // Content appearance/disappearance
-        val fadeIn = tween<Float>(
-            durationMillis = Durations.normal,
-            easing = Easings.decelerated
-        )
+        val fadeIn =
+            tween<Float>(
+                durationMillis = Durations.NORMAL,
+                easing = Easings.decelerated,
+            )
 
-        val fadeOut = tween<Float>(
-            durationMillis = Durations.fast,
-            easing = Easings.accelerated
-        )
+        val fadeOut =
+            tween<Float>(
+                durationMillis = Durations.FAST,
+                easing = Easings.accelerated,
+            )
 
         // Page transitions
-        val pageEnter = tween<Float>(
-            durationMillis = Durations.pageTransition,
-            easing = Easings.decelerated
-        )
+        val pageEnter =
+            tween<Float>(
+                durationMillis = Durations.PAGE_TRANSITION,
+                easing = Easings.decelerated,
+            )
 
-        val pageExit = tween<Float>(
-            durationMillis = Durations.normal,
-            easing = Easings.accelerated
-        )
+        val pageExit =
+            tween<Float>(
+                durationMillis = Durations.NORMAL,
+                easing = Easings.accelerated,
+            )
 
         // Loading states
-        val loadingPulse = tween<Float>(
-            durationMillis = Durations.loading,
-            easing = Easings.easeInOut
-        )
+        val loadingPulse =
+            tween<Float>(
+                durationMillis = Durations.LOADING,
+                easing = Easings.easeInOut,
+            )
 
         // Spring animations for interactive elements
         val springyPress = Springs.bouncy
@@ -132,14 +150,13 @@ object PocAnimations {
      * Distance-based animation durations
      * Longer distances take more time for natural motion
      */
-    fun calculateDuration(distance: Dp): Int {
-        return when {
-            distance < 100.dp -> Durations.fast
-            distance < 300.dp -> Durations.normal
-            distance < 500.dp -> Durations.slow
-            else -> Durations.slower
-        }.coerceAtMost(Durations.slowest)
-    }
+    fun calculateDuration(distance: Dp): Int =
+        when {
+            distance < 100.dp -> Durations.FAST
+            distance < 300.dp -> Durations.NORMAL
+            distance < 500.dp -> Durations.SLOW
+            else -> Durations.SLOWER
+        }.coerceAtMost(Durations.SLOWEST)
 }
 
 /**
@@ -148,23 +165,21 @@ object PocAnimations {
 data class AnimationConfig(
     val isReducedMotionEnabled: Boolean = false,
     val globalSpeedMultiplier: Float = 1.0f,
-    val enableSpringAnimations: Boolean = true
+    val enableSpringAnimations: Boolean = true,
 ) {
-    fun getAdjustedDuration(baseDuration: Int): Int {
-        return if (isReducedMotionEnabled) {
+    fun getAdjustedDuration(baseDuration: Int): Int =
+        if (isReducedMotionEnabled) {
             0
         } else {
             (baseDuration * globalSpeedMultiplier).toInt()
         }
-    }
 
-    fun <T> getAnimationSpec(baseSpec: AnimationSpec<T>): AnimationSpec<T> {
-        return if (isReducedMotionEnabled) {
+    fun <T> getAnimationSpec(baseSpec: AnimationSpec<T>): AnimationSpec<T> =
+        if (isReducedMotionEnabled) {
             tween(durationMillis = 0)
         } else {
             baseSpec
         }
-    }
 }
 
 /**
@@ -178,14 +193,13 @@ val LocalAnimationConfig = compositionLocalOf { AnimationConfig() }
 @Composable
 fun rememberAnimationConfig(
     reducedMotionEnabled: Boolean = false,
-    speedMultiplier: Float = 1.0f
-): AnimationConfig {
-    return AnimationConfig(
+    speedMultiplier: Float = 1.0f,
+): AnimationConfig =
+    AnimationConfig(
         isReducedMotionEnabled = reducedMotionEnabled,
         globalSpeedMultiplier = speedMultiplier,
-        enableSpringAnimations = !reducedMotionEnabled
+        enableSpringAnimations = !reducedMotionEnabled,
     )
-}
 
 /**
  * Animation utilities for common patterns
@@ -206,7 +220,7 @@ object AnimationUtils {
     @Composable
     fun <T> getPreferredSpec(
         springSpec: AnimationSpec<T>,
-        tweenSpec: AnimationSpec<T>
+        tweenSpec: AnimationSpec<T>,
     ): AnimationSpec<T> {
         val config = LocalAnimationConfig.current
         return if (config.enableSpringAnimations) {

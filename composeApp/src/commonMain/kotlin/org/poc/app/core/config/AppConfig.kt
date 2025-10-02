@@ -6,12 +6,13 @@ package org.poc.app.core.config
  */
 data class AppConfiguration(
     val environment: String = BuildConfig.environment,
-    val appName: String = when (BuildConfig.environment) {
-        "development" -> "POC Dev"
-        "staging" -> "POC Staging"
-        "production" -> "POC"
-        else -> "POC App"
-    },
+    val appName: String =
+        when (BuildConfig.environment) {
+            "development" -> "POC Dev"
+            "staging" -> "POC Staging"
+            "production" -> "POC"
+            else -> "POC App"
+        },
     val apiBaseUrl: String = BuildConfig.apiBaseUrl,
     val apiKey: String = BuildConfig.apiKey,
     val isDebugMode: Boolean = BuildConfig.isDebug,
@@ -19,7 +20,7 @@ data class AppConfiguration(
     val cacheExpirationMinutes: Int = 5,
     val maxRetryAttempts: Int = 3,
     val enableAnalytics: Boolean = BuildConfig.enableAnalytics,
-    val enableCrashReporting: Boolean = BuildConfig.enableCrashReporting
+    val enableCrashReporting: Boolean = BuildConfig.enableCrashReporting,
 )
 
 /**
@@ -38,15 +39,16 @@ expect object BuildConfig {
 /**
  * Environment-specific configurations
  */
-sealed class Environment(val config: AppConfiguration) {
-
+sealed class Environment(
+    val config: AppConfiguration,
+) {
     object Development : Environment(
         AppConfiguration(
             appName = "POC Dev",
             isDebugMode = true,
             enableAnalytics = false,
-            enableCrashReporting = false
-        )
+            enableCrashReporting = false,
+        ),
     )
 
     object Staging : Environment(
@@ -54,8 +56,8 @@ sealed class Environment(val config: AppConfiguration) {
             appName = "POC Staging",
             isDebugMode = false,
             enableAnalytics = true,
-            enableCrashReporting = true
-        )
+            enableCrashReporting = true,
+        ),
     )
 
     object Production : Environment(
@@ -64,7 +66,7 @@ sealed class Environment(val config: AppConfiguration) {
             isDebugMode = false,
             networkTimeoutMs = 15_000L, // Stricter timeout in production
             enableAnalytics = true,
-            enableCrashReporting = true
-        )
+            enableCrashReporting = true,
+        ),
     )
 }

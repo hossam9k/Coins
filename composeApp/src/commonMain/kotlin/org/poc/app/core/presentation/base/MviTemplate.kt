@@ -1,8 +1,8 @@
 package org.poc.app.core.presentation.base
 
+import org.poc.app.core.domain.model.AnalyticsLogger
 import org.poc.app.core.domain.model.DispatcherProvider
 import org.poc.app.core.domain.model.Logger
-import org.poc.app.core.domain.model.AnalyticsLogger
 
 /**
  * MVI TEMPLATE FOR NEW SCREENS
@@ -28,7 +28,7 @@ data class ScreenNameState(
     val selectedItem: String? = null,
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
 ) : UiState
 
 // ================================
@@ -42,18 +42,27 @@ data class ScreenNameState(
 sealed interface ScreenNameIntent : UiIntent {
     // Loading intents
     data object LoadScreenData : ScreenNameIntent
+
     data object RefreshScreenData : ScreenNameIntent
 
     // User interaction intents
-    data class SelectItem(val itemId: String) : ScreenNameIntent
-    data class PerformAction(val actionType: String, val itemId: String) : ScreenNameIntent
+    data class SelectItem(
+        val itemId: String,
+    ) : ScreenNameIntent
+
+    data class PerformAction(
+        val actionType: String,
+        val itemId: String,
+    ) : ScreenNameIntent
 
     // Navigation intents
     data object NavigateToDetails : ScreenNameIntent
+
     data object GoBack : ScreenNameIntent
 
     // Error handling
     data object RetryAfterError : ScreenNameIntent
+
     data object DismissError : ScreenNameIntent
 }
 
@@ -67,17 +76,30 @@ sealed interface ScreenNameIntent : UiIntent {
  */
 sealed interface ScreenNameSideEffect : UiSideEffect {
     // Error handling
-    data class ShowError(val message: String) : ScreenNameSideEffect
-    data class ShowSuccess(val message: String) : ScreenNameSideEffect
+    data class ShowError(
+        val message: String,
+    ) : ScreenNameSideEffect
+
+    data class ShowSuccess(
+        val message: String,
+    ) : ScreenNameSideEffect
 
     // Navigation
-    data class NavigateToScreen(val route: String) : ScreenNameSideEffect
+    data class NavigateToScreen(
+        val route: String,
+    ) : ScreenNameSideEffect
+
     data object NavigateBack : ScreenNameSideEffect
 
     // UI actions
     data object ShowLoadingDialog : ScreenNameSideEffect
+
     data object HideLoadingDialog : ScreenNameSideEffect
-    data class ShowConfirmDialog(val message: String, val action: ScreenNameIntent) : ScreenNameSideEffect
+
+    data class ShowConfirmDialog(
+        val message: String,
+        val action: ScreenNameIntent,
+    ) : ScreenNameSideEffect
 }
 
 // ================================
@@ -91,16 +113,15 @@ class ScreenNameViewModel(
     private val screenRepository: ScreenNameRepository, // Your use cases/repository
     dispatcherProvider: DispatcherProvider,
     logger: Logger,
-    analytics: AnalyticsLogger
+    analytics: AnalyticsLogger,
     // Add other dependencies your screen needs
 ) : MviViewModel<ScreenNameState, ScreenNameIntent, ScreenNameSideEffect>(
-    initialState = ScreenNameState(),
-    dispatcherProvider = dispatcherProvider,
-    logger = logger,
-    analytics = analytics,
-    sideEffectBufferSize = 64
-) {
-
+        initialState = ScreenNameState(),
+        dispatcherProvider = dispatcherProvider,
+        logger = logger,
+        analytics = analytics,
+        sideEffectBufferSize = 64,
+    ) {
     init {
         // Auto-load data when screen opens
         handleIntent(ScreenNameIntent.LoadScreenData)
@@ -143,14 +164,14 @@ class ScreenNameViewModel(
                 it.copy(
                     data = data,
                     isLoading = false,
-                    error = null
+                    error = null,
                 )
             }
         } catch (e: Exception) {
             updateState {
                 it.copy(
                     isLoading = false,
-                    error = "Failed to load data"
+                    error = "Failed to load data",
                 )
             }
             emitSideEffect(ScreenNameSideEffect.ShowError("Failed to load data"))
@@ -166,7 +187,7 @@ class ScreenNameViewModel(
                 it.copy(
                     data = data,
                     isRefreshing = false,
-                    error = null
+                    error = null,
                 )
             }
             emitSideEffect(ScreenNameSideEffect.ShowSuccess("Data refreshed"))
@@ -181,14 +202,17 @@ class ScreenNameViewModel(
         emitSideEffect(ScreenNameSideEffect.ShowSuccess("Item selected"))
     }
 
-    private suspend fun performAction(actionType: String, itemId: String) {
+    private suspend fun performAction(
+        actionType: String,
+        itemId: String,
+    ) {
         when (actionType) {
             "delete" -> {
                 emitSideEffect(
                     ScreenNameSideEffect.ShowConfirmDialog(
                         message = "Delete this item?",
-                        action = ScreenNameIntent.PerformAction("confirm_delete", itemId)
-                    )
+                        action = ScreenNameIntent.PerformAction("confirm_delete", itemId),
+                    ),
                 )
             }
             "confirm_delete" -> {
@@ -228,13 +252,13 @@ class ScreenNameViewModel(
     // OPTIONAL OVERRIDES
     // ================================
 
-    override fun shouldDeduplicateIntent(intent: ScreenNameIntent): Boolean {
-        return when (intent) {
+    override fun shouldDeduplicateIntent(intent: ScreenNameIntent): Boolean =
+        when (intent) {
             is ScreenNameIntent.LoadScreenData,
-            is ScreenNameIntent.RefreshScreenData -> true
+            is ScreenNameIntent.RefreshScreenData,
+            -> true
             else -> false
         }
-    }
 }
 
 // ================================
@@ -243,7 +267,9 @@ class ScreenNameViewModel(
 
 interface ScreenNameRepository {
     suspend fun getData(): List<ScreenDataModel>
+
     suspend fun refreshData(): List<ScreenDataModel>
+
     suspend fun deleteItem(id: String)
 }
 
@@ -254,7 +280,7 @@ interface ScreenNameRepository {
 data class ScreenDataModel(
     val id: String,
     val title: String,
-    val description: String
+    val description: String,
 )
 
 // ================================
@@ -282,4 +308,3 @@ data class ScreenDataModel(
  * - ReportsViewModel
  * - ReportsRepository
  */
-

@@ -12,7 +12,6 @@ import org.poc.app.feature.portfolio.domain.PortfolioRepository
 class BuyCoinUseCase(
     private val portfolioRepository: PortfolioRepository,
 ) {
-
     suspend fun buyCoin(
         coin: Coin,
         amountInFiat: PreciseDecimal,
@@ -41,8 +40,8 @@ class BuyCoinUseCase(
                         existingCoin.copy(
                             ownedAmountInUnit = newAmountOwned,
                             ownedAmountInFiat = newTotalInvestment,
-                            averagePurchasePrice = newAveragePurchasePrice
-                        )
+                            averagePurchasePrice = newAveragePurchasePrice,
+                        ),
                     )
                 } else {
                     // Create new coin entry
@@ -52,8 +51,8 @@ class BuyCoinUseCase(
                             performancePercent = PreciseDecimal.ZERO,
                             averagePurchasePrice = price,
                             ownedAmountInFiat = amountInFiat,
-                            ownedAmountInUnit = amountInUnit
-                        )
+                            ownedAmountInUnit = amountInUnit,
+                        ),
                     )
                 }
             }

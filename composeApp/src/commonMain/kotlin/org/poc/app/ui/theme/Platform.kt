@@ -6,7 +6,7 @@ package org.poc.app.ui.theme
 enum class Platform {
     ANDROID,
     IOS,
-    DESKTOP
+    DESKTOP,
 }
 
 /**
@@ -15,10 +15,15 @@ enum class Platform {
  */
 expect object PlatformRuntime {
     fun getCurrentTimeMillis(): Long
+
     fun getMaxMemory(): Long
+
     fun getTotalMemory(): Long
+
     fun getFreeMemory(): Long
+
     fun getUsedMemory(): Long
+
     fun forceGarbageCollection()
 }
 
@@ -28,4 +33,3 @@ expect object PlatformSystem {
 
 @androidx.compose.runtime.Composable
 expect fun getCurrentPlatform(): Platform
-

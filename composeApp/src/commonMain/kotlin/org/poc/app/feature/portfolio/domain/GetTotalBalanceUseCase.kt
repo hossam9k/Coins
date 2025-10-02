@@ -9,9 +9,7 @@ import org.poc.app.core.domain.model.Result
  * Combines cash balance and portfolio value
  */
 class GetTotalBalanceUseCase(
-    private val portfolioRepository: PortfolioRepository
+    private val portfolioRepository: PortfolioRepository,
 ) {
-    operator fun invoke(): Flow<Result<Double, DataError>> {
-        return portfolioRepository.totalBalanceFlow()
-    }
+    operator fun invoke(): Flow<Result<Double, DataError>> = portfolioRepository.totalBalanceFlow()
 }

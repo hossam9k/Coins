@@ -5,7 +5,7 @@ package org.poc.app.feature.portfolio.domain
  * Handles initial setup and balance calculations
  */
 class InitializeBalanceUseCase(
-    private val portfolioRepository: PortfolioRepository
+    private val portfolioRepository: PortfolioRepository,
 ) {
     suspend operator fun invoke() {
         portfolioRepository.initializeBalance()

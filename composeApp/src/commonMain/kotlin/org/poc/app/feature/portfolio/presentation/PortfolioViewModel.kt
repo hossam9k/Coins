@@ -1,37 +1,43 @@
 package org.poc.app.feature.portfolio.presentation
 
+import kmp_poc.composeapp.generated.resources.Res
+import kmp_poc.composeapp.generated.resources.error_unknown
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.take
+import org.jetbrains.compose.resources.StringResource
+import org.poc.app.core.domain.model.AnalyticsLogger
 import org.poc.app.core.domain.model.DataError
-import org.poc.app.core.domain.model.Result
 import org.poc.app.core.domain.model.DispatcherProvider
 import org.poc.app.core.domain.model.Logger
-import org.poc.app.core.domain.model.AnalyticsLogger
-import org.poc.app.feature.portfolio.domain.GetAllPortfolioCoinsUseCase
-import org.poc.app.feature.portfolio.domain.GetTotalBalanceUseCase
-import org.poc.app.feature.portfolio.domain.GetCashBalanceUseCase
-import org.poc.app.feature.portfolio.domain.InitializeBalanceUseCase
-import org.poc.app.core.domain.util.formatPriceDisplay
 import org.poc.app.core.domain.model.PreciseDecimal
+import org.poc.app.core.domain.model.Result
+import org.poc.app.core.domain.util.formatPriceDisplay
 import org.poc.app.core.domain.util.toUiText
-import org.poc.app.feature.portfolio.presentation.mapper.PortfolioUiMapper.toUiPortfolioCoinItem
-import org.poc.app.feature.portfolio.domain.PortfolioCoinModel
 import org.poc.app.core.presentation.base.MviViewModel
 import org.poc.app.core.presentation.base.UiIntent
 import org.poc.app.core.presentation.base.UiSideEffect
-import org.jetbrains.compose.resources.StringResource
-import kmp_poc.composeapp.generated.resources.Res
-import kmp_poc.composeapp.generated.resources.error_unknown
+import org.poc.app.feature.portfolio.domain.GetAllPortfolioCoinsUseCase
+import org.poc.app.feature.portfolio.domain.GetCashBalanceUseCase
+import org.poc.app.feature.portfolio.domain.GetTotalBalanceUseCase
+import org.poc.app.feature.portfolio.domain.InitializeBalanceUseCase
+import org.poc.app.feature.portfolio.domain.PortfolioCoinModel
+import org.poc.app.feature.portfolio.presentation.mapper.PortfolioUiMapper.toUiPortfolioCoinItem
 
 /**
  * MVI Intents for Portfolio feature
  */
 sealed interface PortfolioIntent : UiIntent {
     data object LoadPortfolio : PortfolioIntent
+
     data object RefreshPortfolio : PortfolioIntent
-    data class SelectCoin(val coinId: String) : PortfolioIntent
+
+    data class SelectCoin(
+        val coinId: String,
+    ) : PortfolioIntent
+
     data object BuyNewCoin : PortfolioIntent
+
     data object RetryOnError : PortfolioIntent
 }
 
@@ -39,9 +45,16 @@ sealed interface PortfolioIntent : UiIntent {
  * MVI Side Effects for Portfolio feature
  */
 sealed interface PortfolioSideEffect : UiSideEffect {
-    data class ShowError(val message: StringResource) : PortfolioSideEffect
-    data class NavigateToCoinDetails(val coinId: String) : PortfolioSideEffect
+    data class ShowError(
+        val message: StringResource,
+    ) : PortfolioSideEffect
+
+    data class NavigateToCoinDetails(
+        val coinId: String,
+    ) : PortfolioSideEffect
+
     data object NavigateToDiscoverCoins : PortfolioSideEffect
+
     data object ShowRefreshSuccess : PortfolioSideEffect
 }
 
@@ -52,14 +65,13 @@ class PortfolioViewModel(
     private val initializeBalanceUseCase: InitializeBalanceUseCase,
     dispatcherProvider: DispatcherProvider,
     logger: Logger,
-    analytics: AnalyticsLogger
+    analytics: AnalyticsLogger,
 ) : MviViewModel<PortfolioState, PortfolioIntent, PortfolioSideEffect>(
-    initialState = PortfolioState(isLoading = true),
-    dispatcherProvider = dispatcherProvider,
-    logger = logger,
-    analytics = analytics
-) {
-
+        initialState = PortfolioState(isLoading = true),
+        dispatcherProvider = dispatcherProvider,
+        logger = logger,
+        analytics = analytics,
+    ) {
     companion object {
         private const val TAG = "PortfolioViewModel"
     }
@@ -87,14 +99,14 @@ class PortfolioViewModel(
         // Use BaseViewModel's safe execution with operation tracking
         launchSafe(
             operationName = "load_portfolio",
-            preventDuplicates = true
+            preventDuplicates = true,
         ) {
             initializeBalanceUseCase()
 
             combine(
                 getAllPortfolioCoinsUseCase(),
                 getTotalBalanceUseCase(),
-                getCashBalanceUseCase()
+                getCashBalanceUseCase(),
             ) { portfolioCoinsResponse, totalBalanceResult, cashBalance ->
                 Triple(portfolioCoinsResponse, totalBalanceResult, cashBalance)
             }.flowOn(dispatcherProvider.default)
@@ -120,7 +132,7 @@ class PortfolioViewModel(
             combine(
                 getAllPortfolioCoinsUseCase(),
                 getTotalBalanceUseCase(),
-                getCashBalanceUseCase()
+                getCashBalanceUseCase(),
             ) { portfolioCoinsResponse, totalBalanceResult, cashBalance ->
                 Triple(portfolioCoinsResponse, totalBalanceResult, cashBalance)
             }.flowOn(dispatcherProvider.default)
@@ -157,12 +169,13 @@ class PortfolioViewModel(
     private suspend fun handleSuccessState(
         portfolioCoins: List<PortfolioCoinModel>,
         totalBalanceResult: Result<Double, DataError>,
-        cashBalance: Double
+        cashBalance: Double,
     ) {
-        val portfolioValue = when (totalBalanceResult) {
-            is Result.Success -> formatPriceDisplay(PreciseDecimal.fromDouble(totalBalanceResult.data))
-            is Result.Error -> formatPriceDisplay(PreciseDecimal.ZERO)
-        }
+        val portfolioValue =
+            when (totalBalanceResult) {
+                is Result.Success -> formatPriceDisplay(PreciseDecimal.fromDouble(totalBalanceResult.data))
+                is Result.Error -> formatPriceDisplay(PreciseDecimal.ZERO)
+            }
 
         updateState {
             it.copy(
@@ -172,7 +185,7 @@ class PortfolioViewModel(
                 showBuyButton = portfolioCoins.isNotEmpty(),
                 isLoading = false,
                 isRefreshing = false,
-                error = null
+                error = null,
             )
         }
     }
@@ -182,7 +195,7 @@ class PortfolioViewModel(
             it.copy(
                 isLoading = false,
                 isRefreshing = false,
-                error = error.toUiText()
+                error = error.toUiText(),
             )
         }
         emitSideEffect(PortfolioSideEffect.ShowError(error.toUiText()))
@@ -191,5 +204,4 @@ class PortfolioViewModel(
     override suspend fun handleErrorSideEffect(error: Throwable) {
         emitSideEffect(PortfolioSideEffect.ShowError(Res.string.error_unknown))
     }
-
 }

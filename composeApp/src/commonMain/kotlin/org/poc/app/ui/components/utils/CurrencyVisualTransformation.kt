@@ -22,8 +22,7 @@ import org.poc.app.core.domain.util.formatFiat
  * - Works in both preview and runtime modes
  * - Integrates with design system formatting utilities
  */
-private class CurrencyVisualTransformation: VisualTransformation {
-
+private class CurrencyVisualTransformation : VisualTransformation {
     override fun filter(text: AnnotatedString): TransformedText {
         val originalText = text.text.trim()
         if (originalText.isEmpty()) {
@@ -32,13 +31,14 @@ private class CurrencyVisualTransformation: VisualTransformation {
         if (originalText.isNumeric().not()) {
             return TransformedText(text, OffsetMapping.Identity)
         }
-        val formattedText = formatFiat(
-            amount = originalText.toDouble(),
-            showDecimal = false,
-        )
+        val formattedText =
+            formatFiat(
+                amount = originalText.toDouble(),
+                showDecimal = false,
+            )
         return TransformedText(
             AnnotatedString(formattedText),
-            CurrencyOffsetMapping(originalText, formattedText)
+            CurrencyOffsetMapping(originalText, formattedText),
         )
     }
 }
@@ -64,6 +64,4 @@ fun rememberCurrencyVisualTransformation(): VisualTransformation {
 /**
  * Extension function to check if a string contains only numeric characters
  */
-private fun String.isNumeric(): Boolean {
-    return this.all { char -> char.isDigit() }
-}
+private fun String.isNumeric(): Boolean = this.all { char -> char.isDigit() }

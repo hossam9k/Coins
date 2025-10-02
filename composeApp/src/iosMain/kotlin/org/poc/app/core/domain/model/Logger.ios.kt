@@ -6,50 +6,67 @@ import platform.Foundation.NSLog
  * iOS-specific logger implementation using NSLog
  */
 class IOSLogger(
-    private val config: AppConfig
+    private val config: AppConfig,
 ) : Logger {
-
-    override fun debug(tag: String, message: String, throwable: Throwable?) {
+    override fun debug(
+        tag: String,
+        message: String,
+        throwable: Throwable?,
+    ) {
         if (shouldLog(LogLevel.DEBUG)) {
             val logMessage = formatMessage("DEBUG", tag, message, throwable)
             NSLog(logMessage)
         }
     }
 
-    override fun info(tag: String, message: String, throwable: Throwable?) {
+    override fun info(
+        tag: String,
+        message: String,
+        throwable: Throwable?,
+    ) {
         if (shouldLog(LogLevel.INFO)) {
             val logMessage = formatMessage("INFO", tag, message, throwable)
             NSLog(logMessage)
         }
     }
 
-    override fun warn(tag: String, message: String, throwable: Throwable?) {
+    override fun warn(
+        tag: String,
+        message: String,
+        throwable: Throwable?,
+    ) {
         if (shouldLog(LogLevel.WARN)) {
             val logMessage = formatMessage("WARN", tag, message, throwable)
             NSLog(logMessage)
         }
     }
 
-    override fun error(tag: String, message: String, throwable: Throwable?) {
+    override fun error(
+        tag: String,
+        message: String,
+        throwable: Throwable?,
+    ) {
         if (shouldLog(LogLevel.ERROR)) {
             val logMessage = formatMessage("ERROR", tag, message, throwable)
             NSLog(logMessage)
         }
     }
 
-    private fun shouldLog(level: LogLevel): Boolean {
-        return level.ordinal >= config.logLevel.ordinal
-    }
+    private fun shouldLog(level: LogLevel): Boolean = level.ordinal >= config.logLevel.ordinal
 
-    private fun formatMessage(level: String, tag: String, message: String, throwable: Throwable?): String {
-        return buildString {
+    private fun formatMessage(
+        level: String,
+        tag: String,
+        message: String,
+        throwable: Throwable?,
+    ): String =
+        buildString {
             append("[$level] [$tag] $message")
             if (throwable != null) {
                 append(" | Error: ${throwable.message}")
                 append(" | Stack: ${throwable.stackTraceToString()}")
             }
         }
-    }
 }
 
 /**
@@ -57,10 +74,12 @@ class IOSLogger(
  * Note: Add Firebase SDK or other analytics SDK to iOS project to enable full functionality
  */
 class IOSAnalyticsLogger(
-    private val config: AppConfig
+    private val config: AppConfig,
 ) : AnalyticsLogger {
-
-    override fun logEvent(eventName: String, parameters: Map<String, Any>) {
+    override fun logEvent(
+        eventName: String,
+        parameters: Map<String, Any>,
+    ) {
         if (!config.enableAnalytics) return
 
         try {
@@ -81,7 +100,10 @@ class IOSAnalyticsLogger(
         }
     }
 
-    override fun logError(error: Throwable, additionalData: Map<String, Any>) {
+    override fun logError(
+        error: Throwable,
+        additionalData: Map<String, Any>,
+    ) {
         if (!config.enableCrashReporting) return
 
         try {
@@ -115,7 +137,10 @@ class IOSAnalyticsLogger(
         }
     }
 
-    override fun setUserProperty(key: String, value: String) {
+    override fun setUserProperty(
+        key: String,
+        value: String,
+    ) {
         if (!config.enableAnalytics) return
 
         try {

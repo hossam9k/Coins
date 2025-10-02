@@ -47,7 +47,9 @@ interface ErrorUiState : UiState {
  * Combination of common states most features need
  * Provides loading and error handling out of the box
  */
-interface CommonUiState : LoadingUiState, ErrorUiState
+interface CommonUiState :
+    LoadingUiState,
+    ErrorUiState
 
 /**
  * Common intents that most features need
@@ -56,8 +58,11 @@ interface CommonUiState : LoadingUiState, ErrorUiState
 interface CommonUiIntent : UiIntent {
     // Most features need these basic intents
     interface Load : CommonUiIntent
+
     interface Refresh : CommonUiIntent
+
     interface Retry : CommonUiIntent
+
     interface Clear : CommonUiIntent
 }
 
@@ -70,20 +75,20 @@ interface CommonUiSideEffect : UiSideEffect {
         val message: String,
         val details: String? = null,
         val actionLabel: String? = null,
-        val onAction: (() -> Unit)? = null
+        val onAction: (() -> Unit)? = null,
     ) : CommonUiSideEffect
 
     data class ShowSuccess(
-        val message: String
+        val message: String,
     ) : CommonUiSideEffect
 
     data class Navigate(
         val route: String,
-        val clearBackStack: Boolean = false
+        val clearBackStack: Boolean = false,
     ) : CommonUiSideEffect
 
     data class NavigateUp(
-        val result: Any? = null
+        val result: Any? = null,
     ) : CommonUiSideEffect
 }
 
@@ -93,12 +98,17 @@ interface CommonUiSideEffect : UiSideEffect {
  */
 sealed class UiResult<out T> {
     data object Idle : UiResult<Nothing>()
+
     data object Loading : UiResult<Nothing>()
-    data class Success<T>(val data: T) : UiResult<T>()
+
+    data class Success<T>(
+        val data: T,
+    ) : UiResult<T>()
+
     data class Error(
         val message: String,
         val details: String? = null,
-        val throwable: Throwable? = null
+        val throwable: Throwable? = null,
     ) : UiResult<Nothing>()
 }
 
@@ -111,4 +121,5 @@ val <T> UiResult<T>.isError: Boolean get() = this is UiResult.Error
 val <T> UiResult<T>.isIdle: Boolean get() = this is UiResult.Idle
 
 fun <T> UiResult<T>.getDataOrNull(): T? = (this as? UiResult.Success)?.data
+
 fun <T> UiResult<T>.getErrorOrNull(): UiResult.Error? = this as? UiResult.Error

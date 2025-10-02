@@ -12,16 +12,17 @@ import org.poc.app.feature.trade.presentation.sell.SellViewModel
  * Trading feature module
  * Contains all dependencies for buying/selling functionality
  */
-val tradeModule = module {
-    // Use Cases
-    singleOf(::BuyCoinUseCase)
-    singleOf(::SellCoinUseCase)
+val tradeModule =
+    module {
+        // Use Cases
+        singleOf(::BuyCoinUseCase)
+        singleOf(::SellCoinUseCase)
 
-    // ViewModels with parameters
-    viewModel { (coinId: String) ->
-        BuyViewModel(get(), get(), get(), coinId, get(), get(), get())
+        // ViewModels with parameters
+        viewModel { (coinId: String) ->
+            BuyViewModel(get(), get(), get(), coinId, get(), get(), get())
+        }
+        viewModel { (coinId: String) ->
+            SellViewModel(get(), get(), get(), coinId, get(), get(), get())
+        }
     }
-    viewModel { (coinId: String) ->
-        SellViewModel(get(), get(), get(), coinId, get(), get(), get())
-    }
-}

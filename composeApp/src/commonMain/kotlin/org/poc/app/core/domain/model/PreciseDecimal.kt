@@ -11,8 +11,9 @@ import kotlin.math.round
  */
 @Serializable
 @JvmInline
-value class PreciseDecimal private constructor(private val stringValue: String) : Comparable<PreciseDecimal> {
-
+value class PreciseDecimal private constructor(
+    private val stringValue: String,
+) : Comparable<PreciseDecimal> {
     companion object {
         val ZERO = PreciseDecimal("0")
         val ONE = PreciseDecimal("1")
@@ -38,21 +39,18 @@ value class PreciseDecimal private constructor(private val stringValue: String) 
         /**
          * Creates PreciseDecimal from double (for compatibility)
          */
-        fun fromDouble(value: Double): PreciseDecimal {
-            return if (value.isFinite()) {
+        fun fromDouble(value: Double): PreciseDecimal =
+            if (value.isFinite()) {
                 PreciseDecimal(value.toString())
             } else {
                 ZERO
             }
-        }
     }
 
     /**
      * Convert to Double for UI display
      */
-    fun toDouble(): Double {
-        return stringValue.toDoubleOrNull() ?: 0.0
-    }
+    fun toDouble(): Double = stringValue.toDoubleOrNull() ?: 0.0
 
     /**
      * Get string representation
@@ -95,12 +93,12 @@ value class PreciseDecimal private constructor(private val stringValue: String) 
     /**
      * Basic comparison (delegates to Double for simplicity)
      */
-    override fun compareTo(other: PreciseDecimal): Int {
-        return toDouble().compareTo(other.toDouble())
-    }
+    override fun compareTo(other: PreciseDecimal): Int = toDouble().compareTo(other.toDouble())
 
     fun isZero(): Boolean = stringValue == "0" || stringValue == "0.0"
+
     fun isPositive(): Boolean = toDouble() > 0.0
+
     fun isNegative(): Boolean = toDouble() < 0.0
 
     /**
@@ -127,9 +125,7 @@ value class PreciseDecimal private constructor(private val stringValue: String) 
         return fromDouble(result)
     }
 
-    operator fun unaryMinus(): PreciseDecimal {
-        return fromDouble(-toDouble())
-    }
+    operator fun unaryMinus(): PreciseDecimal = fromDouble(-toDouble())
 
     override fun toString(): String = stringValue
 }

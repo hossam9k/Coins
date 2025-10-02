@@ -28,7 +28,7 @@ class DefaultDispatcherProvider : DispatcherProvider {
  * Test implementation that uses unconfined dispatchers for immediate execution
  */
 class TestDispatcherProvider(
-    private val testDispatcher: CoroutineDispatcher = Dispatchers.Unconfined
+    private val testDispatcher: CoroutineDispatcher = Dispatchers.Unconfined,
 ) : DispatcherProvider {
     override val main: CoroutineDispatcher = testDispatcher
     override val io: CoroutineDispatcher = testDispatcher

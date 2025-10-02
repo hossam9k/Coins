@@ -9,7 +9,7 @@ data class CoinsState(
     val coins: List<UiCoinListItem> = emptyList(),
     val isLoading: Boolean = false,
     val error: StringResource? = null,
-    val chartState: UiChartState? = null
+    val chartState: UiChartState? = null,
 ) : UiState
 
 @Stable

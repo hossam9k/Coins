@@ -18,13 +18,13 @@ data class PlatformThemeConfig(
     val supportsHighRefreshRate: Boolean,
     val hasNotch: Boolean,
     val preferredNavigationStyle: NavigationStyle,
-    val systemAccentColor: Color?
+    val systemAccentColor: Color?,
 )
 
 enum class NavigationStyle {
-    SYSTEM_BARS,     // Android system bars
-    HOME_INDICATOR,  // iOS home indicator
-    HYBRID          // Both systems
+    SYSTEM_BARS, // Android system bars
+    HOME_INDICATOR, // iOS home indicator
+    HYBRID, // Both systems
 }
 
 /**
@@ -39,7 +39,7 @@ expect fun getPlatformThemeConfig(): PlatformThemeConfig
 @Composable
 expect fun getPlatformColorScheme(
     darkTheme: Boolean,
-    dynamicColor: Boolean
+    dynamicColor: Boolean,
 ): ColorScheme
 
 /**
@@ -68,32 +68,34 @@ object PlatformThemeUtils {
      * Get appropriate status bar color based on platform and theme
      */
     @Composable
-    fun getStatusBarColor(colorScheme: ColorScheme, config: PlatformThemeConfig): Color {
-        return when (config.preferredNavigationStyle) {
+    fun getStatusBarColor(
+        colorScheme: ColorScheme,
+        config: PlatformThemeConfig,
+    ): Color =
+        when (config.preferredNavigationStyle) {
             NavigationStyle.SYSTEM_BARS -> colorScheme.surface
             NavigationStyle.HOME_INDICATOR -> Color.Transparent
             NavigationStyle.HYBRID -> colorScheme.surface
         }
-    }
 
     /**
      * Get navigation bar color
      */
     @Composable
-    fun getNavigationBarColor(colorScheme: ColorScheme, config: PlatformThemeConfig): Color {
-        return when (config.preferredNavigationStyle) {
+    fun getNavigationBarColor(
+        colorScheme: ColorScheme,
+        config: PlatformThemeConfig,
+    ): Color =
+        when (config.preferredNavigationStyle) {
             NavigationStyle.SYSTEM_BARS -> colorScheme.surfaceContainer
             NavigationStyle.HOME_INDICATOR -> Color.Transparent
             NavigationStyle.HYBRID -> colorScheme.surfaceContainer
         }
-    }
 
     /**
      * Check if content should adjust for notch/dynamic island
      */
-    fun shouldAdjustForNotch(config: PlatformThemeConfig): Boolean {
-        return config.hasNotch
-    }
+    fun shouldAdjustForNotch(config: PlatformThemeConfig): Boolean = config.hasNotch
 
     // Platform-specific functions are defined outside the object
 }
@@ -105,6 +107,5 @@ data class SafeAreaInsets(
     val top: androidx.compose.ui.unit.Dp = 0.dp,
     val bottom: androidx.compose.ui.unit.Dp = 0.dp,
     val left: androidx.compose.ui.unit.Dp = 0.dp,
-    val right: androidx.compose.ui.unit.Dp = 0.dp
+    val right: androidx.compose.ui.unit.Dp = 0.dp,
 )
-

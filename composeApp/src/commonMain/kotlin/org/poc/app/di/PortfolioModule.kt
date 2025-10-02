@@ -19,23 +19,24 @@ import org.poc.app.feature.portfolio.presentation.PortfolioViewModel
  * Portfolio feature module
  * Contains all dependencies for portfolio/holdings management
  */
-val portfolioModule = module {
-    // Database
-    single {
-        getPortfolioDatabase(get<RoomDatabase.Builder<PortfolioDatabase>>())
+val portfolioModule =
+    module {
+        // Database
+        single {
+            getPortfolioDatabase(get<RoomDatabase.Builder<PortfolioDatabase>>())
+        }
+        single { get<PortfolioDatabase>().portfolioDao() }
+        single { get<PortfolioDatabase>().userBalanceDao() }
+
+        // Repository
+        singleOf(::PortfolioRepositoryImpl).bind<PortfolioRepository>()
+
+        // Use Cases
+        singleOf(::GetAllPortfolioCoinsUseCase)
+        singleOf(::GetTotalBalanceUseCase)
+        singleOf(::GetCashBalanceUseCase)
+        singleOf(::InitializeBalanceUseCase)
+
+        // ViewModel
+        viewModel { PortfolioViewModel(get(), get(), get(), get(), get(), get(), get()) }
     }
-    single { get<PortfolioDatabase>().portfolioDao() }
-    single { get<PortfolioDatabase>().userBalanceDao() }
-
-    // Repository
-    singleOf(::PortfolioRepositoryImpl).bind<PortfolioRepository>()
-
-    // Use Cases
-    singleOf(::GetAllPortfolioCoinsUseCase)
-    singleOf(::GetTotalBalanceUseCase)
-    singleOf(::GetCashBalanceUseCase)
-    singleOf(::InitializeBalanceUseCase)
-
-    // ViewModel
-    viewModel { PortfolioViewModel(get(), get(), get(), get(), get(), get(), get()) }
-}
