@@ -13,12 +13,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.material3.MaterialTheme
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.poc.app.ui.DesignSystem
@@ -46,7 +46,7 @@ data class BalanceCardData(
     val secondaryLabel: StringResource? = null,
     val secondaryValue: String? = null,
     val actionButtonText: StringResource? = null,
-    val showActionButton: Boolean = false
+    val showActionButton: Boolean = false,
 )
 
 /**
@@ -57,7 +57,7 @@ data class BalanceCardStyling(
     val contentColor: Color = Color.Unspecified,
     val buttonBackgroundColor: Color = Color.Unspecified,
     val buttonContentColor: Color = Color.Unspecified,
-    val heightFraction: Float = 0.3f
+    val heightFraction: Float = 0.3f,
 )
 
 /**
@@ -68,18 +68,26 @@ fun BalanceCard(
     data: BalanceCardData,
     onActionButtonClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
-    styling: BalanceCardStyling = BalanceCardStyling()
+    styling: BalanceCardStyling = BalanceCardStyling(),
 ) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier
-            .fillMaxHeight(styling.heightFraction)
-            .fillMaxWidth()
-            .background(if (styling.backgroundColor != Color.Unspecified) styling.backgroundColor else MaterialTheme.colorScheme.primaryContainer)
-            .padding(DesignSystem.Spacing.Large)
+        modifier =
+            modifier
+                .fillMaxHeight(styling.heightFraction)
+                .fillMaxWidth()
+                .background(
+                    if (styling.backgroundColor !=
+                        Color.Unspecified
+                    ) {
+                        styling.backgroundColor
+                    } else {
+                        MaterialTheme.colorScheme.primaryContainer
+                    },
+                ).padding(DesignSystem.Spacing.Large),
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.weight(1f))
 
@@ -121,14 +129,29 @@ fun BalanceCard(
                 Spacer(modifier = Modifier.weight(1f))
                 Button(
                     onClick = onActionButtonClick,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (styling.buttonBackgroundColor != Color.Unspecified) styling.buttonBackgroundColor else MaterialTheme.colorScheme.primary
-                    ),
+                    colors =
+                        ButtonDefaults.buttonColors(
+                            containerColor =
+                                if (styling.buttonBackgroundColor !=
+                                    Color.Unspecified
+                                ) {
+                                    styling.buttonBackgroundColor
+                                } else {
+                                    MaterialTheme.colorScheme.primary
+                                },
+                        ),
                     contentPadding = PaddingValues(horizontal = DesignSystem.Spacing.XXLarge),
                 ) {
                     Text(
                         text = stringResource(data.actionButtonText),
-                        color = if (styling.buttonContentColor != Color.Unspecified) styling.buttonContentColor else MaterialTheme.colorScheme.onPrimary,
+                        color =
+                            if (styling.buttonContentColor !=
+                                Color.Unspecified
+                            ) {
+                                styling.buttonContentColor
+                            } else {
+                                MaterialTheme.colorScheme.onPrimary
+                            },
                         style = MaterialTheme.typography.bodyLarge,
                     )
                 }

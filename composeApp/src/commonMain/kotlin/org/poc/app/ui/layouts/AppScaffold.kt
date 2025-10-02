@@ -11,32 +11,34 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import org.poc.app.ui.components.bars.NavigationAwareToolbar
 import org.poc.app.ui.DesignSystem
+import org.poc.app.ui.components.bars.NavigationAwareToolbar
 
 @Composable
 fun AppScaffold(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background) // Add theme background
-            .statusBarsPadding() // Handle system bars
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background) // Add theme background
+                .statusBarsPadding(), // Handle system bars
     ) {
         // Transparent Toolbar
         NavigationAwareToolbar(
             navController = navController,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
 
         // Content Area
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = DesignSystem.Spacing.Small) // Small spacing between toolbar and content
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(top = DesignSystem.Spacing.Small), // Small spacing between toolbar and content
         ) {
             content()
         }

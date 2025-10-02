@@ -6,19 +6,19 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class CoinsResponseDto(
     val status: String? = null,
-    val data: CoinsDataDto
+    val data: CoinsDataDto,
 )
 
 @Serializable
 data class CoinsDataDto(
     val stats: StatsDto? = null,
-    val coins: List<CoinItemDto>
+    val coins: List<CoinItemDto>,
 )
 
 @Serializable
 data class StatsDto(
     val total: Int? = null,
-    val totalCoins: Int? = null
+    val totalCoins: Int? = null,
 )
 
 @Serializable

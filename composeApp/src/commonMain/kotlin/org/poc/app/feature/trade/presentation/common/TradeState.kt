@@ -7,5 +7,5 @@ data class TradeState(
     val error: StringResource? = null,
     val availableAmount: String = "",
     val amount: String = "",
-    val coin: UiTradeCoinItem? = null
+    val coin: UiTradeCoinItem? = null,
 )

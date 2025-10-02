@@ -43,47 +43,50 @@ fun TradeScreen(
 ) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .fillMaxSize()
-            .imePadding()
-            .background(MaterialTheme.colorScheme.background)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .imePadding()
+                .background(MaterialTheme.colorScheme.background),
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(DesignSystem.Spacing.Medium)
+            modifier = Modifier.padding(DesignSystem.Spacing.Medium),
         ) {
             // Coin info badge
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colorScheme.outline,
-                        shape = DesignSystem.Shapes.Large
-                    )
-                    .padding(
-                        horizontal = DesignSystem.Spacing.Medium,
-                        vertical = DesignSystem.Spacing.Small
-                    )
+                modifier =
+                    Modifier
+                        .border(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.outline,
+                            shape = DesignSystem.Shapes.Large,
+                        ).padding(
+                            horizontal = DesignSystem.Spacing.Medium,
+                            vertical = DesignSystem.Spacing.Small,
+                        ),
             ) {
                 AsyncImage(
                     model = state.coin?.iconUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .padding(DesignSystem.Spacing.XSmall)
-                        .clip(CircleShape)
-                        .size(DesignSystem.Sizes.IconMedium)
+                    modifier =
+                        Modifier
+                            .padding(DesignSystem.Spacing.XSmall)
+                            .clip(CircleShape)
+                            .size(DesignSystem.Sizes.IconMedium),
                 )
                 Spacer(modifier = Modifier.width(DesignSystem.Spacing.Medium))
                 Text(
                     text = state.coin?.name ?: "",
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier
-                        .padding(DesignSystem.Spacing.XSmall)
-                        .testTag("trade_screen_coin_name")
+                    modifier =
+                        Modifier
+                            .padding(DesignSystem.Spacing.XSmall)
+                            .testTag("trade_screen_coin_name"),
                 )
             }
 
@@ -91,10 +94,11 @@ fun TradeScreen(
 
             // Trade type label
             Text(
-                text = when (tradeType) {
-                    TradeType.BUY -> "Buy Amount"
-                    TradeType.SELL -> "Sell Amount"
-                },
+                text =
+                    when (tradeType) {
+                        TradeType.BUY -> "Buy Amount"
+                        TradeType.SELL -> "Sell Amount"
+                    },
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground,
             )
@@ -102,7 +106,7 @@ fun TradeScreen(
             // Amount input field
             CenteredDollarTextField(
                 amountText = state.amount,
-                onAmountChange = onAmountChange
+                onAmountChange = onAmountChange,
             )
 
             // Available amount display
@@ -110,7 +114,7 @@ fun TradeScreen(
                 text = state.availableAmount,
                 style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(DesignSystem.Spacing.Small)
+                modifier = Modifier.padding(DesignSystem.Spacing.Small),
             )
 
             // Error message
@@ -119,9 +123,10 @@ fun TradeScreen(
                     text = stringResource(state.error),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier
-                        .padding(DesignSystem.Spacing.Small)
-                        .testTag("trade_error")
+                    modifier =
+                        Modifier
+                            .padding(DesignSystem.Spacing.Small)
+                            .testTag("trade_error"),
                 )
             }
         }
@@ -130,40 +135,45 @@ fun TradeScreen(
         Button(
             onClick = onSubmitClicked,
             enabled = !state.isLoading,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = when (tradeType) {
-                    TradeType.BUY -> SuccessGreen
-                    TradeType.SELL -> DangerRed
-                }
-            ),
+            colors =
+                ButtonDefaults.buttonColors(
+                    containerColor =
+                        when (tradeType) {
+                            TradeType.BUY -> SuccessGreen
+                            TradeType.SELL -> DangerRed
+                        },
+                ),
             contentPadding = PaddingValues(horizontal = DesignSystem.Spacing.XXLarge),
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = DesignSystem.Spacing.Large)
+            modifier =
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = DesignSystem.Spacing.Large),
         ) {
             Text(
-                text = when (tradeType) {
-                    TradeType.BUY -> "Buy Now"
-                    TradeType.SELL -> "Sell Now"
-                },
+                text =
+                    when (tradeType) {
+                        TradeType.BUY -> "Buy Now"
+                        TradeType.SELL -> "Sell Now"
+                    },
                 style = MaterialTheme.typography.bodyLarge,
-                color = when (tradeType) {
-                    TradeType.BUY -> MaterialTheme.colorScheme.onPrimary
-                    TradeType.SELL -> MaterialTheme.colorScheme.onError
-                }
+                color =
+                    when (tradeType) {
+                        TradeType.BUY -> MaterialTheme.colorScheme.onPrimary
+                        TradeType.SELL -> MaterialTheme.colorScheme.onError
+                    },
             )
         }
 
         // Simple loading overlay - doesn't hide content
         if (state.isLoading) {
             CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center),
             )
         }
     }
 }
 
-
-enum class TradeType{
-    BUY, SELL
+enum class TradeType {
+    BUY,
+    SELL,
 }

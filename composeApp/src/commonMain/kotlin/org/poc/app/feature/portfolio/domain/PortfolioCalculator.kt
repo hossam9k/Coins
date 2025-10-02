@@ -3,28 +3,30 @@ package org.poc.app.feature.portfolio.domain
 import org.poc.app.core.domain.model.PreciseDecimal
 
 object PortfolioCalculator {
-
     private val PERCENTAGE_MULTIPLIER = PreciseDecimal.fromString("100")
     private val EPSILON = PreciseDecimal.fromString("0.0001") // For precision comparisons
 
-    fun calculatePerformance(currentPrice: PreciseDecimal, avgPurchasePrice: PreciseDecimal): PreciseDecimal {
+    fun calculatePerformance(
+        currentPrice: PreciseDecimal,
+        avgPurchasePrice: PreciseDecimal,
+    ): PreciseDecimal {
         if (avgPurchasePrice <= EPSILON) return PreciseDecimal.ZERO
         return ((currentPrice - avgPurchasePrice) / avgPurchasePrice) * PERCENTAGE_MULTIPLIER
     }
 
-    fun calculateTotalValue(amount: PreciseDecimal, price: PreciseDecimal): PreciseDecimal {
-        return amount * price
-    }
+    fun calculateTotalValue(
+        amount: PreciseDecimal,
+        price: PreciseDecimal,
+    ): PreciseDecimal = amount * price
 
-    fun isValidAmount(amount: PreciseDecimal): Boolean {
-        return amount.isPositive()
-    }
+    fun isValidAmount(amount: PreciseDecimal): Boolean = amount.isPositive()
 
-    fun isValidPrice(price: PreciseDecimal): Boolean {
-        return !price.isNegative()
-    }
+    fun isValidPrice(price: PreciseDecimal): Boolean = !price.isNegative()
 
-    fun isSignificantChange(oldValue: PreciseDecimal, newValue: PreciseDecimal): Boolean {
+    fun isSignificantChange(
+        oldValue: PreciseDecimal,
+        newValue: PreciseDecimal,
+    ): Boolean {
         val absOld = if (oldValue.isNegative()) PreciseDecimal.ZERO - oldValue else oldValue
         val absNew = if (newValue.isNegative()) PreciseDecimal.ZERO - newValue else newValue
 

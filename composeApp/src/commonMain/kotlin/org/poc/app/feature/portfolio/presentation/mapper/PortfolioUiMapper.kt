@@ -1,10 +1,10 @@
 package org.poc.app.feature.portfolio.presentation.mapper
 
-import org.poc.app.feature.portfolio.domain.PortfolioCoinModel
-import org.poc.app.feature.portfolio.presentation.UiPortfolioCoinItem
+import org.poc.app.core.domain.util.formatChangeDisplay
 import org.poc.app.core.domain.util.formatCryptoPrecise
 import org.poc.app.core.domain.util.formatPriceDisplay
-import org.poc.app.core.domain.util.formatChangeDisplay
+import org.poc.app.feature.portfolio.domain.PortfolioCoinModel
+import org.poc.app.feature.portfolio.presentation.UiPortfolioCoinItem
 
 /**
  * Portfolio UI Mapper
@@ -12,19 +12,17 @@ import org.poc.app.core.domain.util.formatChangeDisplay
  * Follows clean architecture principles - no business logic, only transformation
  */
 object PortfolioUiMapper {
-
     /**
      * Maps domain PortfolioCoinModel to UI representation
      */
-    fun PortfolioCoinModel.toUiPortfolioCoinItem(): UiPortfolioCoinItem {
-        return UiPortfolioCoinItem(
+    fun PortfolioCoinModel.toUiPortfolioCoinItem(): UiPortfolioCoinItem =
+        UiPortfolioCoinItem(
             id = coin.id,
             name = coin.name,
             iconUrl = coin.iconUrl,
             amountInUnitText = formatCryptoPrecise(ownedAmountInUnit, coin.symbol),
             amountInFiatText = formatPriceDisplay(ownedAmountInFiat),
             performancePercentText = formatChangeDisplay(performancePercent),
-            isPositive = !performancePercent.isNegative()
+            isPositive = !performancePercent.isNegative(),
         )
-    }
 }

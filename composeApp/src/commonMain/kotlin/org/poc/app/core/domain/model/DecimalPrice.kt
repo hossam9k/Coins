@@ -16,8 +16,9 @@ import kotlin.jvm.JvmInline
  */
 @Serializable(with = DecimalPriceSerializer::class)
 @JvmInline
-value class DecimalPrice private constructor(private val value: BigDecimal) : Comparable<DecimalPrice> {
-
+value class DecimalPrice private constructor(
+    private val value: BigDecimal,
+) : Comparable<DecimalPrice> {
     companion object {
         val ZERO = DecimalPrice(BigDecimal.ZERO)
         val ONE = DecimalPrice(BigDecimal.ONE)
@@ -46,13 +47,13 @@ value class DecimalPrice private constructor(private val value: BigDecimal) : Co
     // Conversion methods
     fun toDouble(): Double = value.doubleValue(exactRequired = false)
 
-    fun toDisplayString(scale: Int = 8): String {
-        return value.scale(scale.toLong()).toStringExpanded()
-    }
+    fun toDisplayString(scale: Int = 8): String = value.scale(scale.toLong()).toStringExpanded()
 
     // Arithmetic operations
     operator fun plus(other: DecimalPrice) = DecimalPrice(value.add(other.value))
+
     operator fun minus(other: DecimalPrice) = DecimalPrice(value.subtract(other.value))
+
     operator fun times(other: DecimalPrice) = DecimalPrice(value.multiply(other.value))
 
     operator fun div(other: DecimalPrice): DecimalPrice {
@@ -64,7 +65,9 @@ value class DecimalPrice private constructor(private val value: BigDecimal) : Co
     override fun compareTo(other: DecimalPrice): Int = value.compare(other.value)
 
     fun isZero(): Boolean = value.isZero()
+
     fun isPositive(): Boolean = this > ZERO
+
     fun isNegative(): Boolean = this < ZERO
 
     override fun toString(): String = toDisplayString()
@@ -76,11 +79,12 @@ value class DecimalPrice private constructor(private val value: BigDecimal) : Co
 object DecimalPriceSerializer : KSerializer<DecimalPrice> {
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("DecimalPrice", PrimitiveKind.STRING)
 
-    override fun serialize(encoder: Encoder, value: DecimalPrice) {
+    override fun serialize(
+        encoder: Encoder,
+        value: DecimalPrice,
+    ) {
         encoder.encodeString(value.toDisplayString(18))
     }
 
-    override fun deserialize(decoder: Decoder): DecimalPrice {
-        return DecimalPrice.fromString(decoder.decodeString())
-    }
+    override fun deserialize(decoder: Decoder): DecimalPrice = DecimalPrice.fromString(decoder.decodeString())
 }

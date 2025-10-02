@@ -1,11 +1,16 @@
 package org.poc.app.core.data.network
 
-import io.ktor.client.*
-import io.ktor.client.plugins.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.plugins.logging.*
-import io.ktor.client.request.*
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpRequestRetry
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.header
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 /**
@@ -13,11 +18,12 @@ import kotlinx.serialization.json.Json
  * Creates and configures HTTP clients for different services
  */
 class NetworkFactory(
-    private val json: Json = Json {
-        ignoreUnknownKeys = true
-        isLenient = true
-        prettyPrint = true
-    }
+    private val json: Json =
+        Json {
+            ignoreUnknownKeys = true
+            isLenient = true
+            prettyPrint = true
+        },
 ) {
     private val clientCache = mutableMapOf<String, HttpClient>()
 
@@ -26,21 +32,20 @@ class NetworkFactory(
      */
     fun getClient(
         baseUrl: String = ApiConfig.baseUrl,
-        enableLogging: Boolean = true
-    ): HttpClient {
-        return clientCache.getOrPut(baseUrl) {
+        enableLogging: Boolean = true,
+    ): HttpClient =
+        clientCache.getOrPut(baseUrl) {
             createClient(baseUrl, enableLogging)
         }
-    }
 
     /**
      * Create a new HTTP client with configuration
      */
     private fun createClient(
         baseUrl: String,
-        enableLogging: Boolean
-    ): HttpClient {
-        return HttpClient {
+        enableLogging: Boolean,
+    ): HttpClient =
+        HttpClient {
             // Base configuration
             defaultRequest {
                 // This is the CORRECT way to set base URL in Ktor
@@ -83,7 +88,6 @@ class NetworkFactory(
                 exponentialDelay()
             }
         }
-    }
 
     /**
      * Clean up clients

@@ -97,11 +97,10 @@ object DesignSystem {
      */
     object Animations {
         // You can add animation constants here
-        const val FastDuration = 150
-        const val MediumDuration = 300
-        const val SlowDuration = 500
+        const val FAST_DURATION = 150
+        const val MEDIUM_DURATION = 300
+        const val SLOW_DURATION = 500
 
         // Add easing curves, spring configs, etc.
     }
 }
-

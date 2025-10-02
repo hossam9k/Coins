@@ -6,36 +6,49 @@ import android.util.Log
  * Android-specific logger implementation using Android Log
  */
 class AndroidLogger(
-    private val config: AppConfig
+    private val config: AppConfig,
 ) : Logger {
-
-    override fun debug(tag: String, message: String, throwable: Throwable?) {
+    override fun debug(
+        tag: String,
+        message: String,
+        throwable: Throwable?,
+    ) {
         if (shouldLog(LogLevel.DEBUG)) {
             Log.d(tag, message, throwable)
         }
     }
 
-    override fun info(tag: String, message: String, throwable: Throwable?) {
+    override fun info(
+        tag: String,
+        message: String,
+        throwable: Throwable?,
+    ) {
         if (shouldLog(LogLevel.INFO)) {
             Log.i(tag, message, throwable)
         }
     }
 
-    override fun warn(tag: String, message: String, throwable: Throwable?) {
+    override fun warn(
+        tag: String,
+        message: String,
+        throwable: Throwable?,
+    ) {
         if (shouldLog(LogLevel.WARN)) {
             Log.w(tag, message, throwable)
         }
     }
 
-    override fun error(tag: String, message: String, throwable: Throwable?) {
+    override fun error(
+        tag: String,
+        message: String,
+        throwable: Throwable?,
+    ) {
         if (shouldLog(LogLevel.ERROR)) {
             Log.e(tag, message, throwable)
         }
     }
 
-    private fun shouldLog(level: LogLevel): Boolean {
-        return level.ordinal >= config.logLevel.ordinal
-    }
+    private fun shouldLog(level: LogLevel): Boolean = level.ordinal >= config.logLevel.ordinal
 }
 
 /**
@@ -43,10 +56,12 @@ class AndroidLogger(
  * Note: Add Firebase dependencies to build.gradle to enable Crashlytics
  */
 class AndroidAnalyticsLogger(
-    private val config: AppConfig
+    private val config: AppConfig,
 ) : AnalyticsLogger {
-
-    override fun logEvent(eventName: String, parameters: Map<String, Any>) {
+    override fun logEvent(
+        eventName: String,
+        parameters: Map<String, Any>,
+    ) {
         if (!config.enableAnalytics) return
 
         try {
@@ -60,7 +75,10 @@ class AndroidAnalyticsLogger(
         }
     }
 
-    override fun logError(error: Throwable, additionalData: Map<String, Any>) {
+    override fun logError(
+        error: Throwable,
+        additionalData: Map<String, Any>,
+    ) {
         if (!config.enableCrashReporting) return
 
         try {
@@ -95,7 +113,10 @@ class AndroidAnalyticsLogger(
         }
     }
 
-    override fun setUserProperty(key: String, value: String) {
+    override fun setUserProperty(
+        key: String,
+        value: String,
+    ) {
         if (!config.enableAnalytics) return
 
         try {

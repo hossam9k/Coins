@@ -14,12 +14,10 @@ fun initKoin(config: KoinAppDeclaration? = null) =
         modules(
             // Core infrastructure (shared across features)
             coreModule,
-
             // Feature modules (domain-specific)
             portfolioModule,
             coinsModule,
             tradeModule,
-
             // Platform-specific dependencies
             platformModule,
         )

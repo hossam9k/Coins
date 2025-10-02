@@ -7,9 +7,7 @@ import kotlinx.coroutines.flow.Flow
  * Provides reactive access to user's cash balance
  */
 class GetCashBalanceUseCase(
-    private val portfolioRepository: PortfolioRepository
+    private val portfolioRepository: PortfolioRepository,
 ) {
-    operator fun invoke(): Flow<Double> {
-        return portfolioRepository.cashBalanceFlow()
-    }
+    operator fun invoke(): Flow<Double> = portfolioRepository.cashBalanceFlow()
 }

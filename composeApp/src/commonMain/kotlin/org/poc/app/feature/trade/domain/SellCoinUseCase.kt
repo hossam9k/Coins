@@ -10,7 +10,6 @@ import org.poc.app.feature.portfolio.domain.PortfolioRepository
 class SellCoinUseCase(
     private val portfolioRepository: PortfolioRepository,
 ) {
-
     suspend fun sellCoin(
         coin: Coin,
         amountInFiat: PreciseDecimal,
@@ -44,7 +43,7 @@ class SellCoinUseCase(
                         existingCoin.copy(
                             ownedAmountInUnit = remainingAmountUnit,
                             ownedAmountInFiat = remainingAmountFiat,
-                        )
+                        ),
                     )
                 }
 

@@ -36,7 +36,7 @@ fun PerformanceChart(
     val lineColor = if (nodes.last() > nodes.first()) profitColor else lossColor
 
     Canvas(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         val path = Path()
         nodes.forEachIndexed { index, value ->
@@ -52,7 +52,7 @@ fun PerformanceChart(
         drawPath(
             path = path,
             color = lineColor,
-            style = Stroke(width = 3.dp.toPx())
+            style = Stroke(width = 3.dp.toPx()),
         )
     }
 }

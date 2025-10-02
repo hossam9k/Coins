@@ -4,7 +4,10 @@ import platform.Foundation.NSNumber
 import platform.Foundation.NSNumberFormatter
 import platform.Foundation.NSNumberFormatterDecimalStyle
 
-actual fun formatFiat(amount: Double, showDecimal: Boolean): String {
+actual fun formatFiat(
+    amount: Double,
+    showDecimal: Boolean,
+): String {
     val numberFormatter = NSNumberFormatter()
     numberFormatter.numberStyle = NSNumberFormatterDecimalStyle
 
@@ -29,7 +32,10 @@ actual fun formatFiat(amount: Double, showDecimal: Boolean): String {
     return if (formatterAmount != null) "$ $formatterAmount" else ""
 }
 
-actual fun formatCoinUnit(amount: Double, symbol: String): String {
+actual fun formatCoinUnit(
+    amount: Double,
+    symbol: String,
+): String {
     val numberFormatter = NSNumberFormatter()
     numberFormatter.numberStyle = NSNumberFormatterDecimalStyle
     numberFormatter.minimumFractionDigits = 8.toULong()

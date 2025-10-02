@@ -14,12 +14,13 @@ plugins {
 }
 
 // Load local.properties for secure API key storage
-val localProperties = Properties().apply {
-    val localPropertiesFile = rootProject.file("local.properties")
-    if (localPropertiesFile.exists()) {
-        localPropertiesFile.inputStream().use { load(it) }
+val localProperties =
+    Properties().apply {
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localPropertiesFile.inputStream().use { load(it) }
+        }
     }
-}
 
 kotlin {
     // Apply expect/actual classes flag globally to all targets
@@ -38,15 +39,16 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
             // Add explicit bundle ID to avoid compiler warnings
-            freeCompilerArgs += listOf(
-                "-Xbinary=bundleId=org.poc.app.ComposeApp"
-            )
+            freeCompilerArgs +=
+                listOf(
+                    "-Xbinary=bundleId=org.poc.app.ComposeApp",
+                )
         }
     }
 
@@ -106,10 +108,12 @@ kotlin {
     }
 }
 
-
 android {
     namespace = "org.poc.app"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk =
+        libs.versions.android.compileSdk
+            .get()
+            .toInt()
 
     buildFeatures {
         buildConfig = true
@@ -117,8 +121,14 @@ android {
 
     defaultConfig {
         applicationId = "org.poc.app"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        minSdk =
+            libs.versions.android.minSdk
+                .get()
+                .toInt()
+        targetSdk =
+            libs.versions.android.targetSdk
+                .get()
+                .toInt()
         versionCode = 1
         versionName = "1.0"
     }
@@ -135,12 +145,14 @@ android {
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
 
-            val devApiKey = localProperties.getProperty("DEV_COINCAP_API_KEY")
-                ?: System.getenv("DEV_COINCAP_API_KEY")
-                ?: ""
-            val devApiUrl = localProperties.getProperty("DEV_API_BASE_URL")
-                ?: System.getenv("DEV_API_BASE_URL")
-                ?: "https://api.coincap.io/v2"
+            val devApiKey =
+                localProperties.getProperty("DEV_COINCAP_API_KEY")
+                    ?: System.getenv("DEV_COINCAP_API_KEY")
+                    ?: ""
+            val devApiUrl =
+                localProperties.getProperty("DEV_API_BASE_URL")
+                    ?: System.getenv("DEV_API_BASE_URL")
+                    ?: "https://api.coincap.io/v2"
 
             buildConfigField("String", "ENVIRONMENT", "\"development\"")
             buildConfigField("String", "COINCAP_API_KEY", "\"$devApiKey\"")
@@ -155,12 +167,14 @@ android {
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
 
-            val stagingApiKey = localProperties.getProperty("STAGING_COINCAP_API_KEY")
-                ?: System.getenv("STAGING_COINCAP_API_KEY")
-                ?: ""
-            val stagingApiUrl = localProperties.getProperty("STAGING_API_BASE_URL")
-                ?: System.getenv("STAGING_API_BASE_URL")
-                ?: "https://api.coincap.io/v2"
+            val stagingApiKey =
+                localProperties.getProperty("STAGING_COINCAP_API_KEY")
+                    ?: System.getenv("STAGING_COINCAP_API_KEY")
+                    ?: ""
+            val stagingApiUrl =
+                localProperties.getProperty("STAGING_API_BASE_URL")
+                    ?: System.getenv("STAGING_API_BASE_URL")
+                    ?: "https://api.coincap.io/v2"
 
             buildConfigField("String", "ENVIRONMENT", "\"staging\"")
             buildConfigField("String", "COINCAP_API_KEY", "\"$stagingApiKey\"")
@@ -173,12 +187,14 @@ android {
         create("prod") {
             dimension = "environment"
 
-            val prodApiKey = localProperties.getProperty("PROD_COINCAP_API_KEY")
-                ?: System.getenv("PROD_COINCAP_API_KEY")
-                ?: ""
-            val prodApiUrl = localProperties.getProperty("PROD_API_BASE_URL")
-                ?: System.getenv("PROD_API_BASE_URL")
-                ?: "https://api.coincap.io/v2"
+            val prodApiKey =
+                localProperties.getProperty("PROD_COINCAP_API_KEY")
+                    ?: System.getenv("PROD_COINCAP_API_KEY")
+                    ?: ""
+            val prodApiUrl =
+                localProperties.getProperty("PROD_API_BASE_URL")
+                    ?: System.getenv("PROD_API_BASE_URL")
+                    ?: "https://api.coincap.io/v2"
 
             buildConfigField("String", "ENVIRONMENT", "\"production\"")
             buildConfigField("String", "COINCAP_API_KEY", "\"$prodApiKey\"")
@@ -194,7 +210,7 @@ android {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
         getByName("debug") {
@@ -228,6 +244,14 @@ tasks.withType<com.google.devtools.ksp.gradle.KspAATask>().configureEach {
         tasks.matching { it.name.startsWith("generateActualResourceCollectorsForAndroid") },
         tasks.matching { it.name == "generateComposeResClass" },
         tasks.matching { it.name == "generateResourceAccessorsForCommonMain" },
-        tasks.matching { it.name == "generateExpectResourceCollectorsForCommonMain" }
+        tasks.matching { it.name == "generateExpectResourceCollectorsForCommonMain" },
     )
+}
+
+// Configure ktlint to exclude generated sources
+configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+    filter {
+        exclude { element -> element.file.path.contains("generated") }
+        exclude { element -> element.file.path.contains("/build/") }
+    }
 }

@@ -1,6 +1,5 @@
 package org.poc.app.feature.trade.presentation.buy
 
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -20,11 +19,12 @@ fun BuyScreen(
     navigateToPortfolio: () -> Unit,
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
-    val viewModel = koinViewModel<BuyViewModel>(
-        parameters = {
-            parametersOf(coinId)
-        }
-    )
+    val viewModel =
+        koinViewModel<BuyViewModel>(
+            parameters = {
+                parametersOf(coinId)
+            },
+        )
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     // Handle side effects
@@ -52,7 +52,7 @@ fun BuyScreen(
         state = state,
         onAmountChange = { amount -> viewModel.handleIntent(BuyIntent.UpdateAmount(amount)) },
         onSubmitClicked = { viewModel.handleIntent(BuyIntent.SubmitPurchase) },
-        onRetryClicked = { viewModel.handleIntent(BuyIntent.RetryLoading) }
+        onRetryClicked = { viewModel.handleIntent(BuyIntent.RetryLoading) },
     )
 }
 
@@ -64,15 +64,16 @@ private fun BuyScreenContent(
     onRetryClicked: () -> Unit,
 ) {
     TradeScreen(
-        state = TradeState(
-            isLoading = state.isLoading || state.isSubmitting,
-            error = null, // Handle errors via side effects instead
-            availableAmount = state.availableAmount,
-            amount = state.amount,
-            coin = state.coin
-        ),
+        state =
+            TradeState(
+                isLoading = state.isLoading || state.isSubmitting,
+                error = null, // Handle errors via side effects instead
+                availableAmount = state.availableAmount,
+                amount = state.amount,
+                coin = state.coin,
+            ),
         tradeType = TradeType.BUY,
         onAmountChange = onAmountChange,
-        onSubmitClicked = onSubmitClicked
+        onSubmitClicked = onSubmitClicked,
     )
 }

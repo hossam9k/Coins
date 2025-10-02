@@ -9,9 +9,7 @@ import org.poc.app.core.domain.model.Result
  * Follows Clean Architecture - Domain layer depends only on abstractions
  */
 class GetAllPortfolioCoinsUseCase(
-    private val portfolioRepository: PortfolioRepository
+    private val portfolioRepository: PortfolioRepository,
 ) {
-    operator fun invoke(): Flow<Result<List<PortfolioCoinModel>, DataError.Remote>> {
-        return portfolioRepository.allPortfolioCoinsFlow()
-    }
+    operator fun invoke(): Flow<Result<List<PortfolioCoinModel>, DataError.Remote>> = portfolioRepository.allPortfolioCoinsFlow()
 }

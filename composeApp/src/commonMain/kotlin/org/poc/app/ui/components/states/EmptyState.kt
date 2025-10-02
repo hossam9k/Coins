@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.material3.MaterialTheme
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.poc.app.ui.DesignSystem
@@ -45,7 +45,7 @@ import org.poc.app.ui.DesignSystem
 data class EmptyStateData(
     val icon: ImageVector? = null,
     val message: StringResource,
-    val actionButtonText: StringResource? = null
+    val actionButtonText: StringResource? = null,
 )
 
 /**
@@ -55,7 +55,7 @@ data class EmptyStateStyling(
     val textColor: Color = Color.Unspecified,
     val iconColor: Color = Color.Unspecified,
     val buttonBackgroundColor: Color = Color.Unspecified,
-    val buttonContentColor: Color = Color.Unspecified
+    val buttonContentColor: Color = Color.Unspecified,
 )
 
 /**
@@ -66,15 +66,16 @@ fun EmptyState(
     data: EmptyStateData,
     onActionClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
-    styling: EmptyStateStyling = EmptyStateStyling()
+    styling: EmptyStateStyling = EmptyStateStyling(),
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = modifier
-            .fillMaxHeight()
-            .fillMaxWidth()
-            .padding(DesignSystem.Spacing.Large)
+        modifier =
+            modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+                .padding(DesignSystem.Spacing.Large),
     ) {
         // Optional icon
         if (data.icon != null) {
@@ -82,7 +83,7 @@ fun EmptyState(
                 imageVector = data.icon,
                 contentDescription = null,
                 tint = if (styling.iconColor != Color.Unspecified) styling.iconColor else MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(DesignSystem.Sizes.IconLarge)
+                modifier = Modifier.size(DesignSystem.Sizes.IconLarge),
             )
             Spacer(modifier = Modifier.height(DesignSystem.Spacing.Medium))
         }
@@ -92,7 +93,7 @@ fun EmptyState(
             text = stringResource(data.message),
             color = if (styling.textColor != Color.Unspecified) styling.textColor else MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.titleSmall,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         // Optional action button
@@ -100,15 +101,30 @@ fun EmptyState(
             Spacer(modifier = Modifier.height(DesignSystem.Spacing.Medium))
             Button(
                 onClick = onActionClick,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (styling.buttonBackgroundColor != Color.Unspecified) styling.buttonBackgroundColor else MaterialTheme.colorScheme.primary
-                ),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor =
+                            if (styling.buttonBackgroundColor !=
+                                Color.Unspecified
+                            ) {
+                                styling.buttonBackgroundColor
+                            } else {
+                                MaterialTheme.colorScheme.primary
+                            },
+                    ),
                 contentPadding = PaddingValues(horizontal = DesignSystem.Spacing.XXLarge),
             ) {
                 Text(
                     text = stringResource(data.actionButtonText),
                     style = MaterialTheme.typography.bodyLarge,
-                    color = if (styling.buttonContentColor != Color.Unspecified) styling.buttonContentColor else MaterialTheme.colorScheme.onPrimary
+                    color =
+                        if (styling.buttonContentColor !=
+                            Color.Unspecified
+                        ) {
+                            styling.buttonContentColor
+                        } else {
+                            MaterialTheme.colorScheme.onPrimary
+                        },
                 )
             }
         }

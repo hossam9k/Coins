@@ -11,7 +11,7 @@ import org.poc.app.navigation.NavigationRoute
 @Composable
 fun NavigationAwareToolbar(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -20,13 +20,14 @@ fun NavigationAwareToolbar(
     val isStartDestination = currentDestination?.hasRoute<NavigationRoute.Portfolio>() == true
 
     // Get the title based on current destination
-    val title = when {
-        currentDestination?.hasRoute<NavigationRoute.Portfolio>() == true -> "Portfolio"
-        currentDestination?.hasRoute<NavigationRoute.Coins>() == true -> "Discover Coins"
-        currentDestination?.hasRoute<NavigationRoute.Buy>() == true -> "Buy Coin"
-        currentDestination?.hasRoute<NavigationRoute.Sell>() == true -> "Sell Coin"
-        else -> ""
-    }
+    val title =
+        when {
+            currentDestination?.hasRoute<NavigationRoute.Portfolio>() == true -> "Portfolio"
+            currentDestination?.hasRoute<NavigationRoute.Coins>() == true -> "Discover Coins"
+            currentDestination?.hasRoute<NavigationRoute.Buy>() == true -> "Buy Coin"
+            currentDestination?.hasRoute<NavigationRoute.Sell>() == true -> "Sell Coin"
+            else -> ""
+        }
 
     TransparentToolbar(
         title = title,
@@ -36,13 +37,11 @@ fun NavigationAwareToolbar(
                 navController.navigateUp()
             }
         },
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
 /**
  * Extension function to check if NavController can go back
  */
-fun NavHostController.canGoBack(): Boolean {
-    return previousBackStackEntry != null
-}
+fun NavHostController.canGoBack(): Boolean = previousBackStackEntry != null

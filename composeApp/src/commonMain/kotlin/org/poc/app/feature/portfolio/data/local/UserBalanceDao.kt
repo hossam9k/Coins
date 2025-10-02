@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserBalanceDao {
-
     @Query("SELECT cashBalance FROM UserBalanceEntity WHERE id = 1")
     suspend fun getCashBalance(): Double?
 

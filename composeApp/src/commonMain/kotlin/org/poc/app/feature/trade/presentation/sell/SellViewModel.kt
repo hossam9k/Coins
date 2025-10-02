@@ -1,15 +1,15 @@
 package org.poc.app.feature.trade.presentation.sell
 
 import kotlinx.coroutines.flow.first
-import org.poc.app.feature.coins.domain.GetCoinDetailsUseCase
-import org.poc.app.core.domain.model.PreciseDecimal
-import org.poc.app.core.domain.model.Result
+import org.poc.app.core.domain.model.AnalyticsLogger
 import org.poc.app.core.domain.model.DispatcherProvider
 import org.poc.app.core.domain.model.Logger
-import org.poc.app.core.domain.model.AnalyticsLogger
-import org.poc.app.core.presentation.base.MviViewModel
+import org.poc.app.core.domain.model.PreciseDecimal
+import org.poc.app.core.domain.model.Result
 import org.poc.app.core.domain.util.formatFiatPrecise
 import org.poc.app.core.domain.util.toUiText
+import org.poc.app.core.presentation.base.MviViewModel
+import org.poc.app.feature.coins.domain.GetCoinDetailsUseCase
 import org.poc.app.feature.portfolio.domain.PortfolioRepository
 import org.poc.app.feature.trade.domain.SellCoinUseCase
 import org.poc.app.feature.trade.presentation.mapper.TradeUiMapper.toCoin
@@ -22,14 +22,13 @@ class SellViewModel(
     private val coinId: String,
     dispatcherProvider: DispatcherProvider,
     logger: Logger,
-    analytics: AnalyticsLogger
+    analytics: AnalyticsLogger,
 ) : MviViewModel<SellState, SellIntent, SellSideEffect>(
-    initialState = SellState(isLoading = true),
-    dispatcherProvider = dispatcherProvider,
-    logger = logger,
-    analytics = analytics
-) {
-
+        initialState = SellState(isLoading = true),
+        dispatcherProvider = dispatcherProvider,
+        logger = logger,
+        analytics = analytics,
+    ) {
     companion object {
         private const val TAG = "SellViewModel"
     }
@@ -60,16 +59,14 @@ class SellViewModel(
         }
     }
 
-
     override suspend fun handleErrorSideEffect(error: Throwable) {
         emitSideEffect(
             SellSideEffect.ShowError(
                 message = error.message ?: "An unexpected error occurred",
-                details = error.toString()
-            )
+                details = error.toString(),
+            ),
         )
     }
-
 
     private suspend fun updateAmount(amount: String) {
         updateState { it.copy(amount = amount) }
@@ -89,7 +86,7 @@ class SellViewModel(
                         it.copy(
                             isLoading = false,
                             error = portfolioCoinResponse.error.toUiText().toString(),
-                            errorDetails = "Failed to load portfolio data"
+                            errorDetails = "Failed to load portfolio data",
                         )
                     }
                 }
@@ -99,7 +96,7 @@ class SellViewModel(
                 it.copy(
                     isLoading = false,
                     error = "Failed to load portfolio data",
-                    errorDetails = e.message
+                    errorDetails = e.message,
                 )
             }
         }
@@ -115,7 +112,7 @@ class SellViewModel(
                             isLoading = false,
                             coin = coinResponse.data.toUiTradeCoinItem(),
                             availableAmount = "Available: ${formatFiatPrecise(availableAmountInFiat)}",
-                            error = null
+                            error = null,
                         )
                     }
                 }
@@ -124,7 +121,7 @@ class SellViewModel(
                         it.copy(
                             isLoading = false,
                             error = coinResponse.error.toUiText().toString(),
-                            errorDetails = "Failed to load coin details"
+                            errorDetails = "Failed to load coin details",
                         )
                     }
                 }
@@ -134,7 +131,7 @@ class SellViewModel(
                 it.copy(
                     isLoading = false,
                     error = "Failed to load coin details",
-                    errorDetails = e.message
+                    errorDetails = e.message,
                 )
             }
         }
@@ -150,11 +147,12 @@ class SellViewModel(
         }
 
         try {
-            val sellCoinResponse = sellCoinUseCase.sellCoin(
-                coin = tradeCoin.toCoin(),
-                amountInFiat = PreciseDecimal.fromDouble(amount),
-                price = PreciseDecimal.fromDouble(tradeCoin.price)
-            )
+            val sellCoinResponse =
+                sellCoinUseCase.sellCoin(
+                    coin = tradeCoin.toCoin(),
+                    amountInFiat = PreciseDecimal.fromDouble(amount),
+                    price = PreciseDecimal.fromDouble(tradeCoin.price),
+                )
 
             when (sellCoinResponse) {
                 is Result.Success -> {
@@ -167,7 +165,7 @@ class SellViewModel(
                         it.copy(
                             isSubmitting = false,
                             error = sellCoinResponse.error.toUiText().toString(),
-                            errorDetails = "Sale failed"
+                            errorDetails = "Sale failed",
                         )
                     }
                 }
@@ -177,7 +175,7 @@ class SellViewModel(
                 it.copy(
                     isSubmitting = false,
                     error = "Sale failed",
-                    errorDetails = e.message
+                    errorDetails = e.message,
                 )
             }
         }
@@ -191,13 +189,12 @@ class SellViewModel(
         loadCoinDetails()
     }
 
-    override fun shouldDeduplicateIntent(intent: SellIntent): Boolean {
-        return when (intent) {
+    override fun shouldDeduplicateIntent(intent: SellIntent): Boolean =
+        when (intent) {
             is SellIntent.LoadCoinDetails,
             is SellIntent.RetryLoading,
-            is SellIntent.SubmitSale -> true
+            is SellIntent.SubmitSale,
+            -> true
             else -> false
         }
-    }
-
 }

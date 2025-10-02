@@ -16,7 +16,7 @@ import org.poc.app.core.domain.model.Logger
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 class TestDispatcherProvider(
-    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(),
 ) : DispatcherProvider {
     override val main: CoroutineDispatcher = testDispatcher
     override val io: CoroutineDispatcher = testDispatcher
@@ -36,22 +36,38 @@ class TestLogger : Logger {
     data class LogMessage(
         val tag: String,
         val message: String,
-        val throwable: Throwable? = null
+        val throwable: Throwable? = null,
     )
 
-    override fun debug(tag: String, message: String, throwable: Throwable?) {
+    override fun debug(
+        tag: String,
+        message: String,
+        throwable: Throwable?,
+    ) {
         debugMessages.add(LogMessage(tag, message, throwable))
     }
 
-    override fun info(tag: String, message: String, throwable: Throwable?) {
+    override fun info(
+        tag: String,
+        message: String,
+        throwable: Throwable?,
+    ) {
         infoMessages.add(LogMessage(tag, message, throwable))
     }
 
-    override fun warn(tag: String, message: String, throwable: Throwable?) {
+    override fun warn(
+        tag: String,
+        message: String,
+        throwable: Throwable?,
+    ) {
         warnMessages.add(LogMessage(tag, message, throwable))
     }
 
-    override fun error(tag: String, message: String, throwable: Throwable?) {
+    override fun error(
+        tag: String,
+        message: String,
+        throwable: Throwable?,
+    ) {
         errorMessages.add(LogMessage(tag, message, throwable))
     }
 
@@ -76,19 +92,25 @@ class TestAnalyticsLogger : AnalyticsLogger {
 
     data class AnalyticsEvent(
         val eventName: String,
-        val parameters: Map<String, Any>
+        val parameters: Map<String, Any>,
     )
 
     data class AnalyticsError(
         val error: Throwable,
-        val additionalData: Map<String, Any>
+        val additionalData: Map<String, Any>,
     )
 
-    override fun logEvent(eventName: String, parameters: Map<String, Any>) {
+    override fun logEvent(
+        eventName: String,
+        parameters: Map<String, Any>,
+    ) {
         events.add(AnalyticsEvent(eventName, parameters))
     }
 
-    override fun logError(error: Throwable, additionalData: Map<String, Any>) {
+    override fun logError(
+        error: Throwable,
+        additionalData: Map<String, Any>,
+    ) {
         errors.add(AnalyticsError(error, additionalData))
     }
 
@@ -96,7 +118,10 @@ class TestAnalyticsLogger : AnalyticsLogger {
         this._userId = userId
     }
 
-    override fun setUserProperty(key: String, value: String) {
+    override fun setUserProperty(
+        key: String,
+        value: String,
+    ) {
         userProperties[key] = value
     }
 

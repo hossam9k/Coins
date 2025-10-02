@@ -1,13 +1,13 @@
 package org.poc.app.ui.components.inputs
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -42,7 +42,7 @@ fun NumericPrefixTextField(
     prefixSymbol: String = "$",
     maxValue: Int = 10000,
     autoFocus: Boolean = true,
-    enabled: Boolean = true
+    enabled: Boolean = true,
 ) {
     val focusRequester = remember { FocusRequester() }
 
@@ -67,38 +67,42 @@ fun NumericPrefixTextField(
             }
         },
         enabled = enabled,
-        modifier = modifier
-            .focusRequester(focusRequester)
-            .padding(DesignSystem.Spacing.Medium),
-        textStyle = TextStyle(
-            color = if (enabled) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onSurfaceVariant,
-            fontSize = 24.sp,
-            textAlign = TextAlign.Center
-        ),
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Number
-        ),
+        modifier =
+            modifier
+                .focusRequester(focusRequester)
+                .padding(DesignSystem.Spacing.Medium),
+        textStyle =
+            TextStyle(
+                color = if (enabled) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onSurfaceVariant,
+                fontSize = 24.sp,
+                textAlign = TextAlign.Center,
+            ),
+        keyboardOptions =
+            KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number,
+            ),
         decorationBox = { innerTextField ->
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .height(DesignSystem.Sizes.ButtonLarge)
-                    .wrapContentWidth()
+                modifier =
+                    Modifier
+                        .height(DesignSystem.Sizes.ButtonLarge)
+                        .wrapContentWidth(),
             ) {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
                         text = prefixSymbol,
                         style = MaterialTheme.typography.headlineMedium,
-                        color = if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                        color = if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
                     )
 
                     if (displayText.isEmpty()) {
                         Text(
                             text = placeholder,
                             style = MaterialTheme.typography.headlineMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     } else {
                         innerTextField()
@@ -122,7 +126,7 @@ fun CurrencyTextField(
     currencySymbol: String = "$",
     maxAmount: Int = 10000,
     autoFocus: Boolean = true,
-    enabled: Boolean = true
+    enabled: Boolean = true,
 ) {
     NumericPrefixTextField(
         value = value,
@@ -131,7 +135,7 @@ fun CurrencyTextField(
         prefixSymbol = currencySymbol,
         maxValue = maxAmount,
         autoFocus = autoFocus,
-        enabled = enabled
+        enabled = enabled,
     )
 }
 
@@ -146,7 +150,7 @@ fun CenteredDollarTextField(
     modifier: Modifier = Modifier,
     maxAmount: Int = 10000,
     autoFocus: Boolean = true,
-    enabled: Boolean = true
+    enabled: Boolean = true,
 ) {
     CurrencyTextField(
         value = amountText,
@@ -155,6 +159,6 @@ fun CenteredDollarTextField(
         currencySymbol = "$",
         maxAmount = maxAmount,
         autoFocus = autoFocus,
-        enabled = enabled
+        enabled = enabled,
     )
 }

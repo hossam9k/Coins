@@ -19,12 +19,12 @@ import org.poc.app.feature.trade.presentation.sell.SellScreen
 @Composable
 fun NavigationHost(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     NavHost(
         navController = navController,
         startDestination = NavigationRoute.Portfolio,
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         // Portfolio feature
         composable<NavigationRoute.Portfolio> {
@@ -34,7 +34,7 @@ fun NavigationHost(
                 },
                 onDiscoverCoinsClicked = {
                     navController.navigateTo(NavigationRoute.Coins)
-                }
+                },
             )
         }
 
@@ -52,7 +52,7 @@ fun NavigationHost(
                 coinId = route.coinId,
                 navigateToPortfolio = {
                     navController.navigateToRoot(NavigationRoute.Portfolio)
-                }
+                },
             )
         }
 
@@ -63,7 +63,7 @@ fun NavigationHost(
                 coinId = route.coinId,
                 navigateToPortfolio = {
                     navController.navigateToRoot(NavigationRoute.Portfolio)
-                }
+                },
             )
         }
     }

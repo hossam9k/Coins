@@ -7,7 +7,6 @@ import kotlinx.serialization.Serializable
  * Using sealed interface for better organization
  */
 sealed interface NavigationRoute {
-
     @Serializable
     data object Portfolio : NavigationRoute
 
@@ -15,10 +14,14 @@ sealed interface NavigationRoute {
     data object Coins : NavigationRoute
 
     @Serializable
-    data class Buy(val coinId: String) : NavigationRoute
+    data class Buy(
+        val coinId: String,
+    ) : NavigationRoute
 
     @Serializable
-    data class Sell(val coinId: String) : NavigationRoute
+    data class Sell(
+        val coinId: String,
+    ) : NavigationRoute
 
     // Easy to add new routes:
     // @Serializable

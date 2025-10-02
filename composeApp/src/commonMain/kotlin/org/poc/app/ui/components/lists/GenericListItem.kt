@@ -1,7 +1,6 @@
 package org.poc.app.ui.components.lists
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -46,11 +46,11 @@ data class GenericListItemData(
     val name: String,
     val symbol: String,
     val iconUrl: String,
-    val primaryValue: String,        // Price or amount in fiat
-    val secondaryValue: String,      // Symbol/amount or percentage change
+    val primaryValue: String, // Price or amount in fiat
+    val secondaryValue: String, // Symbol/amount or percentage change
     val changeValue: String? = null, // Performance change (optional)
-    val isPositive: Boolean = true,  // For color coding performance
-    val subtitle: String? = null     // Additional info (optional)
+    val isPositive: Boolean = true, // For color coding performance
+    val subtitle: String? = null, // Additional info (optional)
 )
 
 /**
@@ -59,7 +59,7 @@ data class GenericListItemData(
 data class GenericListItemActions(
     val onClick: ((String) -> Unit)? = null,
     val onLongClick: ((String) -> Unit)? = null,
-    val enabled: Boolean = true
+    val enabled: Boolean = true,
 )
 
 /**
@@ -71,54 +71,56 @@ fun GenericListItem(
     data: GenericListItemData,
     actions: GenericListItemActions = GenericListItemActions(),
     modifier: Modifier = Modifier,
-    showPerformance: Boolean = true
+    showPerformance: Boolean = true,
 ) {
-
-    val clickModifier = when {
-        actions.onLongClick != null && actions.onClick != null -> {
-            modifier.combinedClickable(
-                enabled = actions.enabled,
-                onLongClick = { actions.onLongClick.invoke(data.id) },
-                onClick = { actions.onClick.invoke(data.id) }
-            )
-        }
-        actions.onClick != null -> {
-            modifier.clickable(enabled = actions.enabled) {
-                actions.onClick.invoke(data.id)
+    val clickModifier =
+        when {
+            actions.onLongClick != null && actions.onClick != null -> {
+                modifier.combinedClickable(
+                    enabled = actions.enabled,
+                    onLongClick = { actions.onLongClick.invoke(data.id) },
+                    onClick = { actions.onClick.invoke(data.id) },
+                )
             }
+            actions.onClick != null -> {
+                modifier.clickable(enabled = actions.enabled) {
+                    actions.onClick.invoke(data.id)
+                }
+            }
+            else -> modifier
         }
-        else -> modifier
-    }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = clickModifier
-            .fillMaxWidth()
-            .padding(DesignSystem.Spacing.Medium)
+        modifier =
+            clickModifier
+                .fillMaxWidth()
+                .padding(DesignSystem.Spacing.Medium),
     ) {
         // Icon
         AsyncImage(
             model = data.iconUrl,
             contentDescription = "${data.name} icon",
             contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .padding(DesignSystem.Spacing.XSmall)
-                .clip(CircleShape)
-                .size(DesignSystem.Sizes.IconLarge)
+            modifier =
+                Modifier
+                    .padding(DesignSystem.Spacing.XSmall)
+                    .clip(CircleShape)
+                    .size(DesignSystem.Sizes.IconLarge),
         )
 
         Spacer(modifier = Modifier.width(DesignSystem.Spacing.Medium))
 
         // Name and symbol/subtitle
         Column(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         ) {
             Text(
                 text = data.name,
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
 
             if (data.subtitle != null) {
@@ -128,7 +130,7 @@ fun GenericListItem(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodyMedium,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             } else {
                 Spacer(modifier = Modifier.height(DesignSystem.Spacing.XSmall))
@@ -137,7 +139,7 @@ fun GenericListItem(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.titleSmall,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
         }
@@ -146,28 +148,29 @@ fun GenericListItem(
 
         // Primary value and change
         Column(
-            horizontalAlignment = Alignment.End
+            horizontalAlignment = Alignment.End,
         ) {
             Text(
                 text = data.primaryValue,
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.titleMedium,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
 
             if (showPerformance && data.changeValue != null) {
                 Spacer(modifier = Modifier.height(DesignSystem.Spacing.XSmall))
                 Text(
                     text = data.changeValue,
-                    color = if (data.isPositive) {
-                        MaterialTheme.colorScheme.primary  // Blue for positive
-                    } else {
-                        MaterialTheme.colorScheme.error    // Red for negative
-                    },
+                    color =
+                        if (data.isPositive) {
+                            MaterialTheme.colorScheme.primary // Blue for positive
+                        } else {
+                            MaterialTheme.colorScheme.error // Red for negative
+                        },
                     style = MaterialTheme.typography.titleSmall,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             } else if (!showPerformance && data.subtitle == null) {
                 // Show secondary value in right column if no subtitle in left
@@ -177,7 +180,7 @@ fun GenericListItem(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.titleSmall,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
         }
@@ -198,25 +201,27 @@ fun MarketListItem(
     isPositive: Boolean,
     onItemClicked: ((String) -> Unit)? = null,
     onItemLongPressed: ((String) -> Unit)? = null,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     GenericListItem(
-        data = GenericListItemData(
-            id = id,
-            name = name,
-            symbol = symbol,
-            iconUrl = iconUrl,
-            primaryValue = formattedPrice,
-            secondaryValue = symbol,
-            changeValue = formattedChange,
-            isPositive = isPositive
-        ),
-        actions = GenericListItemActions(
-            onClick = onItemClicked,
-            onLongClick = onItemLongPressed
-        ),
+        data =
+            GenericListItemData(
+                id = id,
+                name = name,
+                symbol = symbol,
+                iconUrl = iconUrl,
+                primaryValue = formattedPrice,
+                secondaryValue = symbol,
+                changeValue = formattedChange,
+                isPositive = isPositive,
+            ),
+        actions =
+            GenericListItemActions(
+                onClick = onItemClicked,
+                onLongClick = onItemLongPressed,
+            ),
         modifier = modifier,
-        showPerformance = true
+        showPerformance = true,
     )
 }
 
@@ -233,25 +238,26 @@ fun HoldingsListItem(
     iconUrl: String,
     isPositive: Boolean,
     onItemClicked: ((String) -> Unit)? = null,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     GenericListItem(
-        data = GenericListItemData(
-            id = id,
-            name = name,
-            symbol = "", // Not used for portfolio items
-            iconUrl = iconUrl,
-            primaryValue = valueText,
-            secondaryValue = amountText,
-            changeValue = performanceText,
-            isPositive = isPositive,
-            subtitle = amountText
-        ),
-        actions = GenericListItemActions(
-            onClick = onItemClicked
-        ),
+        data =
+            GenericListItemData(
+                id = id,
+                name = name,
+                symbol = "", // Not used for portfolio items
+                iconUrl = iconUrl,
+                primaryValue = valueText,
+                secondaryValue = amountText,
+                changeValue = performanceText,
+                isPositive = isPositive,
+                subtitle = amountText,
+            ),
+        actions =
+            GenericListItemActions(
+                onClick = onItemClicked,
+            ),
         modifier = modifier,
-        showPerformance = true
+        showPerformance = true,
     )
 }
-

@@ -11,11 +11,17 @@ import androidx.compose.ui.text.input.OffsetMapping
  * Used internally by CurrencyVisualTransformation to maintain
  * correct cursor positioning during text input.
  */
-class CurrencyOffsetMapping(originalText: String, formattedText: String) : OffsetMapping {
+class CurrencyOffsetMapping(
+    originalText: String,
+    formattedText: String,
+) : OffsetMapping {
     private val originalLength = originalText.length
     private val indexes = findDigitIndexes(originalText, formattedText)
 
-    private fun findDigitIndexes(firstString: String, secondString: String): List<Int> {
+    private fun findDigitIndexes(
+        firstString: String,
+        secondString: String,
+    ): List<Int> {
         val digitIndexes = mutableListOf<Int>()
         var currentIndex = 0
         for (digit in firstString) {
@@ -37,7 +43,5 @@ class CurrencyOffsetMapping(originalText: String, formattedText: String) : Offse
         return indexes[offset]
     }
 
-    override fun transformedToOriginal(offset: Int): Int {
-        return indexes.indexOfFirst { it >= offset }.takeIf { it != -1 } ?: originalLength
-    }
+    override fun transformedToOriginal(offset: Int): Int = indexes.indexOfFirst { it >= offset }.takeIf { it != -1 } ?: originalLength
 }

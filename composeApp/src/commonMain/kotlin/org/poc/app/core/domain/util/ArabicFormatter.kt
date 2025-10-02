@@ -8,84 +8,101 @@ import org.poc.app.core.domain.model.PreciseDecimal
  */
 
 enum class NumberSystem {
-    WESTERN,        // 0123456789
-    ARABIC_INDIC    // ٠١٢٣٤٥٦٧٨٩
+    WESTERN, // 0123456789
+    ARABIC_INDIC, // ٠١٢٣٤٥٦٧٨٩
 }
 
 enum class CurrencyPosition {
-    PREFIX,  // $123.45
-    SUFFIX   // 123.45 ر.س
+    PREFIX, // $123.45
+    SUFFIX, // 123.45 ر.س
 }
 
 data class LocaleConfig(
     val numberSystem: NumberSystem = NumberSystem.WESTERN,
     val currencyPosition: CurrencyPosition = CurrencyPosition.PREFIX,
-    val thousandsSeparator: String = ",",           // or "،" for Arabic comma
-    val decimalSeparator: String = ".",             // or "٫" for Arabic decimal
+    val thousandsSeparator: String = ",", // or "،" for Arabic comma
+    val decimalSeparator: String = ".", // or "٫" for Arabic decimal
     val currencySymbol: String = "$",
-    val isRTL: Boolean = false
+    val isRTL: Boolean = false,
 )
 
 /**
  * Arabic locale configurations for Middle Eastern countries
  */
 object ArabicLocales {
-    val SAUDI_ARABIA = LocaleConfig(
-        numberSystem = NumberSystem.WESTERN,
-        currencyPosition = CurrencyPosition.SUFFIX,
-        thousandsSeparator = ",",
-        decimalSeparator = ".",
-        currencySymbol = "ر.س",
-        isRTL = true
-    )
+    val SAUDI_ARABIA =
+        LocaleConfig(
+            numberSystem = NumberSystem.WESTERN,
+            currencyPosition = CurrencyPosition.SUFFIX,
+            thousandsSeparator = ",",
+            decimalSeparator = ".",
+            currencySymbol = "ر.س",
+            isRTL = true,
+        )
 
-    val UAE = LocaleConfig(
-        numberSystem = NumberSystem.WESTERN,
-        currencyPosition = CurrencyPosition.SUFFIX,
-        thousandsSeparator = ",",
-        decimalSeparator = ".",
-        currencySymbol = "د.إ",
-        isRTL = true
-    )
+    val UAE =
+        LocaleConfig(
+            numberSystem = NumberSystem.WESTERN,
+            currencyPosition = CurrencyPosition.SUFFIX,
+            thousandsSeparator = ",",
+            decimalSeparator = ".",
+            currencySymbol = "د.إ",
+            isRTL = true,
+        )
 
-    val EGYPT = LocaleConfig(
-        numberSystem = NumberSystem.ARABIC_INDIC,
-        currencyPosition = CurrencyPosition.SUFFIX,
-        thousandsSeparator = "،",  // Arabic comma
-        decimalSeparator = "٫",    // Arabic decimal separator
-        currencySymbol = "ج.م",
-        isRTL = true
-    )
+    val EGYPT =
+        LocaleConfig(
+            numberSystem = NumberSystem.ARABIC_INDIC,
+            currencyPosition = CurrencyPosition.SUFFIX,
+            thousandsSeparator = "،", // Arabic comma
+            decimalSeparator = "٫", // Arabic decimal separator
+            currencySymbol = "ج.م",
+            isRTL = true,
+        )
 
-    val KUWAIT = LocaleConfig(
-        numberSystem = NumberSystem.WESTERN,
-        currencyPosition = CurrencyPosition.SUFFIX,
-        thousandsSeparator = ",",
-        decimalSeparator = ".",
-        currencySymbol = "د.ك",
-        isRTL = true
-    )
+    val KUWAIT =
+        LocaleConfig(
+            numberSystem = NumberSystem.WESTERN,
+            currencyPosition = CurrencyPosition.SUFFIX,
+            thousandsSeparator = ",",
+            decimalSeparator = ".",
+            currencySymbol = "د.ك",
+            isRTL = true,
+        )
 }
 
 /**
  * Convert Western digits to Arabic-Indic digits
  */
 fun String.toArabicIndic(): String {
-    val arabicDigits = mapOf(
-        '0' to '٠', '1' to '١', '2' to '٢', '3' to '٣', '4' to '٤',
-        '5' to '٥', '6' to '٦', '7' to '٧', '8' to '٨', '9' to '٩'
-    )
+    val arabicDigits =
+        mapOf(
+            '0' to '٠',
+            '1' to '١',
+            '2' to '٢',
+            '3' to '٣',
+            '4' to '٤',
+            '5' to '٥',
+            '6' to '٦',
+            '7' to '٧',
+            '8' to '٨',
+            '9' to '٩',
+        )
     return this.map { arabicDigits[it] ?: it }.joinToString("")
 }
 
 /**
  * Format number according to locale configuration
  */
-fun formatNumberForLocale(number: String, config: LocaleConfig): String {
-    val converted = when (config.numberSystem) {
-        NumberSystem.WESTERN -> number
-        NumberSystem.ARABIC_INDIC -> number.toArabicIndic()
-    }
+fun formatNumberForLocale(
+    number: String,
+    config: LocaleConfig,
+): String {
+    val converted =
+        when (config.numberSystem) {
+            NumberSystem.WESTERN -> number
+            NumberSystem.ARABIC_INDIC -> number.toArabicIndic()
+        }
 
     // Replace separators
     return converted
@@ -98,19 +115,20 @@ fun formatNumberForLocale(number: String, config: LocaleConfig): String {
  */
 fun formatCurrencyArabic(
     amount: PreciseDecimal,
-    config: LocaleConfig = LocaleConfig()
+    config: LocaleConfig = LocaleConfig(),
 ): String {
     val absAmount = if (amount.isNegative()) -amount else amount
     val sign = if (amount.isNegative()) "-" else ""
 
-    val formattedNumber = when {
-        absAmount >= PreciseDecimal.fromString("1000") -> {
-            formatWithCommas(absAmount.toDisplayString(2))
+    val formattedNumber =
+        when {
+            absAmount >= PreciseDecimal.fromString("1000") -> {
+                formatWithCommas(absAmount.toDisplayString(2))
+            }
+            else -> {
+                absAmount.toDisplayString(2)
+            }
         }
-        else -> {
-            absAmount.toDisplayString(2)
-        }
-    }
 
     val localizedNumber = formatNumberForLocale(formattedNumber, config)
 
@@ -141,19 +159,20 @@ fun formatCurrencyArabic(
  */
 fun formatPercentageArabic(
     change: PreciseDecimal,
-    config: LocaleConfig = LocaleConfig()
+    config: LocaleConfig = LocaleConfig(),
 ): String {
     val formatted = change.toDisplayString(2)
     val localizedNumber = formatNumberForLocale(formatted, config)
 
-    val sign = when {
-        change.isPositive() -> "+"
-        change.isNegative() -> "" // Already included in number
-        else -> ""
-    }
+    val sign =
+        when {
+            change.isPositive() -> "+"
+            change.isNegative() -> "" // Already included in number
+            else -> ""
+        }
 
     return if (config.isRTL) {
-        "%$localizedNumber$sign"  // RTL: % comes first
+        "%$localizedNumber$sign" // RTL: % comes first
     } else {
         "$sign$localizedNumber%"
     }
@@ -168,10 +187,12 @@ private fun formatWithCommas(numberString: String): String {
     val decimalPart = if (parts.size > 1) ".${parts[1]}" else ""
 
     // Add commas to integer part
-    val formattedInteger = integerPart.reversed()
-        .chunked(3)
-        .joinToString(",")
-        .reversed()
+    val formattedInteger =
+        integerPart
+            .reversed()
+            .chunked(3)
+            .joinToString(",")
+            .reversed()
 
     return formattedInteger + decimalPart
 }
@@ -181,15 +202,16 @@ private fun formatWithCommas(numberString: String): String {
  */
 fun formatPriceWithLocale(
     price: PreciseDecimal,
-    localeCode: String = "en"
+    localeCode: String = "en",
 ): String {
-    val config = when (localeCode.lowercase()) {
-        "ar-sa", "ar_sa" -> ArabicLocales.SAUDI_ARABIA
-        "ar-ae", "ar_ae" -> ArabicLocales.UAE
-        "ar-eg", "ar_eg" -> ArabicLocales.EGYPT
-        "ar-kw", "ar_kw" -> ArabicLocales.KUWAIT
-        else -> LocaleConfig() // Default English
-    }
+    val config =
+        when (localeCode.lowercase()) {
+            "ar-sa", "ar_sa" -> ArabicLocales.SAUDI_ARABIA
+            "ar-ae", "ar_ae" -> ArabicLocales.UAE
+            "ar-eg", "ar_eg" -> ArabicLocales.EGYPT
+            "ar-kw", "ar_kw" -> ArabicLocales.KUWAIT
+            else -> LocaleConfig() // Default English
+        }
 
     return formatCurrencyArabic(price, config)
 }

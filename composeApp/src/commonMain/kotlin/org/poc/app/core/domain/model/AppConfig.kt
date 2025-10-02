@@ -17,44 +17,24 @@ interface AppConfig {
  * Log levels for controlling logging verbosity
  */
 enum class LogLevel {
-    VERBOSE, DEBUG, INFO, WARN, ERROR, NONE
+    VERBOSE,
+    DEBUG,
+    INFO,
+    WARN,
+    ERROR,
+    NONE,
 }
 
 /**
  * Default configuration implementation
+ * Note: Use BuildConfig from Gradle for actual values
  */
 class DefaultAppConfig(
-    override val isDebug: Boolean = false,
-    override val apiBaseUrl: String = "https://api.coinpaprika.com",
-    override val apiKey: String = "",
+    override val isDebug: Boolean,
+    override val apiBaseUrl: String,
+    override val apiKey: String,
     override val databaseName: String = "portfolio_database",
-    override val enableAnalytics: Boolean = true,
-    override val enableCrashReporting: Boolean = true,
-    override val logLevel: LogLevel = if (isDebug) LogLevel.DEBUG else LogLevel.ERROR
+    override val enableAnalytics: Boolean,
+    override val enableCrashReporting: Boolean,
+    override val logLevel: LogLevel = if (isDebug) LogLevel.DEBUG else LogLevel.ERROR,
 ) : AppConfig
-
-/**
- * Development configuration with enhanced logging and debugging
- */
-class DevAppConfig : AppConfig {
-    override val isDebug: Boolean = true
-    override val apiBaseUrl: String = "https://api.coinpaprika.com"
-    override val apiKey: String = ""
-    override val databaseName: String = "portfolio_database_dev"
-    override val enableAnalytics: Boolean = false
-    override val enableCrashReporting: Boolean = false
-    override val logLevel: LogLevel = LogLevel.DEBUG
-}
-
-/**
- * Production configuration with optimized settings
- */
-class ProdAppConfig(apiKey: String) : AppConfig {
-    override val isDebug: Boolean = false
-    override val apiBaseUrl: String = "https://api.coinpaprika.com"
-    override val apiKey: String = apiKey
-    override val databaseName: String = "portfolio_database"
-    override val enableAnalytics: Boolean = true
-    override val enableCrashReporting: Boolean = true
-    override val logLevel: LogLevel = LogLevel.ERROR
-}
