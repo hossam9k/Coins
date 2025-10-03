@@ -1,5 +1,11 @@
 package org.poc.app.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,6 +17,7 @@ import org.poc.app.feature.coins.presentation.CoinsListScreen
 import org.poc.app.feature.portfolio.presentation.PortfolioScreen
 import org.poc.app.feature.trade.presentation.buy.BuyScreen
 import org.poc.app.feature.trade.presentation.sell.SellScreen
+import org.poc.app.ui.animations.PocAnimations
 
 /**
  * Centralized navigation host for better organization
@@ -25,9 +32,36 @@ fun NavigationHost(
         navController = navController,
         startDestination = NavigationRoute.Portfolio,
         modifier = modifier.fillMaxSize(),
+        enterTransition = {
+            slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                animationSpec = tween(PocAnimations.Durations.NORMAL),
+            )
+        },
+        exitTransition = {
+            slideOutOfContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                animationSpec = tween(PocAnimations.Durations.NORMAL),
+            )
+        },
+        popEnterTransition = {
+            slideIntoContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.End,
+                animationSpec = tween(PocAnimations.Durations.NORMAL),
+            )
+        },
+        popExitTransition = {
+            slideOutOfContainer(
+                towards = AnimatedContentTransitionScope.SlideDirection.End,
+                animationSpec = tween(PocAnimations.Durations.NORMAL),
+            )
+        },
     ) {
         // Portfolio feature
-        composable<NavigationRoute.Portfolio> {
+        composable<NavigationRoute.Portfolio>(
+            enterTransition = { fadeIn(animationSpec = tween(PocAnimations.Durations.NORMAL)) },
+            exitTransition = { fadeOut(animationSpec = tween(PocAnimations.Durations.NORMAL)) },
+        ) {
             PortfolioScreen(
                 onCoinItemClicked = { coinId ->
                     navController.navigateTo(NavigationRoute.Sell(coinId))
@@ -39,14 +73,64 @@ fun NavigationHost(
         }
 
         // Coins list feature
-        composable<NavigationRoute.Coins> {
+        composable<NavigationRoute.Coins>(
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(PocAnimations.Durations.NORMAL),
+                ) + fadeIn(tween(PocAnimations.Durations.FAST))
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(PocAnimations.Durations.NORMAL),
+                ) + fadeOut(tween(PocAnimations.Durations.FAST))
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(PocAnimations.Durations.NORMAL),
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
+                    animationSpec = tween(PocAnimations.Durations.NORMAL),
+                )
+            },
+        ) {
             CoinsListScreen { coinId ->
                 navController.navigateTo(NavigationRoute.Buy(coinId))
             }
         }
 
         // Buy feature
-        composable<NavigationRoute.Buy> { navBackStackEntry ->
+        composable<NavigationRoute.Buy>(
+            enterTransition = {
+                slideInHorizontally(
+                    animationSpec = tween(PocAnimations.Durations.NORMAL),
+                    initialOffsetX = { it }
+                ) + fadeIn(tween(PocAnimations.Durations.FAST))
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    animationSpec = tween(PocAnimations.Durations.NORMAL),
+                    targetOffsetX = { -it / 3 }
+                ) + fadeOut(tween(PocAnimations.Durations.FAST))
+            },
+            popEnterTransition = {
+                slideInHorizontally(
+                    animationSpec = tween(PocAnimations.Durations.NORMAL),
+                    initialOffsetX = { -it / 3 }
+                ) + fadeIn(tween(PocAnimations.Durations.FAST))
+            },
+            popExitTransition = {
+                slideOutHorizontally(
+                    animationSpec = tween(PocAnimations.Durations.NORMAL),
+                    targetOffsetX = { it }
+                ) + fadeOut(tween(PocAnimations.Durations.FAST))
+            },
+        ) { navBackStackEntry ->
             val route = navBackStackEntry.toRoute<NavigationRoute.Buy>()
             BuyScreen(
                 coinId = route.coinId,
@@ -57,7 +141,32 @@ fun NavigationHost(
         }
 
         // Sell feature
-        composable<NavigationRoute.Sell> { navBackStackEntry ->
+        composable<NavigationRoute.Sell>(
+            enterTransition = {
+                slideInHorizontally(
+                    animationSpec = tween(PocAnimations.Durations.NORMAL),
+                    initialOffsetX = { it }
+                ) + fadeIn(tween(PocAnimations.Durations.FAST))
+            },
+            exitTransition = {
+                slideOutHorizontally(
+                    animationSpec = tween(PocAnimations.Durations.NORMAL),
+                    targetOffsetX = { -it / 3 }
+                ) + fadeOut(tween(PocAnimations.Durations.FAST))
+            },
+            popEnterTransition = {
+                slideInHorizontally(
+                    animationSpec = tween(PocAnimations.Durations.NORMAL),
+                    initialOffsetX = { -it / 3 }
+                ) + fadeIn(tween(PocAnimations.Durations.FAST))
+            },
+            popExitTransition = {
+                slideOutHorizontally(
+                    animationSpec = tween(PocAnimations.Durations.NORMAL),
+                    targetOffsetX = { it }
+                ) + fadeOut(tween(PocAnimations.Durations.FAST))
+            },
+        ) { navBackStackEntry ->
             val route = navBackStackEntry.toRoute<NavigationRoute.Sell>()
             SellScreen(
                 coinId = route.coinId,
