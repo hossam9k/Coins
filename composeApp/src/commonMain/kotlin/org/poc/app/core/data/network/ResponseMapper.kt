@@ -30,7 +30,6 @@ import org.poc.app.core.domain.model.Result
  * Reference: https://github.com/philipplackner/Chirp
  */
 object ResponseMapper {
-
     /**
      * Checks if the HTTP status code indicates success (2xx).
      */
@@ -42,14 +41,12 @@ object ResponseMapper {
      * @param statusCode The HTTP status code
      * @return Corresponding DataError.Remote
      */
-    fun mapStatusCodeToError(statusCode: Int): DataError.Remote =
-        HttpErrorCode.fromStatusCode(statusCode)
+    fun mapStatusCodeToError(statusCode: Int): DataError.Remote = HttpErrorCode.fromStatusCode(statusCode)
 
     /**
      * Maps HTTP response to error Result.
      */
-    fun mapToError(response: HttpResponse): Result.Error<DataError.Remote> =
-        Result.Error(mapStatusCodeToError(response.status.value))
+    fun mapToError(response: HttpResponse): Result.Error<DataError.Remote> = Result.Error(mapStatusCodeToError(response.status.value))
 }
 
 /**

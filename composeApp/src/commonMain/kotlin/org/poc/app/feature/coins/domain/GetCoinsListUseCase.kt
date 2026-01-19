@@ -18,6 +18,5 @@ class GetCoinsListUseCase(
      *
      * @return Result containing list of coin models or an error
      */
-    override suspend operator fun invoke(): Result<List<CoinModel>, DataError> =
-        repository.getCoins()
+    override suspend operator fun invoke(): Result<List<CoinModel>, DataError> = repository.getCoins()
 }

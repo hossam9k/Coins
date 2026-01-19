@@ -57,16 +57,12 @@ import kotlinx.serialization.Serializable
 data class ApiResponse<T>(
     /** Indicates if the request was successful at business level */
     val success: Boolean = true,
-
     /** The actual response data (null on error) */
     val data: T? = null,
-
     /** Business error code (null on success) */
     val errorCode: String? = null,
-
     /** Human-readable error message */
     val message: String? = null,
-
     /** Additional error details/metadata */
     val errorDetails: Map<String, String>? = null,
 ) {
@@ -90,13 +86,10 @@ data class ApiResponse<T>(
 data class ApiErrorBody(
     /** Success flag (some APIs use this) */
     val success: Boolean = true,
-
     /** Direct error code field */
     val errorCode: String? = null,
-
     /** Direct message field */
     val message: String? = null,
-
     /** Nested error object (some APIs use this) */
     val error: ErrorDetail? = null,
 ) {
@@ -113,8 +106,7 @@ data class ApiErrorBody(
      * Check if this response indicates a business error.
      * Checks both direct fields and nested error object.
      */
-    fun isBusinessError(): Boolean =
-        !success || errorCode != null || error?.code != null
+    fun isBusinessError(): Boolean = !success || errorCode != null || error?.code != null
 
     /**
      * Extract error code from either direct field or nested object.

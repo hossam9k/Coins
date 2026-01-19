@@ -29,7 +29,6 @@ import kotlin.coroutines.coroutineContext
  * Reference: https://github.com/philipplackner/Chirp
  */
 object ExceptionHandler {
-
     /**
      * Executes an HTTP request with comprehensive exception handling.
      *
@@ -40,8 +39,8 @@ object ExceptionHandler {
     suspend inline fun execute(
         onError: (DataError.Remote) -> Unit,
         execute: () -> HttpResponse,
-    ): HttpResponse? {
-        return try {
+    ): HttpResponse? =
+        try {
             execute()
         } catch (e: CancellationException) {
             // CRITICAL: Never catch cancellation - rethrow for structured concurrency
@@ -66,7 +65,6 @@ object ExceptionHandler {
             onError(DataError.Remote.UNKNOWN)
             null
         }
-    }
 
     /**
      * Maps IOException to specific DataError.Remote types.
@@ -89,8 +87,7 @@ object ExceptionHandler {
         }
     }
 
-    private fun String.containsAny(vararg keywords: String): Boolean =
-        keywords.any { this.contains(it) }
+    private fun String.containsAny(vararg keywords: String): Boolean = keywords.any { this.contains(it) }
 }
 
 /**
@@ -102,15 +99,14 @@ object ExceptionHandler {
  * @param execute The HTTP request to execute
  * @return Result with HttpResponse or DataError.Remote
  */
-suspend inline fun executeRequest(
-    execute: () -> HttpResponse,
-): Result<HttpResponse, DataError.Remote> {
+suspend inline fun executeRequest(execute: () -> HttpResponse): Result<HttpResponse, DataError.Remote> {
     var error: DataError.Remote? = null
 
-    val response = ExceptionHandler.execute(
-        onError = { error = it },
-        execute = execute,
-    )
+    val response =
+        ExceptionHandler.execute(
+            onError = { error = it },
+            execute = execute,
+        )
 
     return if (response != null) {
         Result.Success(response)

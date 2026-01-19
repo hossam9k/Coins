@@ -12,7 +12,6 @@ package org.poc.app.core.domain.model
  * Reference: https://github.com/philipplackner/Chirp
  */
 sealed interface DataError : Error {
-
     /**
      * Network and remote server related errors.
      * Uses enum for type-safe, exhaustive error handling.
@@ -89,7 +88,6 @@ sealed interface DataError : Error {
     sealed class Business(
         open val message: String? = null,
     ) : DataError {
-
         // ============== User/Profile Errors ==============
 
         /** User profile is incomplete */
@@ -227,62 +225,50 @@ object HttpErrorCode {
  * ```
  */
 object BusinessErrorCode {
-    private val codeToErrorFactory: Map<String, (String?) -> DataError.Business> = mapOf(
-        // Profile/User errors
-        "PROFILE_INCOMPLETE" to { msg -> DataError.Business.ProfileIncomplete(msg) },
-        "INCOMPLETE_PROFILE" to { msg -> DataError.Business.ProfileIncomplete(msg) },
-
-        "EMAIL_NOT_VERIFIED" to { msg -> DataError.Business.EmailNotVerified(msg) },
-        "UNVERIFIED_EMAIL" to { msg -> DataError.Business.EmailNotVerified(msg) },
-
-        "PHONE_NOT_VERIFIED" to { msg -> DataError.Business.PhoneNotVerified(msg) },
-        "UNVERIFIED_PHONE" to { msg -> DataError.Business.PhoneNotVerified(msg) },
-
-        "KYC_REQUIRED" to { msg -> DataError.Business.KycRequired(msg) },
-        "KYC_PENDING" to { msg -> DataError.Business.KycRequired(msg) },
-        "VERIFICATION_REQUIRED" to { msg -> DataError.Business.KycRequired(msg) },
-
-        "ACCOUNT_SUSPENDED" to { msg -> DataError.Business.AccountSuspended(msg) },
-        "ACCOUNT_BLOCKED" to { msg -> DataError.Business.AccountSuspended(msg) },
-        "USER_SUSPENDED" to { msg -> DataError.Business.AccountSuspended(msg) },
-
-        // Transaction errors
-        "MINIMUM_AMOUNT_NOT_MET" to { msg -> DataError.Business.MinimumAmountNotMet(msg) },
-        "MIN_AMOUNT" to { msg -> DataError.Business.MinimumAmountNotMet(msg) },
-        "AMOUNT_TOO_LOW" to { msg -> DataError.Business.MinimumAmountNotMet(msg) },
-
-        "MAXIMUM_AMOUNT_EXCEEDED" to { msg -> DataError.Business.MaximumAmountExceeded(msg) },
-        "MAX_AMOUNT" to { msg -> DataError.Business.MaximumAmountExceeded(msg) },
-        "AMOUNT_TOO_HIGH" to { msg -> DataError.Business.MaximumAmountExceeded(msg) },
-
-        "DAILY_LIMIT_REACHED" to { msg -> DataError.Business.DailyLimitReached(msg) },
-        "LIMIT_EXCEEDED" to { msg -> DataError.Business.DailyLimitReached(msg) },
-        "QUOTA_EXCEEDED" to { msg -> DataError.Business.DailyLimitReached(msg) },
-
-        "FEATURE_DISABLED" to { msg -> DataError.Business.FeatureDisabled(msg) },
-        "SERVICE_UNAVAILABLE" to { msg -> DataError.Business.FeatureDisabled(msg) },
-        "MAINTENANCE" to { msg -> DataError.Business.FeatureDisabled(msg) },
-
-        "RESOURCE_UNAVAILABLE" to { msg -> DataError.Business.ResourceUnavailable(msg) },
-        "NOT_AVAILABLE" to { msg -> DataError.Business.ResourceUnavailable(msg) },
-        "DELISTED" to { msg -> DataError.Business.ResourceUnavailable(msg) },
-
-        // Validation errors
-        "VALIDATION_FAILED" to { msg -> DataError.Business.ValidationFailed(msg) },
-        "INVALID_INPUT" to { msg -> DataError.Business.ValidationFailed(msg) },
-        "VALIDATION_ERROR" to { msg -> DataError.Business.ValidationFailed(msg) },
-
-        "DUPLICATE_ENTRY" to { msg -> DataError.Business.DuplicateEntry(msg) },
-        "ALREADY_EXISTS" to { msg -> DataError.Business.DuplicateEntry(msg) },
-        "DUPLICATE" to { msg -> DataError.Business.DuplicateEntry(msg) },
-
-        // Session errors
-        "SESSION_EXPIRED" to { msg -> DataError.Business.SessionExpired(msg) },
-        "TOKEN_EXPIRED" to { msg -> DataError.Business.SessionExpired(msg) },
-
-        "REAUTH_REQUIRED" to { msg -> DataError.Business.ReAuthRequired(msg) },
-        "REAUTHENTICATION_REQUIRED" to { msg -> DataError.Business.ReAuthRequired(msg) },
-    )
+    private val codeToErrorFactory: Map<String, (String?) -> DataError.Business> =
+        mapOf(
+            // Profile/User errors
+            "PROFILE_INCOMPLETE" to { msg -> DataError.Business.ProfileIncomplete(msg) },
+            "INCOMPLETE_PROFILE" to { msg -> DataError.Business.ProfileIncomplete(msg) },
+            "EMAIL_NOT_VERIFIED" to { msg -> DataError.Business.EmailNotVerified(msg) },
+            "UNVERIFIED_EMAIL" to { msg -> DataError.Business.EmailNotVerified(msg) },
+            "PHONE_NOT_VERIFIED" to { msg -> DataError.Business.PhoneNotVerified(msg) },
+            "UNVERIFIED_PHONE" to { msg -> DataError.Business.PhoneNotVerified(msg) },
+            "KYC_REQUIRED" to { msg -> DataError.Business.KycRequired(msg) },
+            "KYC_PENDING" to { msg -> DataError.Business.KycRequired(msg) },
+            "VERIFICATION_REQUIRED" to { msg -> DataError.Business.KycRequired(msg) },
+            "ACCOUNT_SUSPENDED" to { msg -> DataError.Business.AccountSuspended(msg) },
+            "ACCOUNT_BLOCKED" to { msg -> DataError.Business.AccountSuspended(msg) },
+            "USER_SUSPENDED" to { msg -> DataError.Business.AccountSuspended(msg) },
+            // Transaction errors
+            "MINIMUM_AMOUNT_NOT_MET" to { msg -> DataError.Business.MinimumAmountNotMet(msg) },
+            "MIN_AMOUNT" to { msg -> DataError.Business.MinimumAmountNotMet(msg) },
+            "AMOUNT_TOO_LOW" to { msg -> DataError.Business.MinimumAmountNotMet(msg) },
+            "MAXIMUM_AMOUNT_EXCEEDED" to { msg -> DataError.Business.MaximumAmountExceeded(msg) },
+            "MAX_AMOUNT" to { msg -> DataError.Business.MaximumAmountExceeded(msg) },
+            "AMOUNT_TOO_HIGH" to { msg -> DataError.Business.MaximumAmountExceeded(msg) },
+            "DAILY_LIMIT_REACHED" to { msg -> DataError.Business.DailyLimitReached(msg) },
+            "LIMIT_EXCEEDED" to { msg -> DataError.Business.DailyLimitReached(msg) },
+            "QUOTA_EXCEEDED" to { msg -> DataError.Business.DailyLimitReached(msg) },
+            "FEATURE_DISABLED" to { msg -> DataError.Business.FeatureDisabled(msg) },
+            "SERVICE_UNAVAILABLE" to { msg -> DataError.Business.FeatureDisabled(msg) },
+            "MAINTENANCE" to { msg -> DataError.Business.FeatureDisabled(msg) },
+            "RESOURCE_UNAVAILABLE" to { msg -> DataError.Business.ResourceUnavailable(msg) },
+            "NOT_AVAILABLE" to { msg -> DataError.Business.ResourceUnavailable(msg) },
+            "DELISTED" to { msg -> DataError.Business.ResourceUnavailable(msg) },
+            // Validation errors
+            "VALIDATION_FAILED" to { msg -> DataError.Business.ValidationFailed(msg) },
+            "INVALID_INPUT" to { msg -> DataError.Business.ValidationFailed(msg) },
+            "VALIDATION_ERROR" to { msg -> DataError.Business.ValidationFailed(msg) },
+            "DUPLICATE_ENTRY" to { msg -> DataError.Business.DuplicateEntry(msg) },
+            "ALREADY_EXISTS" to { msg -> DataError.Business.DuplicateEntry(msg) },
+            "DUPLICATE" to { msg -> DataError.Business.DuplicateEntry(msg) },
+            // Session errors
+            "SESSION_EXPIRED" to { msg -> DataError.Business.SessionExpired(msg) },
+            "TOKEN_EXPIRED" to { msg -> DataError.Business.SessionExpired(msg) },
+            "REAUTH_REQUIRED" to { msg -> DataError.Business.ReAuthRequired(msg) },
+            "REAUTHENTICATION_REQUIRED" to { msg -> DataError.Business.ReAuthRequired(msg) },
+        )
 
     /**
      * Converts API error code string to [DataError.Business].
@@ -291,7 +277,10 @@ object BusinessErrorCode {
      * @param message Optional error message from API
      * @return Typed [DataError.Business] or [DataError.Business.Unknown]
      */
-    fun fromCode(code: String, message: String? = null): DataError.Business {
+    fun fromCode(
+        code: String,
+        message: String? = null,
+    ): DataError.Business {
         val factory = codeToErrorFactory[code.uppercase()]
         return factory?.invoke(message) ?: DataError.Business.Unknown(code, message)
     }

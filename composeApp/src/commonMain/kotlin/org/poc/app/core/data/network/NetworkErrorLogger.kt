@@ -18,7 +18,6 @@ import org.poc.app.core.domain.model.Result
  * ```
  */
 object NetworkErrorLogger {
-
     private const val DEFAULT_TAG = "Network"
 
     /**
@@ -92,17 +91,22 @@ object NetworkErrorLogger {
         analytics.logEvent(eventName, errorData)
     }
 
-    private fun buildLogMessage(error: DataError, context: String?): String {
-        val baseMessage = when (error) {
-            is DataError.Remote -> "Remote error: ${error.name}"
-            is DataError.Local -> "Local error: ${error.name}"
-            is DataError.Business -> "Business error: ${getBusinessErrorCode(error)}"
-        }
+    private fun buildLogMessage(
+        error: DataError,
+        context: String?,
+    ): String {
+        val baseMessage =
+            when (error) {
+                is DataError.Remote -> "Remote error: ${error.name}"
+                is DataError.Local -> "Local error: ${error.name}"
+                is DataError.Business -> "Business error: ${getBusinessErrorCode(error)}"
+            }
 
-        val details = when (error) {
-            is DataError.Business -> error.message?.let { " - $it" } ?: ""
-            else -> ""
-        }
+        val details =
+            when (error) {
+                is DataError.Business -> error.message?.let { " - $it" } ?: ""
+                else -> ""
+            }
 
         val contextStr = context?.let { " [$it]" } ?: ""
 
@@ -132,13 +136,15 @@ object NetworkErrorLogger {
         }
 
     private fun buildAnalyticsData(error: DataError): Map<String, Any> {
-        val data = mutableMapOf<String, Any>(
-            "error_category" to when (error) {
-                is DataError.Remote -> "remote"
-                is DataError.Local -> "local"
-                is DataError.Business -> "business"
-            },
-        )
+        val data =
+            mutableMapOf<String, Any>(
+                "error_category" to
+                    when (error) {
+                        is DataError.Remote -> "remote"
+                        is DataError.Local -> "local"
+                        is DataError.Business -> "business"
+                    },
+            )
 
         when (error) {
             is DataError.Remote -> {

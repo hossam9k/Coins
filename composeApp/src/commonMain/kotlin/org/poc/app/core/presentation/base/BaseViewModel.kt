@@ -204,7 +204,12 @@ abstract class BaseViewModel(
      * Log screen views for analytics with session tracking
      */
     protected fun logScreenView(screenName: String? = null) {
-        val actualScreenName = screenName ?: this::class.simpleName.orEmpty().replace("ViewModel", "").ifEmpty { "UnknownScreen" }
+        val actualScreenName =
+            screenName ?: this::class
+                .simpleName
+                .orEmpty()
+                .replace("ViewModel", "")
+                .ifEmpty { "UnknownScreen" }
 
         analytics.logEvent(
             "screen_view",

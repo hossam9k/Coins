@@ -19,6 +19,5 @@ class GetAllPortfolioCoinsUseCase(
      *
      * @return Flow emitting list of portfolio coins or errors
      */
-    override operator fun invoke(): Flow<Result<List<PortfolioCoinModel>, DataError>> =
-        portfolioRepository.allPortfolioCoinsFlow()
+    override operator fun invoke(): Flow<Result<List<PortfolioCoinModel>, DataError>> = portfolioRepository.allPortfolioCoinsFlow()
 }

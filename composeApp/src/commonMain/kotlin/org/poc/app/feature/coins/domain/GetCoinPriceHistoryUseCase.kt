@@ -19,6 +19,5 @@ class GetCoinPriceHistoryUseCase(
      * @param params The coin ID to fetch price history for
      * @return Result containing list of price data points or an error
      */
-    override suspend operator fun invoke(params: String): Result<List<PriceModel>, DataError> =
-        repository.getCoinPriceHistory(params)
+    override suspend operator fun invoke(params: String): Result<List<PriceModel>, DataError> = repository.getCoinPriceHistory(params)
 }

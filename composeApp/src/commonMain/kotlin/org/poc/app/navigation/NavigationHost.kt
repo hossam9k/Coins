@@ -109,25 +109,25 @@ fun NavigationHost(
             enterTransition = {
                 slideInHorizontally(
                     animationSpec = tween(PocAnimations.Durations.NORMAL),
-                    initialOffsetX = { it }
+                    initialOffsetX = { it },
                 ) + fadeIn(tween(PocAnimations.Durations.FAST))
             },
             exitTransition = {
                 slideOutHorizontally(
                     animationSpec = tween(PocAnimations.Durations.NORMAL),
-                    targetOffsetX = { -it / 3 }
+                    targetOffsetX = { -it / 3 },
                 ) + fadeOut(tween(PocAnimations.Durations.FAST))
             },
             popEnterTransition = {
                 slideInHorizontally(
                     animationSpec = tween(PocAnimations.Durations.NORMAL),
-                    initialOffsetX = { -it / 3 }
+                    initialOffsetX = { -it / 3 },
                 ) + fadeIn(tween(PocAnimations.Durations.FAST))
             },
             popExitTransition = {
                 slideOutHorizontally(
                     animationSpec = tween(PocAnimations.Durations.NORMAL),
-                    targetOffsetX = { it }
+                    targetOffsetX = { it },
                 ) + fadeOut(tween(PocAnimations.Durations.FAST))
             },
         ) { navBackStackEntry ->
@@ -145,25 +145,25 @@ fun NavigationHost(
             enterTransition = {
                 slideInHorizontally(
                     animationSpec = tween(PocAnimations.Durations.NORMAL),
-                    initialOffsetX = { it }
+                    initialOffsetX = { it },
                 ) + fadeIn(tween(PocAnimations.Durations.FAST))
             },
             exitTransition = {
                 slideOutHorizontally(
                     animationSpec = tween(PocAnimations.Durations.NORMAL),
-                    targetOffsetX = { -it / 3 }
+                    targetOffsetX = { -it / 3 },
                 ) + fadeOut(tween(PocAnimations.Durations.FAST))
             },
             popEnterTransition = {
                 slideInHorizontally(
                     animationSpec = tween(PocAnimations.Durations.NORMAL),
-                    initialOffsetX = { -it / 3 }
+                    initialOffsetX = { -it / 3 },
                 ) + fadeIn(tween(PocAnimations.Durations.FAST))
             },
             popExitTransition = {
                 slideOutHorizontally(
                     animationSpec = tween(PocAnimations.Durations.NORMAL),
-                    targetOffsetX = { it }
+                    targetOffsetX = { it },
                 ) + fadeOut(tween(PocAnimations.Durations.FAST))
             },
         ) { navBackStackEntry ->

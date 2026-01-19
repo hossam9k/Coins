@@ -19,6 +19,5 @@ class GetTotalBalanceUseCase(
      *
      * @return Flow emitting total balance or errors
      */
-    override operator fun invoke(): Flow<Result<Double, DataError>> =
-        portfolioRepository.totalBalanceFlow()
+    override operator fun invoke(): Flow<Result<Double, DataError>> = portfolioRepository.totalBalanceFlow()
 }

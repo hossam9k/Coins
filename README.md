@@ -1,11 +1,12 @@
-# 📱 Crypto Portfolio Tracker - KMP POC
+# 📱 Crypto Portfolio Tracker - KMP
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.2.20-blue.svg)](https://kotlinlang.org)
 [![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.9.0-brightgreen)](https://www.jetbrains.com/lp/compose-multiplatform/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS%20%7C%20Desktop-lightgrey)](https://kotlinlang.org/docs/multiplatform.html)
+[![iOS Build](https://github.com/hossam9k/Coins/actions/workflows/ios.yml/badge.svg)](https://github.com/hossam9k/Coins/actions/workflows/ios.yml)
 
-A production-ready **Kotlin Multiplatform (KMP)** proof-of-concept demonstrating modern mobile development practices with **Clean Architecture**, **MVI pattern**, and **Compose Multiplatform**. Track your cryptocurrency portfolio across Android, iOS, and Desktop platforms with a single shared codebase.
+A production-ready **Kotlin Multiplatform (KMP)** application demonstrating modern mobile development practices with **Clean Architecture**, **MVI pattern**, and **Compose Multiplatform**. Track your cryptocurrency portfolio across Android, iOS, and Desktop platforms with a single shared codebase.
 
 ## ✨ Features
 
@@ -20,6 +21,7 @@ A production-ready **Kotlin Multiplatform (KMP)** proof-of-concept demonstrating
 - 🔐 **Secure API Key Management** - Build-time injection with environment variants
 - 🏗️ **Clean Architecture** - Separation of concerns with domain/data/presentation layers
 - 🎭 **MVI Pattern** - Unidirectional data flow for predictable state management
+- ⚠️ **Type-safe Error Handling** - Comprehensive `Result<T, DataError>` pattern with HTTP, network, and business errors
 - 🔄 **Type-safe Navigation** - Compose Navigation 2.8+ with serialization
 - 💉 **Dependency Injection** - Koin for KMP
 - 🧪 **Testable** - Unit tests with Turbine and AssertK
@@ -50,7 +52,7 @@ A production-ready **Kotlin Multiplatform (KMP)** proof-of-concept demonstrating
 
 ### 🎭 MVI Pattern
 
-```kotlin
+```
 ┌──────────────┐
 │   UI State   │ ◄─────┐
 └──────────────┘       │
@@ -73,6 +75,28 @@ A production-ready **Kotlin Multiplatform (KMP)** proof-of-concept demonstrating
 │  ViewModel   │───────┘
 └──────────────┘
 ```
+
+### ⚠️ Error Handling Architecture
+
+Type-safe error handling with `Result<T, DataError>`:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                       DataError                              │
+├─────────────────────────────────────────────────────────────┤
+│  Remote (enum)         │  Local (enum)    │  Business       │
+│  ─────────────────     │  ────────────    │  (sealed class) │
+│  • UNAUTHORIZED        │  • DISK_FULL     │  • InvalidCreds │
+│  • FORBIDDEN           │  • NOT_FOUND     │  • KycRequired  │
+│  • NOT_FOUND           │  • INSUFFICIENT  │  • LimitReached │
+│  • NO_INTERNET         │  • UNKNOWN       │  • SessionExpired│
+│  • REQUEST_TIMEOUT     │                  │  • Unknown(code)│
+│  • SERVER_ERROR        │                  │                 │
+│  • SERIALIZATION       │                  │                 │
+└─────────────────────────────────────────────────────────────┘
+```
+
+📚 **Read more:** [Network & Error Handling](./docs/NETWORK_AND_ERROR_HANDLING.md)
 
 ## 🚀 Tech Stack
 
@@ -105,7 +129,7 @@ A production-ready **Kotlin Multiplatform (KMP)** proof-of-concept demonstrating
 ## 📦 Project Structure
 
 ```
-KMP_POC/
+Coins/
 ├── composeApp/                          # Main application module
 │   ├── src/
 │   │   ├── commonMain/                  # Shared code (all platforms)
@@ -113,7 +137,9 @@ KMP_POC/
 │   │   │       ├── core/                # Core utilities & config
 │   │   │       │   ├── config/          # App configuration & BuildConfig
 │   │   │       │   ├── data/            # Core data (database, network)
-│   │   │       │   ├── domain/          # Core domain models
+│   │   │       │   │   ├── network/     # HTTP client, error handling
+│   │   │       │   │   └── datasource/  # Data source interfaces
+│   │   │       │   ├── domain/          # Core domain models (Result, DataError)
 │   │   │       │   └── presentation/    # MVI base classes
 │   │   │       ├── feature/             # Feature modules
 │   │   │       │   ├── coins/           # Crypto list feature
@@ -129,6 +155,9 @@ KMP_POC/
 │   │   └── desktopMain/                 # Desktop-specific code
 │   ├── build.gradle.kts                 # Build configuration
 │   └── proguard-rules.pro              # ProGuard rules
+├── iosApp/                              # iOS Xcode project
+├── docs/
+│   └── NETWORK_AND_ERROR_HANDLING.md   # Error handling architecture
 ├── config/
 │   └── detekt/detekt.yml               # Code quality config
 ├── local.properties.example             # Template for API keys
@@ -148,8 +177,8 @@ KMP_POC/
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/hossam9k/KMP_POC.git
-cd KMP_POC
+git clone https://github.com/hossam9k/Coins.git
+cd Coins
 ```
 
 ### 2️⃣ Configure API Keys
@@ -273,6 +302,7 @@ The project supports three environment variants:
 
 - 📖 [API Keys Security Setup](./API_KEYS_SETUP.md)
 - 📖 [Build Variants Guide](./BUILD_VARIANTS.md)
+- 📖 [Network & Error Handling](./docs/NETWORK_AND_ERROR_HANDLING.md)
 - 📖 [Architecture Documentation](./docs/ARCHITECTURE.md) *(coming soon)*
 - 📖 [Contributing Guide](./CONTRIBUTING.md) *(coming soon)*
 
@@ -299,9 +329,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-**Your Name** - [@hossam9k](https://twitter.com/yourtwitter)
+**Hossam Atef** - [@hossam9k](https://github.com/hossam9k)
 
-Project Link: [https://github.com/hossam9k/KMP_POC](https://github.com/yourusername/KMP_POC)
+Project Link: [https://github.com/hossam9k/Coins](https://github.com/hossam9k/Coins)
 
 ---
 

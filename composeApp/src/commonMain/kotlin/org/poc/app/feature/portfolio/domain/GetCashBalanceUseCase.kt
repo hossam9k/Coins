@@ -17,6 +17,5 @@ class GetCashBalanceUseCase(
      *
      * @return Flow emitting the cash balance as Double
      */
-    override operator fun invoke(): Flow<Double> =
-        portfolioRepository.cashBalanceFlow()
+    override operator fun invoke(): Flow<Double> = portfolioRepository.cashBalanceFlow()
 }

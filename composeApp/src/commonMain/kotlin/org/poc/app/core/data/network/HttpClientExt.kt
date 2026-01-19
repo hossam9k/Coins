@@ -79,10 +79,11 @@ suspend inline fun <reified T> safeCall(
             val bodyText = response.bodyAsText()
 
             // Step 4: Check for business error in body
-            val businessError = BusinessErrorHandler.parseBusinessError(
-                body = bodyText,
-                parser = errorParser,
-            )
+            val businessError =
+                BusinessErrorHandler.parseBusinessError(
+                    body = bodyText,
+                    parser = errorParser,
+                )
             if (businessError != null) {
                 return Result.Error(businessError)
             }
@@ -123,9 +124,7 @@ suspend inline fun <reified T> safeCall(
  * @param execute Lambda that performs the HTTP request
  * @return [Result] with unwrapped data or [DataError]
  */
-suspend inline fun <reified T> safeApiCall(
-    execute: () -> HttpResponse,
-): Result<T, DataError> {
+suspend inline fun <reified T> safeApiCall(execute: () -> HttpResponse): Result<T, DataError> {
     // Step 1: Execute with exception handling
     val responseResult = executeRequest(execute)
 

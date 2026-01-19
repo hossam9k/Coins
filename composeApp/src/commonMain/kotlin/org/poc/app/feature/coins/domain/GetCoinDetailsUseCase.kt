@@ -19,6 +19,5 @@ class GetCoinDetailsUseCase(
      * @param params The coin ID to fetch details for
      * @return Result containing the coin model or an error
      */
-    override suspend operator fun invoke(params: String): Result<CoinModel, DataError> =
-        repository.getCoinDetails(params)
+    override suspend operator fun invoke(params: String): Result<CoinModel, DataError> = repository.getCoinDetails(params)
 }

@@ -25,15 +25,15 @@ import org.poc.app.core.domain.model.DataError
  * Reference: https://github.com/philipplackner/Chirp
  */
 object BusinessErrorHandler {
-
     /**
      * JSON parser for error responses.
      * Configured for lenient parsing to handle various API formats.
      */
-    val json = Json {
-        ignoreUnknownKeys = true
-        isLenient = true
-    }
+    val json =
+        Json {
+            ignoreUnknownKeys = true
+            isLenient = true
+        }
 
     /**
      * Attempts to parse a business error from response body.
@@ -125,8 +125,8 @@ interface ApiErrorParser {
  * - `{ "error": { "code": "...", "message": "..." } }`
  */
 object DefaultApiErrorParser : ApiErrorParser {
-    override fun parse(body: String): BusinessErrorInfo? {
-        return try {
+    override fun parse(body: String): BusinessErrorInfo? =
+        try {
             val errorBody = BusinessErrorHandler.json.decodeFromString<ApiErrorBody>(body)
             BusinessErrorInfo(
                 isError = errorBody.isBusinessError(),
@@ -136,5 +136,4 @@ object DefaultApiErrorParser : ApiErrorParser {
         } catch (e: Exception) {
             null
         }
-    }
 }
