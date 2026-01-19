@@ -25,7 +25,7 @@ import kotlin.test.Test
 class BuyScreenTest {
     @OptIn(ExperimentalTestApi::class)
     @Test
-    @Ignore("Requires instrumented test environment for Compose resources")
+    @Ignore // Requires instrumented test environment for Compose resources
     fun checkSubmitButtonLabelChangesWithTradeType() =
         runComposeUiTest {
             val state =
@@ -68,7 +68,7 @@ class BuyScreenTest {
 
     @OptIn(ExperimentalTestApi::class)
     @Test
-    @Ignore("Requires instrumented test environment for Compose resources")
+    @Ignore // Requires instrumented test environment for Compose resources
     fun checkIfCoinNameShowProperlyInBuy() =
         runComposeUiTest {
             val state =
@@ -98,7 +98,7 @@ class BuyScreenTest {
 
     @OptIn(ExperimentalTestApi::class)
     @Test
-    @Ignore("Requires instrumented test environment for Compose resources")
+    @Ignore // Requires instrumented test environment for Compose resources
     fun checkErrorIsShownProperly() =
         runComposeUiTest {
             val state =
