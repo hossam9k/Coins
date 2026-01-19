@@ -48,6 +48,7 @@ class BaseViewModelTest {
     fun `logUserAction should log analytics event`() =
         runTest(testDispatcher) {
             val viewModel = TestViewModel()
+            testAnalytics.clear() // Clear events from init block
 
             viewModel.logTestAction()
 
@@ -62,6 +63,7 @@ class BaseViewModelTest {
     fun `logScreenView should log screen view event`() =
         runTest(testDispatcher) {
             val viewModel = TestViewModel()
+            testAnalytics.clear() // Clear events from init block
 
             viewModel.logTestScreenView()
 
