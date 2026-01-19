@@ -5,14 +5,7 @@ import org.poc.app.core.presentation.base.UiIntent
 import org.poc.app.core.presentation.base.UiSideEffect
 import org.poc.app.feature.trade.presentation.common.UiTradeCoinItem
 
-/**
- * MVI Contract for Buy feature
- * Follows enterprise MVI architecture patterns
- */
-
-/**
- * User intents for the Buy screen
- */
+/** User intents for the Buy screen. */
 sealed interface BuyIntent : UiIntent {
     data class UpdateAmount(
         val amount: String,

@@ -57,7 +57,10 @@ object ResponseMapper {
 suspend inline fun <reified T> HttpResponse.deserialize(): Result<T, DataError.Remote> =
     try {
         Result.Success(body<T>())
-    } catch (e: Exception) {
+    } catch (
+        @Suppress("SwallowedException") e: Exception,
+    ) {
+        // Exception details not needed - we return a typed SERIALIZATION error
         Result.Error(DataError.Remote.SERIALIZATION)
     }
 

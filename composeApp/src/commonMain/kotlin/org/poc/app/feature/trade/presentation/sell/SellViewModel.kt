@@ -30,10 +30,6 @@ class SellViewModel(
         logger = logger,
         analytics = analytics,
     ) {
-    companion object {
-        private const val TAG = "SellViewModel"
-    }
-
     init {
         // Log specific coin opening action
         logUserAction("sell_screen_opened", mapOf("coinId" to coinId))

@@ -72,10 +72,6 @@ class PortfolioViewModel(
         logger = logger,
         analytics = analytics,
     ) {
-    companion object {
-        private const val TAG = "PortfolioViewModel"
-    }
-
     init {
         // MviViewModel -> BaseViewModel automatically logs screen view
         // Auto-load portfolio on ViewModel creation
@@ -148,7 +144,10 @@ class PortfolioViewModel(
                         }
                     }
                 }
-        } catch (e: Exception) {
+        } catch (
+            @Suppress("SwallowedException") e: Exception,
+        ) {
+            // Error shown to user via side effect
             updateState { it.copy(isRefreshing = false) }
             emitSideEffect(PortfolioSideEffect.ShowError(Res.string.error_unknown))
         }

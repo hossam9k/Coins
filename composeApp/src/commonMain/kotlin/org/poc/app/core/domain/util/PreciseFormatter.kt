@@ -3,51 +3,12 @@ package org.poc.app.core.domain.util
 import org.poc.app.core.domain.model.PreciseDecimal
 
 /**
- * Banking-grade formatters for fintech applications
- * Follows international financial display standards
+ * Format fiat currency with banking standards.
  *
- * FINTECH FORMATTING STANDARDS:
- * =============================
- *
- * FIAT CURRENCY:
- * - $1,234,567.89    (millions with commas)
- * - $12,345.67       (thousands with commas)
- * - $123.45          (regular amounts, 2 decimals)
- * - $0.12            (cents, always 2 decimals)
- * - -$123.45         (negative amounts with proper sign)
- *
- * CRYPTOCURRENCY:
- * - 1,234.12345678 BTC    (high precision, remove trailing zeros)
- * - 0.00012345 ETH        (micro amounts, up to 8 decimals)
- *
- * PERCENTAGES:
- * - +12.34%          (positive gains with + sign)
- * - -5.67%           (negative losses with - sign)
- * - 0.00%            (no change)
- *
- * TRANSACTION AMOUNTS:
- * - +$1,234.56       (credits with + sign)
- * - -$1,234.56       (debits with - sign)
- *
- * PRECISION RULES:
- * - Use BigDecimal arithmetic internally
- * - Round only at display time
- * - Maintain precision for calculations
- * - Follow banking rounding rules (round half up)
- *
- * ARABIC/RTL SUPPORT:
- * - ١٢٣,٤٥٦.٧٨ ر.س    (Arabic-Indic numerals)
- * - 123,456.78 ر.س      (Western numerals with Arabic currency)
- * - Proper RTL currency symbol placement
- * - Thousands separator: comma (,) or Arabic comma (،)
- * - Decimal separator: dot (.) or Arabic decimal separator (٫)
- */
-
-/**
- * Format fiat currency with banking standards
+ * Banking-grade formatter following international financial display standards:
  * - Always show 2 decimal places for fiat
- * - Use thousands separators for large amounts
- * - Handle negative amounts properly
+ * - Use thousands separators for large amounts (e.g., $1,234,567.89)
+ * - Handle negative amounts properly (e.g., -$123.45)
  */
 fun formatFiatPrecise(
     amount: PreciseDecimal,

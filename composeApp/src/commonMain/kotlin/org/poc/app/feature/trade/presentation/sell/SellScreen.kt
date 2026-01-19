@@ -52,7 +52,6 @@ fun SellScreen(
         state = state,
         onAmountChange = { amount -> viewModel.handleIntent(SellIntent.UpdateAmount(amount)) },
         onSubmitClicked = { viewModel.handleIntent(SellIntent.SubmitSale) },
-        onRetryClicked = { viewModel.handleIntent(SellIntent.RetryLoading) },
     )
 }
 
@@ -61,7 +60,6 @@ private fun SellScreenContent(
     state: SellState,
     onAmountChange: (String) -> Unit,
     onSubmitClicked: () -> Unit,
-    onRetryClicked: () -> Unit,
 ) {
     TradeScreen(
         state =

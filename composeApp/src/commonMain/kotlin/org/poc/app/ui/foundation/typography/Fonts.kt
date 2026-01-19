@@ -11,15 +11,7 @@ import kmp_poc.composeapp.generated.resources.Ubuntu_Medium
 import kmp_poc.composeapp.generated.resources.Ubuntu_Regular
 import org.jetbrains.compose.resources.Font
 
-/**
- * Brand Font System
- * Define custom font families for consistent brand identity
- */
-
-/**
- * Primary brand font family
- * Using Ubuntu fonts for brand identity
- */
+/** Primary brand font family. Uses Ubuntu fonts for brand identity. */
 @Composable
 internal fun brandFontFamily() = ubuntuFontFamily()
 

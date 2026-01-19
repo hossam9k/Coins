@@ -21,20 +21,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.poc.app.ui.DesignSystem
 import org.poc.app.ui.components.charts.PerformanceChart
 
-/**
- * Design System Chart Dialog Component
- *
- * A reusable dialog component for displaying performance charts with:
- * - Loading state support
- * - Configurable chart data
- * - Consistent design system styling
- * - Accessible dismiss action
- * - Financial color theming
- */
-
-/**
- * Data class representing the state of chart dialog content
- */
+/** Data class representing the state of chart dialog content. */
 data class ChartDialogState(
     val sparkLine: List<Double> = emptyList(),
     val isLoading: Boolean = false,

@@ -23,24 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import coil3.compose.AsyncImage
 import org.poc.app.ui.DesignSystem
 
-/**
- * Enterprise-grade Generic List Item Component
- *
- * Unified component for displaying any type of items with metadata
- * Consolidates duplicate implementations and provides consistent behavior
- *
- * Features:
- * - Consistent design across all item listings
- * - Support for different interaction patterns (click, long-click)
- * - Accessibility support
- * - Performance optimized
- * - Flexible data display
- */
-
-/**
- * Data class for generic list item
- * Abstracts different item types with flexible data structure
- */
+/** Data class for generic list item. Abstracts different item types with flexible data structure. */
 data class GenericListItemData(
     val id: String,
     val name: String,

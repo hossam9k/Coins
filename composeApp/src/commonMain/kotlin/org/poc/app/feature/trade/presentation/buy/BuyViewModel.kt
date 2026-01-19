@@ -29,10 +29,6 @@ class BuyViewModel(
         logger = logger,
         analytics = analytics,
     ) {
-    companion object {
-        private const val TAG = "BuyViewModel"
-    }
-
     init {
         // Log specific coin opening action
         logUserAction("buy_screen_opened", mapOf("coinId" to coinId))

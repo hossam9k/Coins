@@ -45,22 +45,32 @@ object ExceptionHandler {
         } catch (e: CancellationException) {
             // CRITICAL: Never catch cancellation - rethrow for structured concurrency
             throw e
-        } catch (e: SocketTimeoutException) {
+        } catch (
+            @Suppress("SwallowedException") e: SocketTimeoutException,
+        ) {
             onError(DataError.Remote.REQUEST_TIMEOUT)
             null
-        } catch (e: HttpRequestTimeoutException) {
+        } catch (
+            @Suppress("SwallowedException") e: HttpRequestTimeoutException,
+        ) {
             onError(DataError.Remote.REQUEST_TIMEOUT)
             null
-        } catch (e: ConnectTimeoutException) {
+        } catch (
+            @Suppress("SwallowedException") e: ConnectTimeoutException,
+        ) {
             onError(DataError.Remote.REQUEST_TIMEOUT)
             null
-        } catch (e: UnresolvedAddressException) {
+        } catch (
+            @Suppress("SwallowedException") e: UnresolvedAddressException,
+        ) {
             onError(DataError.Remote.NO_INTERNET)
             null
         } catch (e: IOException) {
             onError(mapIOException(e))
             null
-        } catch (e: Exception) {
+        } catch (
+            @Suppress("SwallowedException") e: Exception,
+        ) {
             coroutineContext.ensureActive()
             onError(DataError.Remote.UNKNOWN)
             null

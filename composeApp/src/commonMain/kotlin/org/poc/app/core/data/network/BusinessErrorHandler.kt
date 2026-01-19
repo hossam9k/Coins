@@ -133,7 +133,10 @@ object DefaultApiErrorParser : ApiErrorParser {
                 code = errorBody.extractErrorCode(),
                 message = errorBody.extractErrorMessage(),
             )
-        } catch (e: Exception) {
+        } catch (
+            @Suppress("SwallowedException") e: Exception,
+        ) {
+            // Parsing failed - not a business error format
             null
         }
 }

@@ -4,25 +4,11 @@ import org.poc.app.core.domain.model.AnalyticsLogger
 import org.poc.app.core.domain.model.DispatcherProvider
 import org.poc.app.core.domain.model.Logger
 
-/**
- * MVI TEMPLATE FOR NEW SCREENS
- * Copy this template for each new screen in your app
- *
- * Replace "ScreenName" with your actual screen name:
- * - UserListViewModel
- * - DashboardViewModel
- * - SettingsViewModel
- * - ReportsViewModel
- * etc.
- */
+// MVI TEMPLATE FOR NEW SCREENS
+// Copy this template for each new screen in your app
+// Replace "ScreenName" with your actual screen name
 
-// ================================
-// 1. SCREEN-SPECIFIC STATE
-// ================================
-
-/**
- * Replace "ScreenName" with your screen name: UserListState, DashboardState, etc.
- */
+/** Replace "ScreenName" with your screen name: UserListState, DashboardState, etc. */
 data class ScreenNameState(
     val data: List<ScreenDataModel> = emptyList(),
     val selectedItem: String? = null,
@@ -167,7 +153,10 @@ class ScreenNameViewModel(
                     error = null,
                 )
             }
-        } catch (e: Exception) {
+        } catch (
+            @Suppress("SwallowedException") e: Exception,
+        ) {
+            // Template code - in real implementation, log the exception
             updateState {
                 it.copy(
                     isLoading = false,
@@ -191,7 +180,10 @@ class ScreenNameViewModel(
                 )
             }
             emitSideEffect(ScreenNameSideEffect.ShowSuccess("Data refreshed"))
-        } catch (e: Exception) {
+        } catch (
+            @Suppress("SwallowedException") e: Exception,
+        ) {
+            // Template code - in real implementation, log the exception
             updateState { it.copy(isRefreshing = false) }
             emitSideEffect(ScreenNameSideEffect.ShowError("Failed to refresh"))
         }
@@ -222,7 +214,10 @@ class ScreenNameViewModel(
                         it.copy(data = it.data.filter { item -> item.id != itemId })
                     }
                     emitSideEffect(ScreenNameSideEffect.ShowSuccess("Item deleted"))
-                } catch (e: Exception) {
+                } catch (
+                    @Suppress("SwallowedException") e: Exception,
+                ) {
+                    // Template code - in real implementation, log the exception
                     emitSideEffect(ScreenNameSideEffect.ShowError("Failed to delete"))
                 }
             }

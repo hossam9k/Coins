@@ -60,10 +60,6 @@ class CoinsListViewModel(
         logger = logger,
         analytics = analytics,
     ) {
-    companion object {
-        private const val TAG = "CoinsListViewModel"
-    }
-
     init {
         // MviViewModel -> BaseViewModel automatically logs screen view
         // Auto-load coins on ViewModel creation

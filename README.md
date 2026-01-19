@@ -333,8 +333,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Project Link: [https://github.com/hossam9k/Coins](https://github.com/hossam9k/Coins)
 
----
-
-⭐ **Star this repo** if you found it helpful!
-
-Made with ❤️ using Kotlin Multiplatform

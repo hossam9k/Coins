@@ -23,23 +23,7 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.poc.app.ui.DesignSystem
 
-/**
- * Design System Value Display Card Component
- *
- * A reusable card component for displaying any type of value information
- * with optional action button support.
- *
- * Features:
- * - Primary and secondary value display
- * - Optional action button with custom styling
- * - Flexible layout with centered content alignment
- * - Consistent design system integration
- * - Customizable button colors and text
- */
-
-/**
- * Data class for balance card content
- */
+/** Data class for balance card content. */
 data class BalanceCardData(
     val primaryLabel: StringResource? = null,
     val primaryValue: String,

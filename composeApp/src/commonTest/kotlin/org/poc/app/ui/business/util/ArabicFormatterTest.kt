@@ -2,12 +2,7 @@ package org.poc.app.core.domain.util
 
 import org.poc.app.core.domain.model.PreciseDecimal
 
-/**
- * Test functions to validate Arabic formatting functionality
- * This file demonstrates how the Arabic formatting works with sample data
- */
-
-// Test data constants
+/** Test data constants. */
 private object TestData {
     val TEST_AMOUNT = PreciseDecimal.fromString("12345.67")
     val LARGE_AMOUNT = PreciseDecimal.fromString("1234567.89")

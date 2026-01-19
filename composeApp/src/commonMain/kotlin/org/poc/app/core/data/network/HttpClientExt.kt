@@ -8,38 +8,6 @@ import org.poc.app.core.domain.model.DataError
 import org.poc.app.core.domain.model.Result
 
 /**
- * HTTP client extension functions for safe API calls.
- *
- * Composes [ExceptionHandler], [ResponseMapper], and [BusinessErrorHandler]
- * into simple, high-level functions.
- *
- * ## Functions
- *
- * | Function | Use Case |
- * |----------|----------|
- * | [safeCall] | Standard API calls (handles HTTP + business errors) |
- * | [safeApiCall] | APIs using `ApiResponse<T>` wrapper format |
- *
- * ## Usage
- * ```kotlin
- * // Standard API call
- * val result = safeCall<UserDto> { client.get("user") }
- *
- * // With custom error parser
- * val result = safeCall<UserDto>(MyApiErrorParser) { client.get("user") }
- *
- * // For ApiResponse<T> wrapped responses
- * val result = safeApiCall<UserDto> { client.get("profile") }
- * ```
- *
- * Reference: https://github.com/philipplackner/Chirp
- */
-
-// =============================================================================
-// SAFE CALL - Primary function for all API calls
-// =============================================================================
-
-/**
  * Executes HTTP request with comprehensive error handling.
  *
  * Handles:
@@ -91,16 +59,15 @@ suspend inline fun <reified T> safeCall(
             // Step 5: Parse as expected type
             try {
                 Result.Success(BusinessErrorHandler.json.decodeFromString<T>(bodyText))
-            } catch (e: Exception) {
+            } catch (
+                @Suppress("SwallowedException") e: Exception,
+            ) {
+                // Exception details not needed - we return a typed SERIALIZATION error
                 Result.Error(DataError.Remote.SERIALIZATION)
             }
         }
     }
 }
-
-// =============================================================================
-// SAFE API CALL - For ApiResponse<T> wrapper format
-// =============================================================================
 
 /**
  * Executes HTTP request expecting [ApiResponse] wrapper format.
@@ -149,7 +116,10 @@ suspend inline fun <reified T> safeApiCall(execute: () -> HttpResponse): Result<
                     val message = apiResponse.message
                     Result.Error(BusinessErrorCode.fromCode(errorCode, message))
                 }
-            } catch (e: Exception) {
+            } catch (
+                @Suppress("SwallowedException") e: Exception,
+            ) {
+                // Exception details not needed - we return a typed SERIALIZATION error
                 Result.Error(DataError.Remote.SERIALIZATION)
             }
         }

@@ -3,28 +3,12 @@ package org.poc.app.core.data.network
 import kotlinx.serialization.Serializable
 
 /**
- * Generic API response wrapper DTOs.
+ * Generic API response wrapper.
  *
- * Single Responsibility: Define data structures for API responses.
- *
- * ## Common API Response Patterns
- *
- * ### Pattern 1: Success flag with data/error
+ * Use when API wraps all responses in a standard format:
  * ```json
- * { "success": true, "data": { ... } }
- * { "success": false, "errorCode": "PROFILE_INCOMPLETE", "message": "..." }
- * ```
- *
- * ### Pattern 2: Data or error (nullable)
- * ```json
- * { "data": { ... }, "error": null }
- * { "data": null, "error": { "code": "...", "message": "..." } }
- * ```
- *
- * ### Pattern 3: Status code in body
- * ```json
- * { "status": 0, "data": { ... } }
- * { "status": 1001, "message": "..." }
+ * { "success": true, "data": { "id": 1, "name": "..." } }
+ * { "success": false, "errorCode": "ERROR_CODE", "message": "..." }
  * ```
  *
  * ## Customization
@@ -39,16 +23,6 @@ import kotlinx.serialization.Serializable
  * ) {
  *     val isSuccess: Boolean get() = status == 0
  * }
- * ```
- */
-
-/**
- * Generic API response wrapper.
- *
- * Use when API wraps all responses in a standard format:
- * ```json
- * { "success": true, "data": { "id": 1, "name": "..." } }
- * { "success": false, "errorCode": "ERROR_CODE", "message": "..." }
  * ```
  *
  * @param T The type of data on success

@@ -24,24 +24,7 @@ import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.poc.app.ui.DesignSystem
 
-/**
- * Design System Empty State Component
- *
- * A reusable component for displaying empty states across the application
- * with consistent styling and optional action buttons.
- *
- * Features:
- * - Optional icon display
- * - Configurable message text
- * - Optional action button
- * - Consistent design system integration
- * - Flexible styling options
- * - Responsive layout
- */
-
-/**
- * Data class for empty state content
- */
+/** Data class for empty state content. */
 data class EmptyStateData(
     val icon: ImageVector? = null,
     val message: StringResource,

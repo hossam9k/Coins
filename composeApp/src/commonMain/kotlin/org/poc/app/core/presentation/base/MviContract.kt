@@ -1,15 +1,8 @@
 package org.poc.app.core.presentation.base
 
 /**
- * Base MVI contracts for type-safe, reusable architecture
- *
- * These interfaces ensure consistency across all features while maintaining flexibility
- * Usage: Extend these in your feature-specific contracts
- */
-
-/**
- * Marker interface for all UI states
- * Ensures type safety and consistency across features
+ * Marker interface for all UI states.
+ * Ensures type safety and consistency across features.
  */
 interface UiState
 

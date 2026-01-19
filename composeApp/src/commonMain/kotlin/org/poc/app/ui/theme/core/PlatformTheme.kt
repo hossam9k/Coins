@@ -5,14 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-/**
- * Platform-specific theming support
- * Provides platform-optimized color schemes and behaviors
- */
-
-/**
- * Platform theme configuration
- */
+/** Platform theme configuration for platform-specific theming support. */
 data class PlatformThemeConfig(
     val supportsDynamicColors: Boolean,
     val supportsHighRefreshRate: Boolean,
