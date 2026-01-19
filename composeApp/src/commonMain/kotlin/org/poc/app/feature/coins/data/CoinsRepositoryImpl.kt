@@ -13,17 +13,17 @@ import org.poc.app.feature.coins.domain.model.PriceModel
 class CoinsRepositoryImpl(
     private val remoteDataSource: CoinsRemoteDataSource,
 ) : CoinsRepository {
-    override suspend fun getCoins(): Result<List<CoinModel>, DataError.Remote> =
+    override suspend fun getCoins(): Result<List<CoinModel>, DataError> =
         remoteDataSource.getListOfCoins().map { response ->
             response.data.coins.map { it.toCoinModel() }
         }
 
-    override suspend fun getCoinPriceHistory(coinId: String): Result<List<PriceModel>, DataError.Remote> =
+    override suspend fun getCoinPriceHistory(coinId: String): Result<List<PriceModel>, DataError> =
         remoteDataSource.getPriceHistory(coinId).map { response ->
             response.data.history.map { it.toPriceModel() }
         }
 
-    override suspend fun getCoinDetails(coinId: String): Result<CoinModel, DataError.Remote> =
+    override suspend fun getCoinDetails(coinId: String): Result<CoinModel, DataError> =
         remoteDataSource.getCoinById(coinId).map { response ->
             response.data.coin.toCoinModel()
         }

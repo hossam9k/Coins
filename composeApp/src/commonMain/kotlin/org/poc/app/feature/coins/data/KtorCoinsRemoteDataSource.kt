@@ -13,20 +13,20 @@ import org.poc.app.feature.coins.data.dto.CoinsResponseDto
 class KtorCoinsRemoteDataSource(
     private val httpClient: HttpClient,
 ) : CoinsRemoteDataSource {
-    override suspend fun getListOfCoins(): Result<CoinsResponseDto, DataError.Remote> =
-        safeCall<CoinsResponseDto> {
+    override suspend fun getListOfCoins(): Result<CoinsResponseDto, DataError> =
+        safeCall {
             // In Ktor, when defaultRequest has a base URL,
             // we need to provide the full URL or use urlString
             httpClient.get(urlString = "${ApiConfig.baseUrl}${ApiConfig.Endpoints.ALL_COINS}")
         }
 
-    override suspend fun getPriceHistory(coinId: String): Result<CoinPriceHistoryResponseDto, DataError.Remote> =
-        safeCall<CoinPriceHistoryResponseDto> {
+    override suspend fun getPriceHistory(coinId: String): Result<CoinPriceHistoryResponseDto, DataError> =
+        safeCall {
             httpClient.get(urlString = "${ApiConfig.baseUrl}coin/$coinId/history")
         }
 
-    override suspend fun getCoinById(coinId: String): Result<CoinDetailsResponseDto, DataError.Remote> =
-        safeCall<CoinDetailsResponseDto> {
+    override suspend fun getCoinById(coinId: String): Result<CoinDetailsResponseDto, DataError> =
+        safeCall {
             // Coinranking API uses: /coin/{uuid}
             httpClient.get(urlString = "${ApiConfig.baseUrl}${ApiConfig.Endpoints.COIN_DETAILS}/$coinId")
         }

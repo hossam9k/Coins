@@ -5,18 +5,41 @@ import org.poc.app.core.domain.model.DataError
 import org.poc.app.core.domain.model.EmptyResult
 import org.poc.app.core.domain.model.PreciseDecimal
 import org.poc.app.core.domain.model.Result
+import org.poc.app.core.domain.usecase.UseCase
 import org.poc.app.feature.coins.domain.model.Coin
 import org.poc.app.feature.portfolio.domain.PortfolioCoinModel
 import org.poc.app.feature.portfolio.domain.PortfolioRepository
 
+/**
+ * Parameters for buying a coin.
+ *
+ * @param coin The coin to purchase
+ * @param amountInFiat The purchase amount in fiat currency
+ * @param price The current price per unit
+ */
+data class BuyCoinParams(
+    val coin: Coin,
+    val amountInFiat: PreciseDecimal,
+    val price: PreciseDecimal,
+)
+
+/**
+ * Use case for executing a coin purchase.
+ * Handles balance validation, portfolio updates, and cash balance deduction.
+ *
+ * @param portfolioRepository The portfolio repository for data access
+ */
 class BuyCoinUseCase(
     private val portfolioRepository: PortfolioRepository,
-) {
-    suspend fun buyCoin(
-        coin: Coin,
-        amountInFiat: PreciseDecimal,
-        price: PreciseDecimal,
-    ): EmptyResult<DataError> {
+) : UseCase<BuyCoinParams, EmptyResult<DataError>> {
+    /**
+     * Executes a coin purchase.
+     *
+     * @param params The purchase parameters (coin, amount, price)
+     * @return EmptyResult indicating success or the specific error
+     */
+    override suspend operator fun invoke(params: BuyCoinParams): EmptyResult<DataError> {
+        val (coin, amountInFiat, price) = params
         val balance = portfolioRepository.cashBalanceFlow().first()
         val balanceDecimal = PreciseDecimal.fromDouble(balance)
 

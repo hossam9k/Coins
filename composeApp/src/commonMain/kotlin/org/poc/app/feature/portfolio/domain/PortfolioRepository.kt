@@ -8,17 +8,17 @@ import org.poc.app.core.domain.model.Result
 interface PortfolioRepository {
     suspend fun initializeBalance()
 
-    fun allPortfolioCoinsFlow(): Flow<Result<List<PortfolioCoinModel>, DataError.Remote>>
+    fun allPortfolioCoinsFlow(): Flow<Result<List<PortfolioCoinModel>, DataError>>
 
-    fun getPortfolioCoinFlow(coinId: String): Flow<Result<PortfolioCoinModel?, DataError.Remote>>
+    fun getPortfolioCoinFlow(coinId: String): Flow<Result<PortfolioCoinModel?, DataError>>
 
     suspend fun savePortfolioCoin(portfolioCoin: PortfolioCoinModel): EmptyResult<DataError.Local>
 
     suspend fun removeCoinFromPortfolio(coinId: String)
 
-    fun calculateTotalPortfolioValue(): Flow<Result<Double, DataError.Remote>>
+    fun calculateTotalPortfolioValue(): Flow<Result<Double, DataError>>
 
-    fun totalBalanceFlow(): Flow<Result<Double, DataError.Remote>>
+    fun totalBalanceFlow(): Flow<Result<Double, DataError>>
 
     fun cashBalanceFlow(): Flow<Double>
 

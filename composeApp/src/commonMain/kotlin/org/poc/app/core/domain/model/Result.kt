@@ -123,3 +123,31 @@ fun <T, E : Error> Result<T, E>.logAnalyticsError(
  * Example: API calls confirming action completion.
  */
 typealias EmptyResult<E> = Result<Unit, E>
+
+/**
+ * Retries an operation that returns a Result on failure.
+ * Uses exponential backoff with configurable initial delay.
+ *
+ * @param maxAttempts Maximum number of attempts (default: 3)
+ * @param initialDelayMs Initial delay in milliseconds (default: 1000ms)
+ * @param shouldRetry Predicate to determine if retry should occur for given error
+ * @param block The operation to execute and potentially retry
+ * @return Final Result after all attempts
+ */
+suspend fun <T, E : Error> retryOnError(
+    maxAttempts: Int = 3,
+    initialDelayMs: Long = 1000,
+    shouldRetry: (E) -> Boolean = { true },
+    block: suspend () -> Result<T, E>,
+): Result<T, E> {
+    var lastResult = block()
+    var attempt = 1
+
+    while (lastResult is Result.Error && attempt < maxAttempts && shouldRetry(lastResult.error)) {
+        kotlinx.coroutines.delay(initialDelayMs * attempt)
+        lastResult = block()
+        attempt++
+    }
+
+    return lastResult
+}

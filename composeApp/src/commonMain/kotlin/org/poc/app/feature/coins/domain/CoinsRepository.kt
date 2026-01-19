@@ -6,9 +6,9 @@ import org.poc.app.feature.coins.domain.model.CoinModel
 import org.poc.app.feature.coins.domain.model.PriceModel
 
 interface CoinsRepository {
-    suspend fun getCoins(): Result<List<CoinModel>, DataError.Remote>
+    suspend fun getCoins(): Result<List<CoinModel>, DataError>
 
-    suspend fun getCoinPriceHistory(coinId: String): Result<List<PriceModel>, DataError.Remote>
+    suspend fun getCoinPriceHistory(coinId: String): Result<List<PriceModel>, DataError>
 
-    suspend fun getCoinDetails(coinId: String): Result<CoinModel, DataError.Remote>
+    suspend fun getCoinDetails(coinId: String): Result<CoinModel, DataError>
 }

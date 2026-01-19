@@ -35,7 +35,7 @@ class PortfolioRepositoryImpl(
         private val MAX_PORTFOLIO_AMOUNT = PreciseDecimal.fromString("1000000.0")
     }
 
-    private suspend fun fetchCoinsWithResult(): Result<List<CoinModel>, DataError.Remote> = coinsRepository.getCoins()
+    private suspend fun fetchCoinsWithResult(): Result<List<CoinModel>, DataError> = coinsRepository.getCoins()
 
     override suspend fun initializeBalance() {
         val currentBalance = userBalanceDao.getCashBalance()
@@ -49,14 +49,14 @@ class PortfolioRepositoryImpl(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun allPortfolioCoinsFlow(): Flow<Result<List<PortfolioCoinModel>, DataError.Remote>> =
+    override fun allPortfolioCoinsFlow(): Flow<Result<List<PortfolioCoinModel>, DataError>> =
         portfolioDao
             .getAllOwnedCoins()
             .flatMapLatest { portfolioCoinEntities ->
                 if (portfolioCoinEntities.isEmpty()) {
                     flowOf(Result.Success(emptyList<PortfolioCoinModel>()))
                 } else {
-                    flow<Result<List<PortfolioCoinModel>, DataError.Remote>> {
+                    flow<Result<List<PortfolioCoinModel>, DataError>> {
                         when (val result = fetchCoinsWithResult()) {
                             is Result.Error -> emit(Result.Error(result.error))
                             is Result.Success -> {
@@ -77,14 +77,14 @@ class PortfolioRepositoryImpl(
             }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun getPortfolioCoinFlow(coinId: String): Flow<Result<PortfolioCoinModel?, DataError.Remote>> =
+    override fun getPortfolioCoinFlow(coinId: String): Flow<Result<PortfolioCoinModel?, DataError>> =
         portfolioDao
             .getCoinByIdFlow(coinId)
             .flatMapLatest { portfolioCoinEntity ->
                 if (portfolioCoinEntity == null) {
                     flowOf(Result.Success(null))
                 } else {
-                    flow<Result<PortfolioCoinModel?, DataError.Remote>> {
+                    flow<Result<PortfolioCoinModel?, DataError>> {
                         when (val result = coinsRepository.getCoinDetails(coinId)) {
                             is Result.Error -> emit(Result.Error(result.error))
                             is Result.Success -> {
@@ -129,14 +129,14 @@ class PortfolioRepositoryImpl(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun calculateTotalPortfolioValue(): Flow<Result<Double, DataError.Remote>> =
+    override fun calculateTotalPortfolioValue(): Flow<Result<Double, DataError>> =
         portfolioDao
             .getAllOwnedCoins()
             .flatMapLatest { portfolioCoinsEntities ->
                 if (portfolioCoinsEntities.isEmpty()) {
                     flowOf(Result.Success(0.0))
                 } else {
-                    flow<Result<Double, DataError.Remote>> {
+                    flow<Result<Double, DataError>> {
                         when (val result = fetchCoinsWithResult()) {
                             is Result.Error -> emit(Result.Error(result.error))
                             is Result.Success -> {
@@ -160,7 +160,7 @@ class PortfolioRepositoryImpl(
             balance ?: DEFAULT_CASH_BALANCE
         }
 
-    override fun totalBalanceFlow(): Flow<Result<Double, DataError.Remote>> =
+    override fun totalBalanceFlow(): Flow<Result<Double, DataError>> =
         combine(
             cashBalanceFlow(),
             calculateTotalPortfolioValue(),

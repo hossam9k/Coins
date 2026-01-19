@@ -1,13 +1,20 @@
 package org.poc.app.feature.portfolio.domain
 
+import org.poc.app.core.domain.usecase.NoParamUseCase
+
 /**
- * Use case for initializing portfolio balance
- * Handles initial setup and balance calculations
+ * Use case for initializing the user's balance.
+ * Should be called on app startup to ensure balance exists.
+ *
+ * @param portfolioRepository The portfolio repository for data access
  */
 class InitializeBalanceUseCase(
     private val portfolioRepository: PortfolioRepository,
-) {
-    suspend operator fun invoke() {
+) : NoParamUseCase<Unit> {
+    /**
+     * Initializes the balance if not already present.
+     */
+    override suspend operator fun invoke() {
         portfolioRepository.initializeBalance()
     }
 }

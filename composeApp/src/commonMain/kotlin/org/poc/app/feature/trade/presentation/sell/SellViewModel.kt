@@ -11,6 +11,7 @@ import org.poc.app.core.domain.util.toUiText
 import org.poc.app.core.presentation.base.MviViewModel
 import org.poc.app.feature.coins.domain.GetCoinDetailsUseCase
 import org.poc.app.feature.portfolio.domain.PortfolioRepository
+import org.poc.app.feature.trade.domain.SellCoinParams
 import org.poc.app.feature.trade.domain.SellCoinUseCase
 import org.poc.app.feature.trade.presentation.mapper.TradeUiMapper.toCoin
 import org.poc.app.feature.trade.presentation.mapper.TradeUiMapper.toUiTradeCoinItem
@@ -104,7 +105,7 @@ class SellViewModel(
 
     private suspend fun getCoinDetails(ownedAmountInUnit: Double) {
         try {
-            when (val coinResponse = getCoinDetailsUseCase.execute(coinId)) {
+            when (val coinResponse = getCoinDetailsUseCase(coinId)) {
                 is Result.Success -> {
                     val availableAmountInFiat = PreciseDecimal.fromDouble(ownedAmountInUnit) * coinResponse.data.price
                     updateState { currentState ->
@@ -148,10 +149,12 @@ class SellViewModel(
 
         try {
             val sellCoinResponse =
-                sellCoinUseCase.sellCoin(
-                    coin = tradeCoin.toCoin(),
-                    amountInFiat = PreciseDecimal.fromDouble(amount),
-                    price = PreciseDecimal.fromDouble(tradeCoin.price),
+                sellCoinUseCase(
+                    SellCoinParams(
+                        coin = tradeCoin.toCoin(),
+                        amountInFiat = PreciseDecimal.fromDouble(amount),
+                        price = PreciseDecimal.fromDouble(tradeCoin.price),
+                    ),
                 )
 
             when (sellCoinResponse) {

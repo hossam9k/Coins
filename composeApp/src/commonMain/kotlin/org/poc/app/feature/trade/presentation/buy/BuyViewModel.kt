@@ -10,6 +10,7 @@ import org.poc.app.core.domain.util.toUiText
 import org.poc.app.core.presentation.base.MviViewModel
 import org.poc.app.feature.coins.domain.GetCoinDetailsUseCase
 import org.poc.app.feature.portfolio.domain.PortfolioRepository
+import org.poc.app.feature.trade.domain.BuyCoinParams
 import org.poc.app.feature.trade.domain.BuyCoinUseCase
 import org.poc.app.feature.trade.presentation.mapper.TradeUiMapper.toCoin
 import org.poc.app.feature.trade.presentation.mapper.TradeUiMapper.toUiTradeCoinItem
@@ -78,7 +79,7 @@ class BuyViewModel(
             val balance = portfolioRepository.cashBalanceFlow().first()
 
             // Get coin details with current price
-            when (val coinResponse = getCoinDetailsUseCase.execute(coinId)) {
+            when (val coinResponse = getCoinDetailsUseCase(coinId)) {
                 is Result.Success -> {
                     updateState { currentState ->
                         currentState.copy(
@@ -132,10 +133,12 @@ class BuyViewModel(
 
         try {
             val buyCoinResponse =
-                buyCoinUseCase.buyCoin(
-                    coin = tradeCoin.toCoin(),
-                    amountInFiat = PreciseDecimal.fromDouble(amount),
-                    price = PreciseDecimal.fromDouble(tradeCoin.price),
+                buyCoinUseCase(
+                    BuyCoinParams(
+                        coin = tradeCoin.toCoin(),
+                        amountInFiat = PreciseDecimal.fromDouble(amount),
+                        price = PreciseDecimal.fromDouble(tradeCoin.price),
+                    ),
                 )
 
             when (buyCoinResponse) {

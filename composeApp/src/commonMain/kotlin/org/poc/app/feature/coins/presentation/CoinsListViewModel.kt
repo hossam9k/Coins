@@ -83,7 +83,7 @@ class CoinsListViewModel(
     private suspend fun loadCoins() {
         updateState { it.copy(isLoading = true, error = null) }
 
-        when (val result = getCoinsListUseCase.execute()) {
+        when (val result = getCoinsListUseCase()) {
             is Result.Success -> {
                 val coins =
                     result.data.map { coinItem ->
@@ -125,7 +125,7 @@ class CoinsListViewModel(
             )
         }
 
-        when (val result = getCoinPriceHistoryUseCase.execute(coinId)) {
+        when (val result = getCoinPriceHistoryUseCase(coinId)) {
             is Result.Success -> {
                 val coinName =
                     currentState.coins

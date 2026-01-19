@@ -16,7 +16,7 @@ import org.poc.app.feature.portfolio.domain.PortfolioRepository
 
 class FakePortfolioRepository : PortfolioRepository {
     private val _data =
-        MutableStateFlow<Result<List<PortfolioCoinModel>, DataError.Remote>>(
+        MutableStateFlow<Result<List<PortfolioCoinModel>, DataError>>(
             Result.Success(emptyList()),
         )
 
@@ -29,9 +29,9 @@ class FakePortfolioRepository : PortfolioRepository {
         // no-op
     }
 
-    override fun allPortfolioCoinsFlow(): Flow<Result<List<PortfolioCoinModel>, DataError.Remote>> = _data.asStateFlow()
+    override fun allPortfolioCoinsFlow(): Flow<Result<List<PortfolioCoinModel>, DataError>> = _data.asStateFlow()
 
-    override fun getPortfolioCoinFlow(coinId: String): Flow<Result<PortfolioCoinModel?, DataError.Remote>> =
+    override fun getPortfolioCoinFlow(coinId: String): Flow<Result<PortfolioCoinModel?, DataError>> =
         MutableStateFlow(Result.Success(portfolioCoin)).asStateFlow()
 
     override suspend fun savePortfolioCoin(portfolioCoin: PortfolioCoinModel): EmptyResult<DataError.Local> {
@@ -45,9 +45,9 @@ class FakePortfolioRepository : PortfolioRepository {
         _data.update { Result.Success(emptyList()) }
     }
 
-    override fun calculateTotalPortfolioValue(): Flow<Result<Double, DataError.Remote>> = _portfolioValue.map { Result.Success(it) }
+    override fun calculateTotalPortfolioValue(): Flow<Result<Double, DataError>> = _portfolioValue.map { Result.Success(it) }
 
-    override fun totalBalanceFlow(): Flow<Result<Double, DataError.Remote>> =
+    override fun totalBalanceFlow(): Flow<Result<Double, DataError>> =
         _cashBalance
             .combine(_portfolioValue) { cashBalance, portfolioValue ->
                 cashBalance + portfolioValue
@@ -60,7 +60,7 @@ class FakePortfolioRepository : PortfolioRepository {
     }
 
     fun simulateError() {
-        _data.value = Result.Error(DataError.Remote.SERVER)
+        _data.value = Result.Error(DataError.Remote.SERVER_ERROR)
     }
 
     companion object {

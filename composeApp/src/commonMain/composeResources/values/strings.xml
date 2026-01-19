@@ -1,12 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
+    <!-- Error Messages - Reference: https://github.com/philipplackner/Chirp -->
+
+    <!-- Authentication Errors -->
+    <string name="error_unauthorized">Session expired. Please log in again.</string>
+    <string name="error_forbidden">You don\'t have permission to perform this action.</string>
+
+    <!-- Client Errors (4xx) -->
+    <string name="error_bad_request">Invalid request. Please try again.</string>
+    <string name="error_not_found">The requested resource was not found.</string>
+    <string name="error_conflict">This action conflicts with existing data.</string>
+    <string name="error_payload_too_large">The data you\'re sending is too large.</string>
+    <string name="error_too_many_requests">Too many requests. Please wait a moment and try again.</string>
+
+    <!-- Network Errors -->
+    <string name="error_no_internet">Couldn\'t reach server, please check your internet connection.</string>
+    <string name="error_request_timeout">The request timed out. Please try again.</string>
+    <string name="error_ssl">Secure connection failed. Please check your network.</string>
+    <string name="error_connection_refused">Could not connect to server.</string>
+
+    <!-- Server Errors (5xx) -->
+    <string name="error_server">Server error. Please try again later.</string>
+    <string name="error_service_unavailable">Service temporarily unavailable. Please try again later.</string>
+
+    <!-- Parsing Errors -->
+    <string name="error_serialization">Couldn\'t parse data.</string>
+
+    <!-- Local Errors -->
     <string name="error_disk_full">Oops, it seems like your disk is full.</string>
-    <string name="error_unknown">Oops, something went wrong.</string>
-    <string name="error_request_timeout">The request timed out.</string>
-    <string name="error_no_internet">Couldn't reach server, please check your internet connection.</string>
-    <string name="error_too_many_requests">Just wait a minute and try again!</string>
-    <string name="error_serialization">Couldn't parse data.</string>
     <string name="error_insufficient_balance">Insufficient funds!</string>
+
+    <!-- Unknown Errors -->
+    <string name="error_unknown">Oops, something went wrong.</string>
+
+    <!-- Business Errors (HTTP 200 but error in response body) -->
+    <!-- User/Profile Errors -->
+    <string name="error_profile_incomplete">Please complete your profile to continue.</string>
+    <string name="error_email_not_verified">Please verify your email address.</string>
+    <string name="error_phone_not_verified">Please verify your phone number.</string>
+    <string name="error_kyc_required">Identity verification is required to proceed.</string>
+    <string name="error_account_suspended">Your account has been suspended.</string>
+
+    <!-- Transaction/Trading Errors -->
+    <string name="error_minimum_amount">The amount is below the minimum allowed.</string>
+    <string name="error_maximum_amount">The amount exceeds the maximum allowed.</string>
+    <string name="error_daily_limit">You\'ve reached your daily limit.</string>
+    <string name="error_feature_disabled">This feature is temporarily unavailable.</string>
+    <string name="error_resource_unavailable">This item is no longer available.</string>
+
+    <!-- Validation Errors -->
+    <string name="error_validation_failed">Please check your input and try again.</string>
+    <string name="error_duplicate_entry">This entry already exists.</string>
+
+    <!-- Session Errors -->
+    <string name="error_session_expired">Your session has expired. Please log in again.</string>
+    <string name="error_reauth_required">Please verify your identity to continue.</string>
+
+    <!-- Generic Business Error -->
+    <string name="error_business_generic">Unable to complete this action.</string>
 
     <!-- UI Labels -->
     <string name="top_coins_title">🔥 Top Coins:</string>
